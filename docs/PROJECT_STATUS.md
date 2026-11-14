@@ -10,7 +10,9 @@
 
 EarthScope is an interactive scientific platform for investigating historical Earth-system observations, quantifying monotonic and seasonal trends with rigorous statistical tests (Mann-Kendall, Sen's slope), and producing honest out-of-sample forecasts.
 
-The project operates under a stage-gated autonomous engineering protocol. The development environment, modular repository architecture, FastAPI backend with Pydantic contracts, Next.js frontend, and automated test harness are fully initialized in **Stage 0**.
+The project operates under a stage-gated autonomous engineering protocol.
+- **Stage 0 (Project Initialization & Architecture):** `COMPLETE`
+- **Stage 1 (Dataset Discovery & Audit):** `COMPLETE`
 
 ---
 
@@ -19,7 +21,7 @@ The project operates under a stage-gated autonomous engineering protocol. The de
 | Stage | Name | Status | Owner | Gate Passed |
 |---|---|---|---|---|
 | **Stage 0** | Project Initialization & Architecture | **COMPLETE** | Architect / Integrator | Yes |
-| **Stage 1** | Dataset Discovery & Audit | **IN PROGRESS** | Data Engineer | Pending |
+| **Stage 1** | Dataset Discovery & Audit | **COMPLETE** | Data Engineer | Yes |
 | **Stage 2** | Data Ingestion & Preprocessing | **NOT STARTED** | Data Engineer | Pending |
 | **Stage 3** | Exploratory Data Analysis | **NOT STARTED** | Data Scientist | Pending |
 | **Stage 4** | Statistical Trend Detection | **NOT STARTED** | Statistical Analyst | Pending |
@@ -40,57 +42,57 @@ The project operates under a stage-gated autonomous engineering protocol. The de
 - **Owner / Agent Role:** Architect / Integrator
 - **Prerequisites:** Clean repository, Node.js 24+, Python 3.14+
 - **Implementation Summary:**
-  - Established git repository and configured comprehensive `.gitignore`.
+  - Established Git repository with comprehensive `.gitignore`.
   - Configured root `.env.example` and environment settings.
-  - Implemented modular FastAPI backend with strict Pydantic schemas (`HealthResponse`, `VariableMeta`, `DatasetMeta`, `TimeSeriesResponse`, `TrendResponse`, `ForecastResponse`, `ErrorResponse`).
-  - Configured test runner (`pytest`, `pytest-asyncio`) with clean `pytest.ini`.
+  - Implemented modular FastAPI backend with strict Pydantic schemas.
+  - Configured test runner (`pytest`) with clean `pytest.ini`.
   - Built Next.js 14 frontend skeleton with Tailwind CSS, Lucide icons, and API client.
   - Built direct health-check endpoint (`GET /api/v1/health`) and frontend status card.
-- **Files Created:**
-  - `backend/app/main.py`
-  - `backend/app/core/config.py`
-  - `backend/app/schemas/` (`health.py`, `dataset.py`, `timeseries.py`, `trend.py`, `forecast.py`, `error.py`, `__init__.py`)
-  - `backend/app/api/v1/endpoints/health.py`
-  - `backend/app/api/v1/router.py`
-  - `backend/tests/test_health.py`
-  - `backend/tests/test_schemas.py`
-  - `backend/requirements.txt`
-  - `pytest.ini`
-  - `frontend/package.json`
-  - `frontend/tsconfig.json`
-  - `frontend/tailwind.config.js`
-  - `frontend/postcss.config.js`
-  - `frontend/app/layout.tsx`
-  - `frontend/app/page.tsx`
-  - `frontend/app/globals.css`
-  - `frontend/lib/api.ts`
-  - `frontend/test-health-check.js`
-  - `.gitignore`, `.env.example`
-  - `docs/PROJECT_STATUS.md`
-  - `docs/architecture.md`
-  - `docs/requirements-and-acceptance.md`
-  - `docs/assumptions-and-decisions.md`
-  - `docs/research-sources.md`
-  - `README.md`
+- **Acceptance Criteria:** All passed.
+
+### Stage 1 — Dataset Discovery and Audit
+- **Status:** `COMPLETE`
+- **Owner / Agent Role:** Data Engineer
+- **Prerequisites:** Stage 0 complete, datasets in `datasets/` accessible.
+- **Implementation Summary:**
+  - Audited all 19 files in `datasets/` recursively and generated SHA-256 signatures.
+  - Extracted metadata from CSV and NetCDF/HDF5 headers.
+  - Identified target region as **Pakistan** (`Shape Pakistan`, US State Dept 2017 polygon `shp_171`, coordinates 23.31°N–37.69°N, 60.39°E–77.73°E).
+  - Verified 6 environmental variables across 2001–2025:
+    1. `t2m` (2-meter air temperature, 300 months, 0% missing)
+    2. `ts` (surface skin temperature, 300 months, 0% missing)
+    3. `precipitation` (bias-corrected total precipitation, 297 months, 0% missing)
+    4. `evapotranspiration` (total evapotranspiration, 300 months, 0% missing)
+    5. `soil_moisture_0_10cm` (topsoil moisture, 297 months, 0% missing)
+    6. `soil_moisture_10_40cm` (rootzone soil moisture, 297 months, 0% missing)
+  - Verified sampling intervals are strictly monthly (28–31 days, 0 irregular intervals).
+  - Generated automated inventory and metadata artifacts:
+    - `data/metadata/dataset_inventory.csv`
+    - `data/metadata/dataset_metadata.json`
+  - Created reproducible audit script: `scripts/audit_datasets.py`.
+  - Created comprehensive documentation:
+    - `docs/data-quality-report.md`
+    - `docs/dataset-selection.md`
+  - Added automated test suite: `backend/tests/test_audit.py`.
 - **Tests Run & Results:**
-  - `python -m pytest backend/tests -v`: 5 passed in 0.29s (100% pass rate).
-  - Health check endpoint verification: ASGITransport 200 OK.
-  - Pydantic schema validation tests: all constraints and validations passed.
+  - `python scripts/audit_datasets.py`: 100% successful parse across all 6 series.
+  - `python -m pytest backend/tests`: 7 passed in 0.43s (100% pass rate).
 - **Acceptance Criteria Verification:**
-  - [x] A new developer can follow README to run the project.
-  - [x] Backend and frontend skeletons exist and are decoupled.
-  - [x] Health endpoint returns valid schema.
-  - [x] Frontend has client connected to backend API.
-  - [x] Test commands run cleanly.
-  - [x] Zero scientific logic is coupled to UI components.
-- **Unresolved Issues / Risks:** None for Stage 0.
-- **Next Stage:** Stage 1 — Dataset Discovery & Audit.
+  - [x] Every supplied file is accounted for with SHA-256 checksum and size.
+  - [x] Variable names, units, dimensions, time, and spatial coverage are known.
+  - [x] Data limitations are documented (area-averaged polygon, temporal cutoff in Sep/Dec 2025).
+  - [x] Selected MVP variables are justified by actual physical and statistical evidence.
+  - [x] No unsupported dataset claims remain.
+- **Gate Passed:** Yes. Raw datasets are fully validated and ready for ingestion.
+- **Next Stage:** Stage 2 — Data Ingestion & Preprocessing.
 
 ---
 
 ## 4. Current Work and Next Actions
 
-1. Proceed to **Stage 1**: Perform complete data inventory and audit on the 6 datasets in `datasets/`:
-   - Inspect variables, NetCDF metadata, temporal range (2001–2025), missing fill values, and units.
-   - Generate `data/metadata/dataset_inventory.csv` and `data/metadata/dataset_metadata.json`.
-   - Produce `docs/data-quality-report.md` and `docs/dataset-selection.md`.
+1. Proceed to **Stage 2**: Implement reproducible data loaders and preprocessors:
+   - Build immutable raw data ingestion pipelines in `backend/data_pipeline/ingestion/`.
+   - Build unit normalization and conversion modules (`backend/data_pipeline/preprocessing/`).
+   - Standardize into canonical parquet/tabular records in `data/processed/`.
+   - Compute baseline climatologies and monthly anomaly series.
+   - Add automated pipeline and data validation tests.

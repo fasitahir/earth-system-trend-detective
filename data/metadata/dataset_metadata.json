@@ -1,0 +1,265 @@
+{
+  "audit_timestamp": "2026-11-14T17:51:53.332861+00:00",
+  "target_region": "Pakistan",
+  "total_datasets": 6,
+  "datasets": [
+    {
+      "variable_id": "t2m",
+      "variable_name": "2-Meter Air Temperature",
+      "raw_column_name": "mean_M2TMNXSLV_5_12_4_T2M",
+      "domain": "Atmosphere",
+      "platform": "MERRA-2 Reanalysis (M2TMNXSLV v5.12.4)",
+      "unit": "K",
+      "display_unit": "\u00b0C",
+      "title": "Time Series, Area-Averaged of 2-meter air temperature monthly 0.5 x 0.625 (monthly)",
+      "region": "Pakistan",
+      "spatial_representation": "Area-Averaged Country Polygon (State Dept 2017 shp_171)",
+      "bounding_coordinates": {
+        "lat_min": 23.3125,
+        "lat_max": 37.6875,
+        "lon_min": 60.390625,
+        "lon_max": 77.734375
+      },
+      "temporal_frequency": "Monthly",
+      "start_observation": "2001-01-01",
+      "end_observation": "2025-12-01",
+      "total_observations": 300,
+      "valid_observations": 300,
+      "missing_observations": 0,
+      "fill_value": 1000000000000000.0,
+      "statistics": {
+        "min": 279.519653,
+        "max": 304.344025,
+        "mean": 294.2797678566667,
+        "std": 7.568526274891948
+      },
+      "interval_consistency": {
+        "min_gap_days": 28,
+        "max_gap_days": 31,
+        "is_strictly_regular_monthly": true
+      },
+      "files": {
+        "csv": "datasets/Air Temperature \u2013 NASA Giovanni (MERRA-2)/g4.areaAvgTimeSeries.M2TMNXSLV_5_12_4_T2M.20010101-20251231.180W_90S_180E_90N.csv",
+        "netcdf": "datasets/Air Temperature \u2013 NASA Giovanni (MERRA-2)/g4.areaAvgTimeSeries.M2TMNXSLV_5_12_4_T2M.20010101-20251231.180W_90S_180E_90N.nc",
+        "png": "datasets/Air Temperature \u2013 NASA Giovanni (MERRA-2)/GIOVANNI-outputfOxIh5oz.png"
+      },
+      "giovanni_reproduce_url": "https://giovanni.gsfc.nasa.gov/giovanni/?utm_source=chatgpt.com#service=ArAvTs&starttime=2001-01-01T00:00:00Z&endtime=2025-12-31T23:59:59Z&shape=state_dept_countries_2017/shp_171&&data=M2TMNXSLV_5_12_4_T2M&dataKeyword=M2TMNXSLV&portal=GIOVANNI&format=json",
+      "citation": "Goddard Earth Sciences Data and Information Services Center (GES DISC) Giovanni / MERRA-2 Reanalysis (M2TMNXSLV v5.12.4)"
+    },
+    {
+      "variable_id": "precipitation",
+      "variable_name": "Bias-Corrected Total Surface Precipitation",
+      "raw_column_name": "mean_M2TMNXFLX_5_12_4_PRECTOTCORR",
+      "domain": "Atmosphere / Hydrology",
+      "platform": "MERRA-2 Reanalysis (M2TMNXFLX v5.12.4)",
+      "unit": "kg m-2 s-1",
+      "display_unit": "mm/day",
+      "title": "Time Series, Area-Averaged of Bias corrected total surface precipitation monthly 0.5 x 0.625 (monthly)",
+      "region": "Pakistan",
+      "spatial_representation": "Area-Averaged Country Polygon (State Dept 2017 shp_171)",
+      "bounding_coordinates": {
+        "lat_min": 23.3125,
+        "lat_max": 37.6875,
+        "lon_min": 60.390625,
+        "lon_max": 77.734375
+      },
+      "temporal_frequency": "Monthly",
+      "start_observation": "2001-01-01",
+      "end_observation": "2025-09-01",
+      "total_observations": 297,
+      "valid_observations": 297,
+      "missing_observations": 0,
+      "fill_value": 1000000000000000.0,
+      "statistics": {
+        "min": 1.34307667e-08,
+        "max": 9.4943076e-05,
+        "mean": 1.0292018954008418e-05,
+        "std": 1.1944016456067728e-05
+      },
+      "interval_consistency": {
+        "min_gap_days": 28,
+        "max_gap_days": 31,
+        "is_strictly_regular_monthly": true
+      },
+      "files": {
+        "csv": "datasets/Precipitation \u2013 NASA Giovanni (MERRA-2)/g4.areaAvgTimeSeries.M2TMNXFLX_5_12_4_PRECTOTCORR.20010101-20250930.180W_90S_180E_90N.csv",
+        "netcdf": "datasets/Precipitation \u2013 NASA Giovanni (MERRA-2)/g4.areaAvgTimeSeries.M2TMNXFLX_5_12_4_PRECTOTCORR.20010101-20250930.180W_90S_180E_90N.nc",
+        "png": "datasets/Precipitation \u2013 NASA Giovanni (MERRA-2)/GIOVANNI-outputx9mwDSlg.png"
+      },
+      "giovanni_reproduce_url": "https://giovanni.gsfc.nasa.gov/giovanni/?utm_source=chatgpt.com#service=ArAvTs&starttime=2001-01-01T00:00:00Z&endtime=2025-09-30T23:59:59Z&shape=state_dept_countries_2017/shp_171&&data=M2TMNXFLX_5_12_4_PRECTOTCORR&portal=GIOVANNI&format=json",
+      "citation": "Goddard Earth Sciences Data and Information Services Center (GES DISC) Giovanni / MERRA-2 Reanalysis (M2TMNXFLX v5.12.4)"
+    },
+    {
+      "variable_id": "soil_moisture_0_10cm",
+      "variable_name": "Soil Moisture Content (0-10 cm)",
+      "raw_column_name": "mean_GLDAS_NOAH10_M_2_1_SoilMoi0_10cm_inst",
+      "domain": "Hydrology / Soil",
+      "platform": "GLDAS Noah Land Surface Model L4 (v2.1)",
+      "unit": "kg m-2",
+      "display_unit": "kg/m\u00b2",
+      "title": "Time Series, Area-Averaged of Soil moisture content (0 - 10 cm underground) monthly 1 deg. [GLDAS (monthly)",
+      "region": "Pakistan",
+      "spatial_representation": "Area-Averaged Country Polygon (State Dept 2017 shp_171)",
+      "bounding_coordinates": {
+        "lat_min": 23.3125,
+        "lat_max": 37.6875,
+        "lon_min": 60.390625,
+        "lon_max": 77.734375
+      },
+      "temporal_frequency": "Monthly",
+      "start_observation": "2001-01-01",
+      "end_observation": "2025-09-01",
+      "total_observations": 297,
+      "valid_observations": 297,
+      "missing_observations": 0,
+      "fill_value": -9999.0,
+      "statistics": {
+        "min": 10.8908348,
+        "max": 27.9992008,
+        "mean": 16.97159259393939,
+        "std": 3.030903346096123
+      },
+      "interval_consistency": {
+        "min_gap_days": 28,
+        "max_gap_days": 31,
+        "is_strictly_regular_monthly": true
+      },
+      "files": {
+        "csv": "datasets/Soil Moisture \u2013 NASA Giovanni (GLDAS)/0-10cm/g4.areaAvgTimeSeries.GLDAS_NOAH10_M_2_1_SoilMoi0_10cm_inst.20010101-20250930.180W_60S_180E_90N.csv",
+        "netcdf": "datasets/Soil Moisture \u2013 NASA Giovanni (GLDAS)/0-10cm/g4.areaAvgTimeSeries.GLDAS_NOAH10_M_2_1_SoilMoi0_10cm_inst.20010101-20250930.180W_60S_180E_90N.nc",
+        "png": "datasets/Soil Moisture \u2013 NASA Giovanni (GLDAS)/0-10cm/GIOVANNI-outputNyFgntLB.png"
+      },
+      "giovanni_reproduce_url": "https://giovanni.gsfc.nasa.gov/giovanni/?utm_source=chatgpt.com#service=ArAvTs&starttime=2001-01-01T00:00:00Z&endtime=2025-09-30T23:59:59Z&shape=state_dept_countries_2017/shp_171&&data=GLDAS_NOAH10_M_2_1_SoilMoi0_10cm_inst%2CGLDAS_NOAH10_M_2_1_SoilMoi10_40cm_inst&dataKeyword=SoilMoi10_40cm_inst&portal=GIOVANNI&format=json",
+      "citation": "Goddard Earth Sciences Data and Information Services Center (GES DISC) Giovanni / GLDAS Noah Land Surface Model L4 (v2.1)"
+    },
+    {
+      "variable_id": "soil_moisture_10_40cm",
+      "variable_name": "Soil Moisture Content (10-40 cm)",
+      "raw_column_name": "GLDAS_NOAH10_M_2_1_SoilMoi10_40cm_inst",
+      "domain": "Hydrology / Soil",
+      "platform": "GLDAS Noah Land Surface Model L4 (v2.1)",
+      "unit": "kg m-2",
+      "display_unit": "kg/m\u00b2",
+      "title": "Time Series, Area-Averaged of Soil moisture content (10 - 40 cm underground) monthly 1 deg. [GLDAS (monthly)",
+      "region": "Pakistan",
+      "spatial_representation": "Area-Averaged Country Polygon (State Dept 2017 shp_171)",
+      "bounding_coordinates": {
+        "lat_min": 23.3125,
+        "lat_max": 37.6875,
+        "lon_min": 60.390625,
+        "lon_max": 77.734375
+      },
+      "temporal_frequency": "Monthly",
+      "start_observation": "2001-01-01",
+      "end_observation": "2025-09-01",
+      "total_observations": 297,
+      "valid_observations": 297,
+      "missing_observations": 0,
+      "fill_value": -9999.0,
+      "statistics": {
+        "min": 53.952343,
+        "max": 87.6638718,
+        "mean": 65.71539416801347,
+        "std": 5.1289415521938295
+      },
+      "interval_consistency": {
+        "min_gap_days": 28,
+        "max_gap_days": 31,
+        "is_strictly_regular_monthly": true
+      },
+      "files": {
+        "csv": "datasets/Soil Moisture \u2013 NASA Giovanni (GLDAS)/10-40cm/g4.areaAvgTimeSeries.GLDAS_NOAH10_M_2_1_SoilMoi10_40cm_inst.20010101-20250930.180W_60S_180E_90N.csv",
+        "netcdf": "datasets/Soil Moisture \u2013 NASA Giovanni (GLDAS)/10-40cm/g4.areaAvgTimeSeries.GLDAS_NOAH10_M_2_1_SoilMoi10_40cm_inst.20010101-20250930.180W_60S_180E_90N.nc",
+        "png": "datasets/Soil Moisture \u2013 NASA Giovanni (GLDAS)/10-40cm/GIOVANNI-output4d0uQT5x.png"
+      },
+      "giovanni_reproduce_url": "https://giovanni.gsfc.nasa.gov/giovanni/?utm_source=chatgpt.com#service=ArAvTs&starttime=2001-01-01T00:00:00Z&endtime=2025-09-30T23:59:59Z&shape=state_dept_countries_2017/shp_171&&data=GLDAS_NOAH10_M_2_1_SoilMoi0_10cm_inst%2CGLDAS_NOAH10_M_2_1_SoilMoi10_40cm_inst&dataKeyword=SoilMoi10_40cm_inst&portal=GIOVANNI&format=json",
+      "citation": "Goddard Earth Sciences Data and Information Services Center (GES DISC) Giovanni / GLDAS Noah Land Surface Model L4 (v2.1)"
+    },
+    {
+      "variable_id": "ts",
+      "variable_name": "Surface Skin Temperature",
+      "raw_column_name": "mean_M2TMNXSLV_5_12_4_TS",
+      "domain": "Land Surface",
+      "platform": "MERRA-2 Reanalysis (M2TMNXSLV v5.12.4)",
+      "unit": "K",
+      "display_unit": "\u00b0C",
+      "title": "Time Series, Area-Averaged of Surface skin temperature monthly 0.5 x 0.625 (monthly)",
+      "region": "Pakistan",
+      "spatial_representation": "Area-Averaged Country Polygon (State Dept 2017 shp_171)",
+      "bounding_coordinates": {
+        "lat_min": 23.3125,
+        "lat_max": 37.6875,
+        "lon_min": 60.390625,
+        "lon_max": 77.734375
+      },
+      "temporal_frequency": "Monthly",
+      "start_observation": "2001-01-01",
+      "end_observation": "2025-12-01",
+      "total_observations": 300,
+      "valid_observations": 300,
+      "missing_observations": 0,
+      "fill_value": 1000000000000000.0,
+      "statistics": {
+        "min": 278.784515,
+        "max": 307.064819,
+        "mean": 295.08630229333335,
+        "std": 8.856993802052838
+      },
+      "interval_consistency": {
+        "min_gap_days": 28,
+        "max_gap_days": 31,
+        "is_strictly_regular_monthly": true
+      },
+      "files": {
+        "csv": "datasets/Surface Skin Temperature \u2013 NASA Giovanni (MERRA-2)/g4.areaAvgTimeSeries.M2TMNXSLV_5_12_4_TS.20010101-20251231.180W_90S_180E_90N.csv",
+        "netcdf": "datasets/Surface Skin Temperature \u2013 NASA Giovanni (MERRA-2)/g4.areaAvgTimeSeries.M2TMNXSLV_5_12_4_TS.20010101-20251231.180W_90S_180E_90N.nc",
+        "png": "datasets/Surface Skin Temperature \u2013 NASA Giovanni (MERRA-2)/GIOVANNI-outputssVdSQrm.png"
+      },
+      "giovanni_reproduce_url": "https://giovanni.gsfc.nasa.gov/giovanni/?utm_source=chatgpt.com#service=ArAvTs&starttime=2001-01-01T00:00:00Z&endtime=2025-12-31T23:59:59Z&shape=state_dept_countries_2017/shp_171&&data=M2TMNXSLV_5_12_4_TS&dataKeyword=TS&portal=GIOVANNI&format=json",
+      "citation": "Goddard Earth Sciences Data and Information Services Center (GES DISC) Giovanni / MERRA-2 Reanalysis (M2TMNXSLV v5.12.4)"
+    },
+    {
+      "variable_id": "evapotranspiration",
+      "variable_name": "Total Evapotranspiration Flux",
+      "raw_column_name": "mean_GLDAS_NOAH10_M_2_1_Evap_tavg",
+      "domain": "Hydrology / Land Surface",
+      "platform": "GLDAS Noah Land Surface Model L4 (v2.1)",
+      "unit": "kg m-2 s-1",
+      "display_unit": "mm/day",
+      "title": "Time Series, Area-Averaged of Evapotranspiration monthly 1 deg. [GLDAS Model (monthly)",
+      "region": "Pakistan",
+      "spatial_representation": "Area-Averaged Country Polygon (State Dept 2017 shp_171)",
+      "bounding_coordinates": {
+        "lat_min": 23.3125,
+        "lat_max": 37.6875,
+        "lon_min": 60.390625,
+        "lon_max": 77.734375
+      },
+      "temporal_frequency": "Monthly",
+      "start_observation": "2001-01-01",
+      "end_observation": "2025-12-01",
+      "total_observations": 300,
+      "valid_observations": 300,
+      "missing_observations": 0,
+      "fill_value": -9999.0,
+      "statistics": {
+        "min": 1.71158365e-06,
+        "max": 3.1987558e-05,
+        "mean": 1.00481046173e-05,
+        "std": 5.9100083557306905e-06
+      },
+      "interval_consistency": {
+        "min_gap_days": 28,
+        "max_gap_days": 31,
+        "is_strictly_regular_monthly": true
+      },
+      "files": {
+        "csv": "datasets/Total Evapotranspiration (Evap_tavg) \u2014 NASA Giovanni (GLDAS-2.1)/g4.areaAvgTimeSeries.GLDAS_NOAH10_M_2_1_Evap_tavg.20010101-20251231.180W_60S_180E_90N.csv",
+        "netcdf": "datasets/Total Evapotranspiration (Evap_tavg) \u2014 NASA Giovanni (GLDAS-2.1)/g4.areaAvgTimeSeries.GLDAS_NOAH10_M_2_1_Evap_tavg.20010101-20251231.180W_60S_180E_90N.nc",
+        "png": "datasets/Total Evapotranspiration (Evap_tavg) \u2014 NASA Giovanni (GLDAS-2.1)/GIOVANNI-outputgfIwW6oo.png"
+      },
+      "giovanni_reproduce_url": "https://giovanni.gsfc.nasa.gov/giovanni/?utm_source=chatgpt.com#service=ArAvTs&starttime=2001-01-01T00:00:00Z&endtime=2025-12-31T23:59:59Z&shape=state_dept_countries_2017/shp_171&&data=GLDAS_NOAH10_M_2_1_Evap_tavg&variableFacets=dataProductPlatformInstrument%3AGLDAS%20Model%3B&dataKeyword=Evap_tavg&portal=GIOVANNI&format=json",
+      "citation": "Goddard Earth Sciences Data and Information Services Center (GES DISC) Giovanni / GLDAS Noah Land Surface Model L4 (v2.1)"
+    }
+  ]
+}
