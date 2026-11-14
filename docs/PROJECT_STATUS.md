@@ -14,6 +14,7 @@ The project operates under a stage-gated autonomous engineering protocol:
 - **Stage 0 (Project Initialization & Architecture):** `COMPLETE`
 - **Stage 1 (Dataset Discovery & Audit):** `COMPLETE`
 - **Stage 2 (Data Ingestion & Preprocessing):** `COMPLETE`
+- **Stage 3 (Exploratory Data Analysis):** `COMPLETE`
 
 ---
 
@@ -24,7 +25,7 @@ The project operates under a stage-gated autonomous engineering protocol:
 | **Stage 0** | Project Initialization & Architecture | **COMPLETE** | Architect / Integrator | Yes |
 | **Stage 1** | Dataset Discovery & Audit | **COMPLETE** | Data Engineer | Yes |
 | **Stage 2** | Data Ingestion & Preprocessing | **COMPLETE** | Data Engineer | Yes |
-| **Stage 3** | Exploratory Data Analysis | **NOT STARTED** | Data Scientist | Pending |
+| **Stage 3** | Exploratory Data Analysis | **COMPLETE** | Data Scientist | Yes |
 | **Stage 4** | Statistical Trend Detection | **NOT STARTED** | Statistical Analyst | Pending |
 | **Stage 5** | Forecasting & Machine Learning | **NOT STARTED** | ML Engineer | Pending |
 | **Stage 6** | Backend API Services | **IN PROGRESS** | Backend Engineer | Partial (Stage 2 endpoints live) |
@@ -40,57 +41,61 @@ The project operates under a stage-gated autonomous engineering protocol:
 
 ### Stage 0 — Project Initialization and Architecture
 - **Status:** `COMPLETE`
-- **Owner / Agent Role:** Architect / Integrator
-- **Prerequisites:** Clean repository, Node.js 24+, Python 3.14+
-- **Implementation Summary:** Established Git repo, `.gitignore`, `.env.example`, modular architecture, strict Pydantic contracts, pytest configuration, Next.js frontend skeleton, and health check.
 - **Acceptance Criteria:** All passed.
 
 ### Stage 1 — Dataset Discovery and Audit
 - **Status:** `COMPLETE`
-- **Owner / Agent Role:** Data Engineer
-- **Prerequisites:** Stage 0 complete.
-- **Implementation Summary:** Audited 19 files, computed SHA-256 signatures, extracted Giovanni metadata, verified geographic polygon as Pakistan (`shp_171`), established completeness of 6 physical variables across 2001–2025.
-- **Deliverables:** `dataset_inventory.csv`, `dataset_metadata.json`, `data-quality-report.md`, `dataset-selection.md`, `audit_datasets.py`, automated tests.
 - **Acceptance Criteria:** All passed.
 
 ### Stage 2 — Data Ingestion and Preprocessing
 - **Status:** `COMPLETE`
-- **Owner / Agent Role:** Data Engineer
-- **Prerequisites:** Stage 1 audit complete and validated.
+- **Acceptance Criteria:** All passed.
+
+### Stage 3 — Exploratory Data Analysis (EDA)
+- **Status:** `COMPLETE`
+- **Owner / Agent Role:** Data Scientist
+- **Prerequisites:** Stage 2 canonical datasets in `data/processed/`.
 - **Implementation Summary:**
-  - Built read-only Giovanni loader (`backend/data_pipeline/ingestion/loader.py`) with explicit fill-value sanitization (declared fill values mapped to `NaN`, never 0).
-  - Built unit conversion module (`backend/data_pipeline/preprocessing/units.py`):
-    - Kelvin $\rightarrow$ Celsius ($^\circ\text{C} = K - 273.15$)
-    - Water flux $\rightarrow$ daily rate (mm/day) and monthly calendar-aware accumulation (mm/month)
-    - Retained source units alongside display units.
-  - Built baseline climatology & anomaly engine (`backend/data_pipeline/preprocessing/anomalies.py`) with configurable 2001–2020 reference baseline.
-  - Built temporal aggregation modules (`backend/data_pipeline/aggregation/temporal.py`) for annual and meteorological seasonal regimes.
-  - Built automated validation engine (`backend/data_pipeline/validation/validator.py`) enforcing standard observation contracts and physical bounds.
-  - Built master pipeline orchestrator (`backend/data_pipeline/pipeline.py`) and CLI script (`scripts/run_pipeline.py`).
-  - Saved individual canonical Parquet and CSV files for all 6 variables in `data/processed/`.
-  - Built and saved unified multi-variable dataset: `earth_system_pakistan_monthly.parquet` and `.csv` (297 aligned months, 0 nulls).
-  - Recorded end-to-end data lineage in `data/metadata/data_lineage.json`.
-  - Added REST endpoints in backend: `GET /api/v1/datasets` and `GET /api/v1/timeseries`.
-  - Added automated test suites: `backend/tests/test_pipeline.py` and `backend/tests/test_api_endpoints.py`.
+  - Built comprehensive EDA analytical module (`backend/analytics/eda/analyzer.py`).
+  - Computed parametric and non-parametric descriptive statistics (mean, median, IQR, skewness, kurtosis) across all 6 variables.
+  - Decomposed 12-month annual climatological rhythms and identified seasonal phase relationships (June thermal peak vs July–August monsoon peak).
+  - Computed Pearson and Spearman cross-variable correlation matrices on both observed values and deseasonalized anomalies.
+  - Uncovered key physical couplings:
+    - Dominant water-limited regime: Evapotranspiration anomaly correlates with topsoil moisture at $r = +0.896$.
+    - Negative evaporative/cloud albedo cooling: Precipitation anomaly correlates with air temperature at $r = -0.443$ and surface skin temperature at $r = -0.517$.
+    - Soil hydraulic continuity: Topsoil and rootzone moisture correlate at $r = +0.868$.
+  - Detected and verified historic environmental extreme events against documented literature:
+    - July–August 2022 catastrophic floods ($+11.59\sigma$ and $+6.40\sigma$ rainfall, all-time record soil moisture and evapotranspiration).
+    - August 2010 Indus super-floods ($+2.10\sigma$ rootzone storage).
+    - 2001–2002 severe prolonged agricultural drought (all-time moisture minimums).
+    - March–April 2022 unprecedented pre-monsoon heatwave ($+2.36\sigma$ thermal anomaly).
+  - Generated visual diagnostic figure assets in `docs/figures/`:
+    - `historical_timeseries_all.png`
+    - `seasonal_climatology_all.png`
+    - `anomaly_timeseries_all.png`
+    - `correlation_heatmaps.png`
+  - Authored comprehensive report: `docs/eda-findings.md`.
+  - Added automated test suite: `backend/tests/test_eda.py`.
 - **Tests Run & Results:**
-  - `python scripts/run_pipeline.py`: 100% successful execution across all 6 variables.
-  - `python -m pytest`: 15 passed in 1.28s (100% pass rate).
+  - `python scripts/run_eda.py`: 100% successful execution and figure rendering.
+  - `python -m pytest`: 20 passed in 11.02s (100% pass rate).
 - **Acceptance Criteria Verification:**
-  - [x] Pipeline runs deterministically from raw data to processed data.
-  - [x] Repeated runs with same configuration yield identical outputs.
-  - [x] Units, dimensions, coordinates, and provenance remain traceable.
-  - [x] Raw files remain untouched.
-  - [x] Missing values are not silently converted to zero.
-- **Gate Passed:** Yes. Processed datasets pass all quality bounds and are ready for EDA and trend analysis.
-- **Next Stage:** Stage 3 — Exploratory Data Analysis (EDA).
+  - [x] Each selected variable has a documented distribution and seasonal profile.
+  - [x] Seasonal and missing-data behavior is rigorously characterized.
+  - [x] Extreme values and historical anomalies have been forensically verified.
+  - [x] Methodological requirements for trend detection and forecasting are explicit.
+  - [x] Zero causal claims are inferred from correlation alone.
+- **Gate Passed:** Yes. System understanding and statistical requirements are established.
+- **Next Stage:** Stage 4 — Statistical Trend Detection.
 
 ---
 
 ## 4. Current Work and Next Actions
 
-1. Proceed to **Stage 3**: Exploratory Data Analysis:
-   - Compute comprehensive statistical profiles (distributions, skewness, variance) for each variable.
-   - Decompose annual and seasonal climatology cycles.
-   - Analyze cross-variable relationships (temperature vs evapotranspiration vs soil moisture).
-   - Investigate significant anomalies (e.g., 2010 super-floods, 2022 monsoon flood disaster, extreme heat waves).
-   - Produce `docs/eda-findings.md` and reproducible analysis notebook/scripts.
+1. Proceed to **Stage 4**: Implement Statistical Trend Detection:
+   - Parametric Ordinary Least Squares (OLS) linear rate of change.
+   - Non-parametric Mann-Kendall test for monotonic trends.
+   - Robust Sen's slope estimator with unit-aware slopes (°C/decade, mm/decade, etc.).
+   - Autocorrelation diagnostics and pre-whitened / modified Mann-Kendall tests.
+   - Seasonal Mann-Kendall test on monthly series.
+   - Generate `docs/statistical-methodology.md` and test against synthetic benchmark series.

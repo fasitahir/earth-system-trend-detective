@@ -1,0 +1,404 @@
+{
+  "t2m": {
+    "variable_id": "t2m",
+    "top_positive_anomalies": [
+      {
+        "timestamp": "2006-02-01",
+        "value": 15.6947,
+        "anomaly": 3.8879,
+        "z_score": 2.35
+      },
+      {
+        "timestamp": "2016-12-01",
+        "value": 14.3827,
+        "anomaly": 3.5239,
+        "z_score": 2.93
+      },
+      {
+        "timestamp": "2004-03-01",
+        "value": 20.4994,
+        "anomaly": 3.1696,
+        "z_score": 1.98
+      },
+      {
+        "timestamp": "2010-03-01",
+        "value": 20.1565,
+        "anomaly": 2.8267,
+        "z_score": 1.77
+      },
+      {
+        "timestamp": "2022-04-01",
+        "value": 25.8805,
+        "anomaly": 2.7171,
+        "z_score": 2.36
+      }
+    ],
+    "top_negative_anomalies": [
+      {
+        "timestamp": "2022-08-01",
+        "value": 25.6841,
+        "anomaly": -3.0704,
+        "z_score": -5.36
+      },
+      {
+        "timestamp": "2012-02-01",
+        "value": 8.7495,
+        "anomaly": -3.0573,
+        "z_score": -1.84
+      },
+      {
+        "timestamp": "2022-07-01",
+        "value": 27.542,
+        "anomaly": -2.7012,
+        "z_score": -6.41
+      },
+      {
+        "timestamp": "2008-01-01",
+        "value": 6.3697,
+        "anomaly": -2.6682,
+        "z_score": -2.16
+      },
+      {
+        "timestamp": "2020-03-01",
+        "value": 14.818,
+        "anomaly": -2.5118,
+        "z_score": -1.57
+      }
+    ]
+  },
+  "ts": {
+    "variable_id": "ts",
+    "top_positive_anomalies": [
+      {
+        "timestamp": "2006-02-01",
+        "value": 15.3175,
+        "anomaly": 3.8162,
+        "z_score": 2.35
+      },
+      {
+        "timestamp": "2016-12-01",
+        "value": 13.1031,
+        "anomaly": 3.3895,
+        "z_score": 2.65
+      },
+      {
+        "timestamp": "2004-03-01",
+        "value": 20.8558,
+        "anomaly": 3.1163,
+        "z_score": 1.94
+      },
+      {
+        "timestamp": "2010-03-01",
+        "value": 20.4066,
+        "anomaly": 2.667,
+        "z_score": 1.66
+      },
+      {
+        "timestamp": "2024-11-01",
+        "value": 17.9366,
+        "anomaly": 2.6614,
+        "z_score": 2.87
+      }
+    ],
+    "top_negative_anomalies": [
+      {
+        "timestamp": "2022-08-01",
+        "value": 26.45,
+        "anomaly": -4.5747,
+        "z_score": -5.68
+      },
+      {
+        "timestamp": "2022-07-01",
+        "value": 28.9081,
+        "anomaly": -3.9955,
+        "z_score": -7.24
+      },
+      {
+        "timestamp": "2012-02-01",
+        "value": 8.6125,
+        "anomaly": -2.8887,
+        "z_score": -1.78
+      },
+      {
+        "timestamp": "2020-05-01",
+        "value": 27.2007,
+        "anomaly": -2.8303,
+        "z_score": -2.1
+      },
+      {
+        "timestamp": "2008-02-01",
+        "value": 8.7682,
+        "anomaly": -2.7331,
+        "z_score": -1.68
+      }
+    ]
+  },
+  "precipitation": {
+    "variable_id": "precipitation",
+    "top_positive_anomalies": [
+      {
+        "timestamp": "2022-08-01",
+        "value": 254.2955,
+        "anomaly": 206.8368,
+        "z_score": 6.4
+      },
+      {
+        "timestamp": "2022-07-01",
+        "value": 251.5066,
+        "anomaly": 203.1674,
+        "z_score": 11.59
+      },
+      {
+        "timestamp": "2020-03-01",
+        "value": 159.3586,
+        "anomaly": 130.1929,
+        "z_score": 3.84
+      },
+      {
+        "timestamp": "2024-08-01",
+        "value": 172.0981,
+        "anomaly": 124.6394,
+        "z_score": 3.86
+      },
+      {
+        "timestamp": "2020-08-01",
+        "value": 155.564,
+        "anomaly": 108.1053,
+        "z_score": 3.35
+      }
+    ],
+    "top_negative_anomalies": [
+      {
+        "timestamp": "2002-07-01",
+        "value": 8.3316,
+        "anomaly": -40.0076,
+        "z_score": -2.28
+      },
+      {
+        "timestamp": "2001-08-01",
+        "value": 15.1012,
+        "anomaly": -32.3576,
+        "z_score": -1.0
+      },
+      {
+        "timestamp": "2004-07-01",
+        "value": 19.0345,
+        "anomaly": -29.3047,
+        "z_score": -1.67
+      },
+      {
+        "timestamp": "2002-08-01",
+        "value": 18.6992,
+        "anomaly": -28.7596,
+        "z_score": -0.89
+      },
+      {
+        "timestamp": "2004-03-01",
+        "value": 1.9867,
+        "anomaly": -27.1791,
+        "z_score": -0.8
+      }
+    ]
+  },
+  "evapotranspiration": {
+    "variable_id": "evapotranspiration",
+    "top_positive_anomalies": [
+      {
+        "timestamp": "2022-07-01",
+        "value": 78.6041,
+        "anomaly": 35.2172,
+        "z_score": 3.46
+      },
+      {
+        "timestamp": "2022-08-01",
+        "value": 85.6755,
+        "anomaly": 34.1898,
+        "z_score": 2.55
+      },
+      {
+        "timestamp": "2024-08-01",
+        "value": 81.9862,
+        "anomaly": 30.5006,
+        "z_score": 2.27
+      },
+      {
+        "timestamp": "2011-09-01",
+        "value": 65.5889,
+        "anomaly": 27.1052,
+        "z_score": 2.37
+      },
+      {
+        "timestamp": "2010-08-01",
+        "value": 76.1591,
+        "anomaly": 24.6734,
+        "z_score": 1.84
+      }
+    ],
+    "top_negative_anomalies": [
+      {
+        "timestamp": "2002-08-01",
+        "value": 23.5081,
+        "anomaly": -27.9775,
+        "z_score": -2.08
+      },
+      {
+        "timestamp": "2002-07-01",
+        "value": 18.8657,
+        "anomaly": -24.5212,
+        "z_score": -2.41
+      },
+      {
+        "timestamp": "2004-07-01",
+        "value": 24.9854,
+        "anomaly": -18.4015,
+        "z_score": -1.81
+      },
+      {
+        "timestamp": "2004-09-01",
+        "value": 21.6255,
+        "anomaly": -16.8581,
+        "z_score": -1.47
+      },
+      {
+        "timestamp": "2021-08-01",
+        "value": 34.7658,
+        "anomaly": -16.7198,
+        "z_score": -1.24
+      }
+    ]
+  },
+  "soil_moisture_0_10cm": {
+    "variable_id": "soil_moisture_0_10cm",
+    "top_positive_anomalies": [
+      {
+        "timestamp": "2022-08-01",
+        "value": 27.9992,
+        "anomaly": 8.1171,
+        "z_score": 2.91
+      },
+      {
+        "timestamp": "2022-07-01",
+        "value": 26.1641,
+        "anomaly": 7.7488,
+        "z_score": 3.38
+      },
+      {
+        "timestamp": "2006-12-01",
+        "value": 22.1865,
+        "anomaly": 6.7856,
+        "z_score": 2.32
+      },
+      {
+        "timestamp": "2011-09-01",
+        "value": 23.7946,
+        "anomaly": 5.997,
+        "z_score": 2.33
+      },
+      {
+        "timestamp": "2020-01-01",
+        "value": 22.2533,
+        "anomaly": 5.6962,
+        "z_score": 2.03
+      }
+    ],
+    "top_negative_anomalies": [
+      {
+        "timestamp": "2001-02-01",
+        "value": 12.5293,
+        "anomaly": -5.6128,
+        "z_score": -1.87
+      },
+      {
+        "timestamp": "2002-08-01",
+        "value": 14.3479,
+        "anomaly": -5.5343,
+        "z_score": -1.98
+      },
+      {
+        "timestamp": "2002-02-01",
+        "value": 12.6639,
+        "anomaly": -5.4781,
+        "z_score": -1.83
+      },
+      {
+        "timestamp": "2001-03-01",
+        "value": 12.7728,
+        "anomaly": -5.2082,
+        "z_score": -1.81
+      },
+      {
+        "timestamp": "2002-07-01",
+        "value": 13.3151,
+        "anomaly": -5.1002,
+        "z_score": -2.22
+      }
+    ]
+  },
+  "soil_moisture_10_40cm": {
+    "variable_id": "soil_moisture_10_40cm",
+    "top_positive_anomalies": [
+      {
+        "timestamp": "2022-08-01",
+        "value": 87.6639,
+        "anomaly": 15.9103,
+        "z_score": 3.14
+      },
+      {
+        "timestamp": "2022-07-01",
+        "value": 81.1602,
+        "anomaly": 13.1121,
+        "z_score": 3.54
+      },
+      {
+        "timestamp": "2010-08-01",
+        "value": 82.4049,
+        "anomaly": 10.6514,
+        "z_score": 2.1
+      },
+      {
+        "timestamp": "2005-03-01",
+        "value": 74.4728,
+        "anomaly": 9.8853,
+        "z_score": 1.98
+      },
+      {
+        "timestamp": "2023-07-01",
+        "value": 77.801,
+        "anomaly": 9.7529,
+        "z_score": 2.63
+      }
+    ],
+    "top_negative_anomalies": [
+      {
+        "timestamp": "2002-08-01",
+        "value": 60.1383,
+        "anomaly": -11.6153,
+        "z_score": -2.29
+      },
+      {
+        "timestamp": "2001-03-01",
+        "value": 53.9523,
+        "anomaly": -10.6351,
+        "z_score": -2.13
+      },
+      {
+        "timestamp": "2001-04-01",
+        "value": 54.2868,
+        "anomaly": -10.5069,
+        "z_score": -2.21
+      },
+      {
+        "timestamp": "2002-07-01",
+        "value": 58.5121,
+        "anomaly": -9.536,
+        "z_score": -2.58
+      },
+      {
+        "timestamp": "2001-02-01",
+        "value": 54.9527,
+        "anomaly": -9.4863,
+        "z_score": -1.99
+      }
+    ]
+  }
+}

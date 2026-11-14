@@ -1,0 +1,210 @@
+{
+  "raw_value_pearson": {
+    "t2m": {
+      "t2m": 1.0,
+      "ts": 0.9988,
+      "precipitation": 0.2684,
+      "evapotranspiration": 0.5809,
+      "soil_moisture_0_10cm": 0.0994,
+      "soil_moisture_10_40cm": 0.2892
+    },
+    "ts": {
+      "t2m": 0.9988,
+      "ts": 1.0,
+      "precipitation": 0.2723,
+      "evapotranspiration": 0.5858,
+      "soil_moisture_0_10cm": 0.1116,
+      "soil_moisture_10_40cm": 0.2876
+    },
+    "precipitation": {
+      "t2m": 0.2684,
+      "ts": 0.2723,
+      "precipitation": 1.0,
+      "evapotranspiration": 0.7138,
+      "soil_moisture_0_10cm": 0.6665,
+      "soil_moisture_10_40cm": 0.6285
+    },
+    "evapotranspiration": {
+      "t2m": 0.5809,
+      "ts": 0.5858,
+      "precipitation": 0.7138,
+      "evapotranspiration": 1.0,
+      "soil_moisture_0_10cm": 0.7955,
+      "soil_moisture_10_40cm": 0.8278
+    },
+    "soil_moisture_0_10cm": {
+      "t2m": 0.0994,
+      "ts": 0.1116,
+      "precipitation": 0.6665,
+      "evapotranspiration": 0.7955,
+      "soil_moisture_0_10cm": 1.0,
+      "soil_moisture_10_40cm": 0.8413
+    },
+    "soil_moisture_10_40cm": {
+      "t2m": 0.2892,
+      "ts": 0.2876,
+      "precipitation": 0.6285,
+      "evapotranspiration": 0.8278,
+      "soil_moisture_0_10cm": 0.8413,
+      "soil_moisture_10_40cm": 1.0
+    }
+  },
+  "raw_value_spearman": {
+    "t2m": {
+      "t2m": 1.0,
+      "ts": 0.9986,
+      "precipitation": 0.3621,
+      "evapotranspiration": 0.6077,
+      "soil_moisture_0_10cm": 0.0685,
+      "soil_moisture_10_40cm": 0.2648
+    },
+    "ts": {
+      "t2m": 0.9986,
+      "ts": 1.0,
+      "precipitation": 0.3765,
+      "evapotranspiration": 0.6205,
+      "soil_moisture_0_10cm": 0.083,
+      "soil_moisture_10_40cm": 0.2696
+    },
+    "precipitation": {
+      "t2m": 0.3621,
+      "ts": 0.3765,
+      "precipitation": 1.0,
+      "evapotranspiration": 0.7371,
+      "soil_moisture_0_10cm": 0.7112,
+      "soil_moisture_10_40cm": 0.597
+    },
+    "evapotranspiration": {
+      "t2m": 0.6077,
+      "ts": 0.6205,
+      "precipitation": 0.7371,
+      "evapotranspiration": 1.0,
+      "soil_moisture_0_10cm": 0.7619,
+      "soil_moisture_10_40cm": 0.773
+    },
+    "soil_moisture_0_10cm": {
+      "t2m": 0.0685,
+      "ts": 0.083,
+      "precipitation": 0.7112,
+      "evapotranspiration": 0.7619,
+      "soil_moisture_0_10cm": 1.0,
+      "soil_moisture_10_40cm": 0.8158
+    },
+    "soil_moisture_10_40cm": {
+      "t2m": 0.2648,
+      "ts": 0.2696,
+      "precipitation": 0.597,
+      "evapotranspiration": 0.773,
+      "soil_moisture_0_10cm": 0.8158,
+      "soil_moisture_10_40cm": 1.0
+    }
+  },
+  "anomaly_pearson": {
+    "t2m": {
+      "t2m": 1.0,
+      "ts": 0.9771,
+      "precipitation": -0.4426,
+      "evapotranspiration": -0.4545,
+      "soil_moisture_0_10cm": -0.5068,
+      "soil_moisture_10_40cm": -0.477
+    },
+    "ts": {
+      "t2m": 0.9771,
+      "ts": 1.0,
+      "precipitation": -0.5172,
+      "evapotranspiration": -0.5161,
+      "soil_moisture_0_10cm": -0.5261,
+      "soil_moisture_10_40cm": -0.5273
+    },
+    "precipitation": {
+      "t2m": -0.4426,
+      "ts": -0.5172,
+      "precipitation": 1.0,
+      "evapotranspiration": 0.666,
+      "soil_moisture_0_10cm": 0.5881,
+      "soil_moisture_10_40cm": 0.547
+    },
+    "evapotranspiration": {
+      "t2m": -0.4545,
+      "ts": -0.5161,
+      "precipitation": 0.666,
+      "evapotranspiration": 1.0,
+      "soil_moisture_0_10cm": 0.8965,
+      "soil_moisture_10_40cm": 0.853
+    },
+    "soil_moisture_0_10cm": {
+      "t2m": -0.5068,
+      "ts": -0.5261,
+      "precipitation": 0.5881,
+      "evapotranspiration": 0.8965,
+      "soil_moisture_0_10cm": 1.0,
+      "soil_moisture_10_40cm": 0.8679
+    },
+    "soil_moisture_10_40cm": {
+      "t2m": -0.477,
+      "ts": -0.5273,
+      "precipitation": 0.547,
+      "evapotranspiration": 0.853,
+      "soil_moisture_0_10cm": 0.8679,
+      "soil_moisture_10_40cm": 1.0
+    }
+  },
+  "anomaly_spearman": {
+    "t2m": {
+      "t2m": 1.0,
+      "ts": 0.9816,
+      "precipitation": -0.4175,
+      "evapotranspiration": -0.4714,
+      "soil_moisture_0_10cm": -0.4872,
+      "soil_moisture_10_40cm": -0.4823
+    },
+    "ts": {
+      "t2m": 0.9816,
+      "ts": 1.0,
+      "precipitation": -0.4276,
+      "evapotranspiration": -0.4902,
+      "soil_moisture_0_10cm": -0.4899,
+      "soil_moisture_10_40cm": -0.5059
+    },
+    "precipitation": {
+      "t2m": -0.4175,
+      "ts": -0.4276,
+      "precipitation": 1.0,
+      "evapotranspiration": 0.6713,
+      "soil_moisture_0_10cm": 0.6543,
+      "soil_moisture_10_40cm": 0.524
+    },
+    "evapotranspiration": {
+      "t2m": -0.4714,
+      "ts": -0.4902,
+      "precipitation": 0.6713,
+      "evapotranspiration": 1.0,
+      "soil_moisture_0_10cm": 0.9408,
+      "soil_moisture_10_40cm": 0.8437
+    },
+    "soil_moisture_0_10cm": {
+      "t2m": -0.4872,
+      "ts": -0.4899,
+      "precipitation": 0.6543,
+      "evapotranspiration": 0.9408,
+      "soil_moisture_0_10cm": 1.0,
+      "soil_moisture_10_40cm": 0.8532
+    },
+    "soil_moisture_10_40cm": {
+      "t2m": -0.4823,
+      "ts": -0.5059,
+      "precipitation": 0.524,
+      "evapotranspiration": 0.8437,
+      "soil_moisture_0_10cm": 0.8532,
+      "soil_moisture_10_40cm": 1.0
+    }
+  },
+  "variables": [
+    "t2m",
+    "ts",
+    "precipitation",
+    "evapotranspiration",
+    "soil_moisture_0_10cm",
+    "soil_moisture_10_40cm"
+  ]
+}
