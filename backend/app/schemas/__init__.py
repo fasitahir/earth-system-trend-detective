@@ -6,6 +6,15 @@ from backend.app.schemas.timeseries import ObservationPoint, TimeSeriesSummary, 
 from backend.app.schemas.trend import TrendRequest, TrendResponse, ConfidenceInterval
 from backend.app.schemas.forecast import ForecastRequest, ForecastResponse, ForecastPoint, ModelEvaluationMetrics
 from backend.app.schemas.error import ErrorResponse, ErrorDetail
+from backend.app.schemas.catalog import (
+    VariableListResponse,
+    RegionListResponse,
+    ModelCatalogResponse,
+    ModelMetricsResponse,
+    AnomalyRequest,
+    AnomalyResponse,
+    ReportListResponse,
+)
 
 __all__ = [
     "HealthResponse",
@@ -24,4 +33,11 @@ __all__ = [
     "ModelEvaluationMetrics",
     "ErrorResponse",
     "ErrorDetail",
+    "VariableListResponse",
+    "RegionListResponse",
+    "ModelCatalogResponse",
+    "ModelMetricsResponse",
+    "AnomalyRequest",
+    "AnomalyResponse",
+    "ReportListResponse",
 ]

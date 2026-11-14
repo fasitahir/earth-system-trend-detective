@@ -58,3 +58,86 @@ async def test_get_timeseries_with_filter():
         assert len(data["data"]) == 12
         assert data["start_date"] == "2020-01-01"
         assert data["end_date"] == "2020-12-01"
+
+
+@pytest.mark.asyncio
+async def test_timeseries_downsample():
+    transport = ASGITransport(app=app)
+    async with AsyncClient(transport=transport, base_url="http://test") as client:
+        response = await client.get("/api/v1/timeseries?variable_id=t2m&max_points=24")
+        assert response.status_code == 200
+        data = response.json()
+        assert data["downsampled"] is True
+        assert data["summary"]["count"] == 300
+        assert len(data["data"]) <= 26
+        assert data["data"][0]["timestamp"] == "2001-01-01"
+
+
+@pytest.mark.asyncio
+async def test_get_variables_and_regions():
+    transport = ASGITransport(app=app)
+    async with AsyncClient(transport=transport, base_url="http://test") as client:
+        vars_res = await client.get("/api/v1/variables")
+        assert vars_res.status_code == 200
+        assert vars_res.json()["total_variables"] == 6
+
+        regions_res = await client.get("/api/v1/regions")
+        assert regions_res.status_code == 200
+        payload = regions_res.json()
+        assert payload["total_regions"] == 1
+        assert payload["regions"][0]["id"] == "pakistan"
+
+
+@pytest.mark.asyncio
+async def test_invalid_variable_returns_400():
+    transport = ASGITransport(app=app)
+    async with AsyncClient(transport=transport, base_url="http://test") as client:
+        response = await client.get("/api/v1/timeseries?variable_id=not_a_variable")
+        assert response.status_code == 400
+
+
+@pytest.mark.asyncio
+async def test_anomaly_endpoint():
+    transport = ASGITransport(app=app)
+    async with AsyncClient(transport=transport, base_url="http://test") as client:
+        response = await client.post(
+            "/api/v1/analysis/anomalies",
+            json={"variable_id": "t2m", "top_n": 3},
+        )
+        assert response.status_code == 200
+        data = response.json()
+        assert len(data["top_positive_anomalies"]) == 3
+        assert len(data["top_negative_anomalies"]) == 3
+
+
+@pytest.mark.asyncio
+async def test_models_and_reports_endpoints():
+    transport = ASGITransport(app=app)
+    async with AsyncClient(transport=transport, base_url="http://test") as client:
+        models_res = await client.get("/api/v1/models")
+        assert models_res.status_code == 200
+        body = models_res.json()
+        assert len(body["models"]) == 5
+
+        reports_res = await client.get("/api/v1/reports")
+        assert reports_res.status_code == 200
+        assert len(reports_res.json()["reports"]) >= 4
+
+        report = await client.get("/api/v1/reports/forecasting-methodology")
+        assert report.status_code == 200
+        assert "excerpt" in report.json()
+
+
+@pytest.mark.asyncio
+async def test_openapi_docs_available():
+    transport = ASGITransport(app=app)
+    async with AsyncClient(transport=transport, base_url="http://test") as client:
+        docs = await client.get("/api/v1/docs")
+        spec = await client.get("/api/v1/openapi.json")
+        assert docs.status_code == 200
+        assert spec.status_code == 200
+        paths = spec.json()["paths"]
+        assert "/api/v1/models" in paths
+        assert "/api/v1/regions" in paths
+        assert "/api/v1/variables" in paths
+        assert "/api/v1/forecast" in paths

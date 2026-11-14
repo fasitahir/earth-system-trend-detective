@@ -1,5 +1,7 @@
 """EarthScope FastAPI application entry point."""
 
+import logging
+
 from fastapi import FastAPI, Request, status
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
@@ -9,10 +11,19 @@ from backend.app.api.v1.router import api_router
 from backend.app.core.config import settings
 from backend.app.schemas.error import ErrorDetail, ErrorResponse
 
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s %(levelname)s %(name)s %(message)s",
+)
+
 app = FastAPI(
     title=settings.PROJECT_NAME,
     version=settings.VERSION,
-    description="Scientific trend intelligence platform for NASA Space Apps Challenge 2026: Be an Earth System Trend Detective!",
+    description=(
+        "Scientific trend intelligence platform for NASA Space Apps Challenge 2026: "
+        "Be an Earth System Trend Detective! "
+        "OpenAPI: /api/v1/docs"
+    ),
     openapi_url=f"{settings.API_V1_STR}/openapi.json",
     docs_url=f"{settings.API_V1_STR}/docs",
     redoc_url=f"{settings.API_V1_STR}/redoc",

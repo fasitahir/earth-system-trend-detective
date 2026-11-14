@@ -18,13 +18,15 @@ flowchart TD
     subgraph Backend["Backend API (FastAPI / Pydantic)"]
         Router["API Router (/api/v1)"]
         HealthEP["/health"]
-        DataEP["/datasets & /timeseries"]
-        TrendEP["/analysis/trend"]
-        ForecastEP["/forecast"]
+        DataEP["/datasets /variables /regions /timeseries"]
+        TrendEP["/analysis/trend & /analysis/anomalies"]
+        ForecastEP["/forecast /models"]
+        ReportsEP["/reports"]
         Router --> HealthEP
         Router --> DataEP
         Router --> TrendEP
         Router --> ForecastEP
+        Router --> ReportsEP
     end
 
     subgraph Scientific["Scientific & Data Engine"]
@@ -94,7 +96,8 @@ Earth-System-Trend-Detective/
 │   ├── raw/
 │   ├── interim/
 │   ├── processed/
-│   └── metadata/
+│   ├── metadata/
+│   └── models/          # joblib production forecast artifacts + manifest.json
 ├── frontend/
 │   ├── app/
 │   │   ├── globals.css

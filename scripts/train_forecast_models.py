@@ -14,6 +14,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from backend.ml.evaluation.validator import ChronologicalHoldoutEvaluator
 from backend.ml.inference.service import ForecastInferenceService
+from backend.ml.training.persistence import ModelRegistry, fit_production_bundle
 
 VARIABLES = [
     {"id": "t2m", "title": "2-Meter Air Temperature", "unit": "°C"},
@@ -33,10 +34,12 @@ def run_forecasting_pipeline():
     metadata_dir.mkdir(parents=True, exist_ok=True)
 
     evaluator = ChronologicalHoldoutEvaluator(cutoff_date="2022-12-01")
-    inference_service = ForecastInferenceService()
+    inference_service = ForecastInferenceService(prefer_saved_models=True)
+    registry = ModelRegistry()
 
     all_evaluations = {}
     forward_forecasts = {}
+    recommended_models = {}
 
     print("=== Training & Evaluating EarthScope Model Ladder (2001–2025) ===\n")
 
@@ -48,8 +51,14 @@ def run_forecasting_pipeline():
         eval_res = evaluator.evaluate_all_models(df, var_id=var_id, value_col="display_value")
         all_evaluations[var_id] = eval_res
 
-        # 2. 24-Month Forward Projection (using best-performing ML model or benchmark)
-        best_model = "ridge_lag"
+        # 2. Persist full-history production estimators (not just metrics)
+        bundle = fit_production_bundle(df, var_id, eval_res)
+        artifact_path = registry.save_variable_bundle(var_id, bundle)
+        best_model = bundle["recommended_model_id"]
+        recommended_models[var_id] = best_model
+        print(f"  Saved production artifact: {artifact_path} (recommended={best_model})")
+
+        # 3. 24-Month Forward Projection from the saved artifact
         fc_res = inference_service.generate_forecast(
             df=df, var_id=var_id, horizon_months=24, model_id=best_model, confidence_level=0.95
         )
@@ -118,7 +127,8 @@ def run_forecasting_pipeline():
         ax.plot(recent_df["timestamp"], recent_df["display_value"], color="black", linewidth=1.8, label="Observed History")
 
         # Forecast line
-        ax.plot(fc_dates, fc_vals, color="#0ea5e9", linewidth=2.2, label=f"Ridge Forecast (to {fc_dates[-1].strftime('%Y-%m')})")
+        rec = recommended_models[v["id"]]
+        ax.plot(fc_dates, fc_vals, color="#0ea5e9", linewidth=2.2, label=f"{rec} (to {fc_dates[-1].strftime('%Y-%m')})")
 
         # Uncertainty band
         ax.fill_between(fc_dates, fc_low, fc_high, color="#0ea5e9", alpha=0.2, label="95% Prediction Interval")

@@ -9,7 +9,7 @@ class Settings(BaseSettings):
     """Application settings for EarthScope backend."""
     
     PROJECT_NAME: str = "EarthScope API"
-    VERSION: str = "0.1.0"
+    VERSION: str = "0.6.0"
     API_V1_STR: str = "/api/v1"
     ENVIRONMENT: str = "development"
     DEBUG: bool = True
@@ -31,6 +31,7 @@ class Settings(BaseSettings):
     RAW_DATA_DIR: Path = BASE_DIR / "datasets"
     PROCESSED_DATA_DIR: Path = BASE_DIR / "data" / "processed"
     METADATA_DIR: Path = BASE_DIR / "data" / "metadata"
+    MODELS_DIR: Path = BASE_DIR / "data" / "models"
 
     model_config = SettingsConfigDict(
         env_file=".env",

@@ -37,3 +37,12 @@
 - **Status:** Accepted
 - **Context:** In NASA Giovanni CSV and NetCDF files, fill values are specified (e.g. `1000000000000000` or `-9999`).
 - **Decision:** Ingestion pipelines must identify declared fill values and map them to `NaN` or `None`. Under no circumstance will missing data be coerced to `0.0`.
+
+---
+
+## ADR-005: Persist Production Forecast Models Separately from Holdout Evaluation
+- **Date:** 2026-11-14
+- **Status:** Accepted
+- **Context:** Stage 5 evaluated models honestly on a chronological holdout, but only serialized metrics JSON and plots. The forecast API then refit sklearn estimators on every request.
+- **Decision:** After holdout evaluation, fit a **production** copy of each ladder model on the full available history and serialize it with joblib under `data/models/{variable_id}.joblib`. Serving loads those artifacts and reuses frozen holdout RMSE for prediction intervals.
+- **Consequence:** Forecasts are reproducible without retraining. Holdout metrics remain an out-of-sample score, not a claim that production weights were trained only through 2022. If processed observations are extended, operators must re-run `python scripts/train_forecast_models.py`.

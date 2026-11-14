@@ -1,6 +1,6 @@
 """Chronological out-of-sample holdout and rolling-origin model evaluator."""
 
-from typing import Dict, Any, List, Tuple
+from typing import Dict, Any, List, Optional
 import numpy as np
 import pandas as pd
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score

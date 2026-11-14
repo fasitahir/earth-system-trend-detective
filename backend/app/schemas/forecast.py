@@ -27,7 +27,7 @@ class ForecastRequest(BaseModel):
     """Forecast generation request."""
     variable_id: str = Field(..., description="Target variable identifier")
     horizon_months: int = Field(12, ge=1, le=60, description="Forecast horizon in months")
-    model_id: str = Field("ridge_lag", description="Model: persistence | seasonal_naive | linear_trend | ridge_lag | random_forest")
+    model_id: str = Field("ridge_lag", description="Model: persistence | seasonal_naive | linear_drift | ridge_lag | random_forest")
     confidence_level: float = Field(0.95, ge=0.5, le=0.99, description="Prediction interval confidence level")
 
 
@@ -43,3 +43,5 @@ class ForecastResponse(BaseModel):
     metrics: ModelEvaluationMetrics = Field(..., description="Out-of-sample validation metrics")
     predictions: List[ForecastPoint] = Field(..., description="Future predicted values with bounds")
     limitations: List[str] = Field(default_factory=list, description="Forecasting limitations and caveats")
+    artifact_loaded: bool = Field(False, description="Whether forecasts used a persisted production artifact")
+    trained_on: Optional[str] = Field(None, description="Fit regime: full_history_production or ephemeral_full_history")

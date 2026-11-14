@@ -28,47 +28,51 @@ The application directly addresses the NASA Space Apps Challenge 2026 challenge 
 - [x] Zero scientific logic coupled into UI components.
 
 ### Stage 1 — Dataset Discovery & Audit
-- [ ] Complete recursive inventory of all files in `datasets/`.
-- [ ] Determine file format, variable IDs, physical units, bounding box, and temporal extent.
-- [ ] Identify missing/fill values and valid data ranges.
-- [ ] Generate `data/metadata/dataset_inventory.csv` and `data/metadata/dataset_metadata.json`.
-- [ ] Document findings in `docs/data-quality-report.md` and `docs/dataset-selection.md`.
-- [ ] Gate: No proceeding without complete verifiable dataset audit.
+- [x] Complete recursive inventory of all files in `datasets/`.
+- [x] Determine file format, variable IDs, physical units, bounding box, and temporal extent.
+- [x] Identify missing/fill values and valid data ranges.
+- [x] Generate `data/metadata/dataset_inventory.csv` and `data/metadata/dataset_metadata.json`.
+- [x] Document findings in `docs/data-quality-report.md` and `docs/dataset-selection.md`.
+- [x] Gate: No proceeding without complete verifiable dataset audit.
 
 ### Stage 2 — Ingestion and Preprocessing
-- [ ] Ingestion modules parse raw CSV and NetCDF files deterministically.
-- [ ] Preserve original raw data in immutable state.
-- [ ] Standardize timestamps to ISO 8601 monthly intervals.
-- [ ] Map variable identifiers and document unit conversions.
-- [ ] Handle fill values without converting missing data to zero.
-- [ ] Calculate anomalies against baseline climatology.
-- [ ] Gate: Data pipeline must pass automated schema and integrity checks.
+- [x] Ingestion modules parse raw CSV and NetCDF files deterministically.
+- [x] Preserve original raw data in immutable state.
+- [x] Standardize timestamps to ISO 8601 monthly intervals.
+- [x] Map variable identifiers and document unit conversions.
+- [x] Handle fill values without converting missing data to zero.
+- [x] Calculate anomalies against baseline climatology.
+- [x] Gate: Data pipeline must pass automated schema and integrity checks.
 
 ### Stage 3 — Exploratory Data Analysis
-- [ ] Compute descriptive statistics (mean, std, min, max, percentiles).
-- [ ] Calculate monthly climatology and seasonal variations.
-- [ ] Evaluate cross-variable correlations (e.g., temperature vs evapotranspiration vs soil moisture).
-- [ ] Document findings in `docs/eda-findings.md`.
+- [x] Compute descriptive statistics (mean, std, min, max, percentiles).
+- [x] Calculate monthly climatology and seasonal variations.
+- [x] Evaluate cross-variable correlations (e.g., temperature vs evapotranspiration vs soil moisture).
+- [x] Document findings in `docs/eda-findings.md`.
 
 ### Stage 4 — Statistical Trend Detection
-- [ ] Implement parametric linear regression with slope and p-value.
-- [ ] Implement non-parametric Mann-Kendall test and Sen's slope estimator.
-- [ ] Implement seasonal Mann-Kendall or deseasonalized trend analysis.
-- [ ] Validate tests against synthetic series with known trend behavior.
-- [ ] Document methodology in `docs/statistical-methodology.md`.
+- [x] Implement parametric linear regression with slope and p-value.
+- [x] Implement non-parametric Mann-Kendall test and Sen's slope estimator.
+- [x] Implement seasonal Mann-Kendall or deseasonalized trend analysis.
+- [x] Validate tests against synthetic series with known trend behavior.
+- [x] Document methodology in `docs/statistical-methodology.md`.
 
 ### Stage 5 — Forecasting & ML
-- [ ] Implement naive benchmarks: persistence and seasonal naive baselines.
-- [ ] Implement machine learning forecasting models (lagged regression, Ridge, Random Forest).
-- [ ] Strictly prevent data leakage using chronological holdout validation.
-- [ ] Report out-of-sample metrics (MAE, RMSE, R2).
-- [ ] Compute prediction uncertainty intervals.
-- [ ] Document methodology in `docs/forecasting-methodology.md`.
+- [x] Implement naive benchmarks: persistence and seasonal naive baselines.
+- [x] Implement machine learning forecasting models (lagged regression, Ridge, Random Forest).
+- [x] Strictly prevent data leakage using chronological holdout validation.
+- [x] Report out-of-sample metrics (MAE, RMSE, R2).
+- [x] Compute prediction uncertainty intervals.
+- [x] Document methodology in `docs/forecasting-methodology.md`.
+- [x] Persist fitted production estimators to `data/models/` (joblib bundles + manifest).
 
 ### Stage 6 — Backend API Services
-- [ ] Implement endpoints for datasets, timeseries, trend analysis, and forecasting.
-- [ ] Pydantic validation on all incoming query and body parameters.
-- [ ] Full OpenAPI documentation at `/api/v1/docs`.
+- [x] Implement endpoints for datasets, timeseries, trend analysis, and forecasting.
+- [x] Pydantic validation on all incoming query and body parameters.
+- [x] Full OpenAPI documentation at `/api/v1/docs`.
+- [x] Variables, regions, models, model metrics, anomalies, and reports endpoints.
+- [x] Response caching and optional time-series downsampling.
+- [x] Forecast serving loads persisted artifacts instead of retraining per request.
 
 ### Stage 7 — Frontend Dashboard
 - [ ] Interactive exploration of time series, trends, and forecasts.

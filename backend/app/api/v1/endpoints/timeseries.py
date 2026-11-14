@@ -1,35 +1,42 @@
 """Time series query endpoints serving canonical processed data."""
 
-from pathlib import Path
 from typing import Optional
+
 import pandas as pd
 from fastapi import APIRouter, HTTPException, Query
-from backend.app.schemas.timeseries import TimeSeriesResponse, TimeSeriesSummary, ObservationPoint
-from backend.app.core.config import settings
+
+from backend.app.core.cache import response_cache
+from backend.app.core.io import downsample_frame, load_processed_frame
+from backend.app.schemas.timeseries import ObservationPoint, TimeSeriesResponse, TimeSeriesSummary
 
 router = APIRouter()
 
 
 @router.get("/timeseries", response_model=TimeSeriesResponse, tags=["Time Series"])
 async def get_timeseries(
-    variable_id: str = Query(..., description="Variable identifier: t2m | ts | precipitation | evapotranspiration | soil_moisture_0_10cm | soil_moisture_10_40cm"),
+    variable_id: str = Query(..., description="Variable identifier"),
     start_date: Optional[str] = Query(None, description="Start date filter (YYYY-MM-DD)"),
     end_date: Optional[str] = Query(None, description="End date filter (YYYY-MM-DD)"),
+    max_points: Optional[int] = Query(
+        None,
+        ge=12,
+        le=2000,
+        description="Optional downsample cap for chart payloads. Summary uses the filtered series before sampling.",
+    ),
 ) -> TimeSeriesResponse:
-    """Retrieve full or filtered observation history, anomalies, and summary statistics."""
-    file_path = settings.PROCESSED_DATA_DIR / f"{variable_id}.parquet"
-    if not file_path.exists():
-        # Fallback to CSV if parquet not found
-        file_path = settings.PROCESSED_DATA_DIR / f"{variable_id}.csv"
-        if not file_path.exists():
-            raise HTTPException(status_code=404, detail=f"Processed dataset for '{variable_id}' not found.")
+    """Retrieve observation history, anomalies, and summary statistics."""
+    cache_key = response_cache.make_key(
+        endpoint="timeseries",
+        variable_id=variable_id,
+        start_date=start_date,
+        end_date=end_date,
+        max_points=max_points,
+    )
+    cached = response_cache.get(cache_key)
+    if cached is not None:
+        return cached
 
-    if file_path.suffix == ".parquet":
-        df = pd.read_parquet(file_path)
-    else:
-        df = pd.read_csv(file_path)
-
-    df["timestamp"] = pd.to_datetime(df["timestamp"])
+    df = load_processed_frame(variable_id)
 
     if start_date:
         df = df[df["timestamp"] >= pd.to_datetime(start_date)]
@@ -50,6 +57,8 @@ async def get_timeseries(
         median=round(float(df["display_value"].median()), 4),
     )
 
+    sampled, downsampled, stride = downsample_frame(df, max_points)
+
     data_points = [
         ObservationPoint(
             timestamp=row["timestamp"].strftime("%Y-%m-%d"),
@@ -57,11 +66,11 @@ async def get_timeseries(
             display_value=round(float(row["display_value"]), 4),
             anomaly=round(float(row["anomaly"]), 4) if pd.notna(row["anomaly"]) else None,
         )
-        for _, row in df.iterrows()
+        for _, row in sampled.iterrows()
     ]
 
     first_row = df.iloc[0]
-    return TimeSeriesResponse(
+    response = TimeSeriesResponse(
         variable_id=variable_id,
         variable_name=variable_id.replace("_", " ").title(),
         unit=str(first_row["source_unit"]),
@@ -71,4 +80,8 @@ async def get_timeseries(
         end_date=df["timestamp"].max().strftime("%Y-%m-%d"),
         summary=summary,
         data=data_points,
+        downsampled=downsampled,
+        stride=stride,
     )
+    response_cache.set(cache_key, response)
+    return response

@@ -1,7 +1,7 @@
 # EarthScope — Earth System Trend Intelligence
 
 **NASA Space Apps Challenge 2026:** "Be an Earth System Trend Detective!"  
-**Stage:** Stage 0 Complete (Foundation & Architecture Established)
+**Stage:** Stage 6 Complete (Backend API + persisted forecast artifacts)
 
 ---
 
@@ -111,6 +111,16 @@ Key configuration keys:
 
 ## 5. Stage Progress & Next Steps
 
-Follow the living stage-gate log in [`docs/PROJECT_STATUS.md`](file:///c:/FasiTahir/NASA-Hackathon2026/Earth-System-Trend-Detective/docs/PROJECT_STATUS.md):
-- **Stage 0 (Project Initialization & Architecture):** `COMPLETE`
-- **Stage 1 (Dataset Discovery & Audit):** `IN PROGRESS`
+Follow the living stage-gate log in [`docs/PROJECT_STATUS.md`](docs/PROJECT_STATUS.md):
+
+- **Stages 0–5 (Architecture through forecasting):** `COMPLETE`
+- **Stage 6 (Backend API services):** `COMPLETE`
+- **Stage 7 (Frontend dashboard):** `NOT STARTED`
+
+Train and persist forecast artifacts (required before serving production forecasts):
+
+```bash
+python scripts/train_forecast_models.py
+```
+
+Artifacts land in `data/models/{variable_id}.joblib` with a catalog at `data/models/manifest.json`.

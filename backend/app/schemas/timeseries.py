@@ -33,3 +33,5 @@ class TimeSeriesResponse(BaseModel):
     end_date: str = Field(..., description="Latest observation timestamp")
     summary: TimeSeriesSummary = Field(..., description="Summary statistics")
     data: List[ObservationPoint] = Field(..., description="Chronological series of observations")
+    downsampled: bool = Field(False, description="Whether the series was downsampled for response size")
+    stride: int = Field(1, description="Sampling stride applied when downsampled")

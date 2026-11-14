@@ -118,3 +118,19 @@ $$\text{CI}_{t+h} = \hat{y}_{t+h} \pm z_{1-\alpha/2} \cdot \sigma_e \cdot \sqrt{
 - Captures increasing predictive uncertainty over expanding multi-month horizons.
 - Physical bounds are enforced: lower bounds for precipitation, evapotranspiration, and soil moisture are non-negative ($\ge 0.0$).
 - Visual displays in `docs/figures/forecast_forward_24m.png` clearly distinguish historical observations, the red dashed forecast origin line, and future shaded uncertainty bands.
+
+---
+
+## 7. Persisted Production Artifacts
+
+Stage 5 originally wrote `data/metadata/model_evaluation_metrics.json` and diagnostic figures, then **refit** Ridge/Random Forest on every `POST /api/v1/forecast` call. That is scientifically valid but operationally wrong: serving should not retrain.
+
+`scripts/train_forecast_models.py` now writes one joblib bundle per variable to `data/models/{variable_id}.joblib` plus `data/models/manifest.json`.
+
+Each bundle contains:
+
+1. **Holdout metrics** frozen from the 2001–2022 / 2023–2025 chronological split (never used as production weights).
+2. **Production estimators** fitted on the **full available history** (persistence, seasonal naive, linear drift, lagged Ridge, random forest).
+3. **Feature-extractor configuration** so iterative multi-step forecasts reconstruct lags identically.
+
+The API loads these artifacts. Interval width still uses holdout RMSE, not in-sample residuals. Retrain by re-running the training script after processed data changes.

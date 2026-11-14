@@ -1,0 +1,372 @@
+{
+  "schema_version": 1,
+  "variables": {
+    "t2m": {
+      "variable_id": "t2m",
+      "artifact": "t2m.joblib",
+      "region": "Pakistan",
+      "fit_mode": "full_history_production",
+      "trained_at": "2026-11-14T18:53:01.823075+00:00",
+      "train_start": "2001-01-01",
+      "train_end": "2025-12-01",
+      "n_observations": 300,
+      "recommended_model_id": "ridge_lag",
+      "model_ids": [
+        "persistence",
+        "seasonal_naive",
+        "linear_drift",
+        "ridge_lag",
+        "random_forest"
+      ],
+      "model_names": {
+        "persistence": "Lag-1 Persistence Baseline",
+        "seasonal_naive": "12-Month Seasonal Naive Baseline",
+        "linear_drift": "Linear Drift Baseline",
+        "ridge_lag": "Regularized Lagged Ridge Regressor",
+        "random_forest": "Random Forest Time-Series Regressor"
+      },
+      "holdout_train_period": "2001-01-01 to 2022-12-01",
+      "holdout_test_period": "2023-01-01 to 2025-12-01",
+      "train_observations": 264,
+      "test_observations": 36,
+      "holdout_metrics": {
+        "persistence": {
+          "mae": 10.4805,
+          "rmse": 12.4271,
+          "r2_score": -1.9028,
+          "skill_score_vs_seasonal_naive": -4.6275
+        },
+        "seasonal_naive": {
+          "mae": 1.886,
+          "rmse": 2.2083,
+          "r2_score": 0.9083,
+          "skill_score_vs_seasonal_naive": 0.0
+        },
+        "linear_drift": {
+          "mae": 6.5335,
+          "rmse": 7.3064,
+          "r2_score": -0.0034,
+          "skill_score_vs_seasonal_naive": -2.3086
+        },
+        "ridge_lag": {
+          "mae": 1.3177,
+          "rmse": 1.5669,
+          "r2_score": 0.9539,
+          "skill_score_vs_seasonal_naive": 0.2904
+        },
+        "random_forest": {
+          "mae": 1.4191,
+          "rmse": 1.76,
+          "r2_score": 0.9418,
+          "skill_score_vs_seasonal_naive": 0.203
+        }
+      }
+    },
+    "ts": {
+      "variable_id": "ts",
+      "artifact": "ts.joblib",
+      "region": "Pakistan",
+      "fit_mode": "full_history_production",
+      "trained_at": "2026-11-14T18:53:02.388124+00:00",
+      "train_start": "2001-01-01",
+      "train_end": "2025-12-01",
+      "n_observations": 300,
+      "recommended_model_id": "ridge_lag",
+      "model_ids": [
+        "persistence",
+        "seasonal_naive",
+        "linear_drift",
+        "ridge_lag",
+        "random_forest"
+      ],
+      "model_names": {
+        "persistence": "Lag-1 Persistence Baseline",
+        "seasonal_naive": "12-Month Seasonal Naive Baseline",
+        "linear_drift": "Linear Drift Baseline",
+        "ridge_lag": "Regularized Lagged Ridge Regressor",
+        "random_forest": "Random Forest Time-Series Regressor"
+      },
+      "holdout_train_period": "2001-01-01 to 2022-12-01",
+      "holdout_test_period": "2023-01-01 to 2025-12-01",
+      "train_observations": 264,
+      "test_observations": 36,
+      "holdout_metrics": {
+        "persistence": {
+          "mae": 12.2087,
+          "rmse": 14.53,
+          "r2_score": -1.9516,
+          "skill_score_vs_seasonal_naive": -4.6429
+        },
+        "seasonal_naive": {
+          "mae": 2.2319,
+          "rmse": 2.5749,
+          "r2_score": 0.9073,
+          "skill_score_vs_seasonal_naive": 0.0
+        },
+        "linear_drift": {
+          "mae": 7.56,
+          "rmse": 8.4702,
+          "r2_score": -0.003,
+          "skill_score_vs_seasonal_naive": -2.2895
+        },
+        "ridge_lag": {
+          "mae": 1.405,
+          "rmse": 1.6418,
+          "r2_score": 0.9623,
+          "skill_score_vs_seasonal_naive": 0.3624
+        },
+        "random_forest": {
+          "mae": 1.5905,
+          "rmse": 1.9424,
+          "r2_score": 0.9473,
+          "skill_score_vs_seasonal_naive": 0.2456
+        }
+      }
+    },
+    "precipitation": {
+      "variable_id": "precipitation",
+      "artifact": "precipitation.joblib",
+      "region": "Pakistan",
+      "fit_mode": "full_history_production",
+      "trained_at": "2026-11-14T18:53:02.886960+00:00",
+      "train_start": "2001-01-01",
+      "train_end": "2025-09-01",
+      "n_observations": 297,
+      "recommended_model_id": "ridge_lag",
+      "model_ids": [
+        "persistence",
+        "seasonal_naive",
+        "linear_drift",
+        "ridge_lag",
+        "random_forest"
+      ],
+      "model_names": {
+        "persistence": "Lag-1 Persistence Baseline",
+        "seasonal_naive": "12-Month Seasonal Naive Baseline",
+        "linear_drift": "Linear Drift Baseline",
+        "ridge_lag": "Regularized Lagged Ridge Regressor",
+        "random_forest": "Random Forest Time-Series Regressor"
+      },
+      "holdout_train_period": "2001-01-01 to 2022-12-01",
+      "holdout_test_period": "2023-01-01 to 2025-09-01",
+      "train_observations": 264,
+      "test_observations": 33,
+      "holdout_metrics": {
+        "persistence": {
+          "mae": 35.5256,
+          "rmse": 51.9475,
+          "r2_score": -0.8313,
+          "skill_score_vs_seasonal_naive": 0.2752
+        },
+        "seasonal_naive": {
+          "mae": 43.862,
+          "rmse": 71.6741,
+          "r2_score": -2.4862,
+          "skill_score_vs_seasonal_naive": 0.0
+        },
+        "linear_drift": {
+          "mae": 28.0022,
+          "rmse": 38.4236,
+          "r2_score": -0.0019,
+          "skill_score_vs_seasonal_naive": 0.4639
+        },
+        "ridge_lag": {
+          "mae": 23.9032,
+          "rmse": 32.6485,
+          "r2_score": 0.2767,
+          "skill_score_vs_seasonal_naive": 0.5445
+        },
+        "random_forest": {
+          "mae": 34.7865,
+          "rmse": 40.6811,
+          "r2_score": -0.1231,
+          "skill_score_vs_seasonal_naive": 0.4324
+        }
+      }
+    },
+    "evapotranspiration": {
+      "variable_id": "evapotranspiration",
+      "artifact": "evapotranspiration.joblib",
+      "region": "Pakistan",
+      "fit_mode": "full_history_production",
+      "trained_at": "2026-11-14T18:53:03.397480+00:00",
+      "train_start": "2001-01-01",
+      "train_end": "2025-12-01",
+      "n_observations": 300,
+      "recommended_model_id": "random_forest",
+      "model_ids": [
+        "persistence",
+        "seasonal_naive",
+        "linear_drift",
+        "ridge_lag",
+        "random_forest"
+      ],
+      "model_names": {
+        "persistence": "Lag-1 Persistence Baseline",
+        "seasonal_naive": "12-Month Seasonal Naive Baseline",
+        "linear_drift": "Linear Drift Baseline",
+        "ridge_lag": "Regularized Lagged Ridge Regressor",
+        "random_forest": "Random Forest Time-Series Regressor"
+      },
+      "holdout_train_period": "2001-01-01 to 2022-12-01",
+      "holdout_test_period": "2023-01-01 to 2025-12-01",
+      "train_observations": 264,
+      "test_observations": 36,
+      "holdout_metrics": {
+        "persistence": {
+          "mae": 18.2392,
+          "rmse": 25.2139,
+          "r2_score": -0.9226,
+          "skill_score_vs_seasonal_naive": -0.9645
+        },
+        "seasonal_naive": {
+          "mae": 9.3727,
+          "rmse": 12.8347,
+          "r2_score": 0.5018,
+          "skill_score_vs_seasonal_naive": 0.0
+        },
+        "linear_drift": {
+          "mae": 15.1356,
+          "rmse": 18.2324,
+          "r2_score": -0.0053,
+          "skill_score_vs_seasonal_naive": -0.4206
+        },
+        "ridge_lag": {
+          "mae": 6.3552,
+          "rmse": 8.2099,
+          "r2_score": 0.7962,
+          "skill_score_vs_seasonal_naive": 0.3603
+        },
+        "random_forest": {
+          "mae": 5.5452,
+          "rmse": 7.3129,
+          "r2_score": 0.8383,
+          "skill_score_vs_seasonal_naive": 0.4302
+        }
+      }
+    },
+    "soil_moisture_0_10cm": {
+      "variable_id": "soil_moisture_0_10cm",
+      "artifact": "soil_moisture_0_10cm.joblib",
+      "region": "Pakistan",
+      "fit_mode": "full_history_production",
+      "trained_at": "2026-11-14T18:53:04.582055+00:00",
+      "train_start": "2001-01-01",
+      "train_end": "2025-09-01",
+      "n_observations": 297,
+      "recommended_model_id": "ridge_lag",
+      "model_ids": [
+        "persistence",
+        "seasonal_naive",
+        "linear_drift",
+        "ridge_lag",
+        "random_forest"
+      ],
+      "model_names": {
+        "persistence": "Lag-1 Persistence Baseline",
+        "seasonal_naive": "12-Month Seasonal Naive Baseline",
+        "linear_drift": "Linear Drift Baseline",
+        "ridge_lag": "Regularized Lagged Ridge Regressor",
+        "random_forest": "Random Forest Time-Series Regressor"
+      },
+      "holdout_train_period": "2001-01-01 to 2022-12-01",
+      "holdout_test_period": "2023-01-01 to 2025-09-01",
+      "train_observations": 264,
+      "test_observations": 33,
+      "holdout_metrics": {
+        "persistence": {
+          "mae": 2.3717,
+          "rmse": 2.825,
+          "r2_score": -0.0015,
+          "skill_score_vs_seasonal_naive": 0.2769
+        },
+        "seasonal_naive": {
+          "mae": 3.193,
+          "rmse": 3.9066,
+          "r2_score": -0.9152,
+          "skill_score_vs_seasonal_naive": 0.0
+        },
+        "linear_drift": {
+          "mae": 2.4166,
+          "rmse": 2.872,
+          "r2_score": -0.0351,
+          "skill_score_vs_seasonal_naive": 0.2648
+        },
+        "ridge_lag": {
+          "mae": 1.8338,
+          "rmse": 2.1839,
+          "r2_score": 0.4015,
+          "skill_score_vs_seasonal_naive": 0.441
+        },
+        "random_forest": {
+          "mae": 2.136,
+          "rmse": 2.7261,
+          "r2_score": 0.0674,
+          "skill_score_vs_seasonal_naive": 0.3022
+        }
+      }
+    },
+    "soil_moisture_10_40cm": {
+      "variable_id": "soil_moisture_10_40cm",
+      "artifact": "soil_moisture_10_40cm.joblib",
+      "region": "Pakistan",
+      "fit_mode": "full_history_production",
+      "trained_at": "2026-11-14T18:53:05.086875+00:00",
+      "train_start": "2001-01-01",
+      "train_end": "2025-09-01",
+      "n_observations": 297,
+      "recommended_model_id": "ridge_lag",
+      "model_ids": [
+        "persistence",
+        "seasonal_naive",
+        "linear_drift",
+        "ridge_lag",
+        "random_forest"
+      ],
+      "model_names": {
+        "persistence": "Lag-1 Persistence Baseline",
+        "seasonal_naive": "12-Month Seasonal Naive Baseline",
+        "linear_drift": "Linear Drift Baseline",
+        "ridge_lag": "Regularized Lagged Ridge Regressor",
+        "random_forest": "Random Forest Time-Series Regressor"
+      },
+      "holdout_train_period": "2001-01-01 to 2022-12-01",
+      "holdout_test_period": "2023-01-01 to 2025-09-01",
+      "train_observations": 264,
+      "test_observations": 33,
+      "holdout_metrics": {
+        "persistence": {
+          "mae": 3.7547,
+          "rmse": 4.769,
+          "r2_score": -0.0038,
+          "skill_score_vs_seasonal_naive": 0.246
+        },
+        "seasonal_naive": {
+          "mae": 5.1979,
+          "rmse": 6.3248,
+          "r2_score": -0.7656,
+          "skill_score_vs_seasonal_naive": 0.0
+        },
+        "linear_drift": {
+          "mae": 3.8697,
+          "rmse": 4.7977,
+          "r2_score": -0.016,
+          "skill_score_vs_seasonal_naive": 0.2414
+        },
+        "ridge_lag": {
+          "mae": 2.2135,
+          "rmse": 2.89,
+          "r2_score": 0.6314,
+          "skill_score_vs_seasonal_naive": 0.5431
+        },
+        "random_forest": {
+          "mae": 3.4717,
+          "rmse": 4.5058,
+          "r2_score": 0.1039,
+          "skill_score_vs_seasonal_naive": 0.2876
+        }
+      }
+    }
+  },
+  "updated_at": "2026-11-14T18:53:05.117374+00:00"
+}
