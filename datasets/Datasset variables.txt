@@ -1,0 +1,5 @@
+1. Precipitation-PRECTOTCORR
+2. Air Temperature-HUMIDITY
+3. Total Evaporation-MOD13Q1
+4. Surface Skin Temperature-GLDAS_NOAH025_M v2.1
+5. Soil Moisture-SoilMoi0_10cm_inst, SoilMoi10_40cm_inst
