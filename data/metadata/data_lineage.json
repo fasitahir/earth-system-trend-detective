@@ -1,0 +1,82 @@
+{
+  "pipeline_name": "EarthScope Ingestion & Preprocessing Pipeline",
+  "execution_timestamp": "2026-11-14T17:56:38.065398+00:00",
+  "target_region": "Pakistan",
+  "baseline_period": "2001-01-01 to 2020-12-31",
+  "variables_processed": 6,
+  "multi_variable_aligned_months": 297,
+  "lineage": [
+    {
+      "variable_id": "t2m",
+      "raw_file": "datasets/Air Temperature \u2013 NASA Giovanni (MERRA-2)/g4.areaAvgTimeSeries.M2TMNXSLV_5_12_4_T2M.20010101-20251231.180W_90S_180E_90N.csv",
+      "output_parquet": "data/processed/t2m.parquet",
+      "output_csv": "data/processed/t2m.csv",
+      "total_records": 300,
+      "period_start": "2001-01-01",
+      "period_end": "2025-12-01",
+      "display_unit": "\u00b0C",
+      "baseline_period": "2001-01-01 to 2020-12-31",
+      "processed_at": "2026-11-14T17:56:37.909610+00:00"
+    },
+    {
+      "variable_id": "ts",
+      "raw_file": "datasets/Surface Skin Temperature \u2013 NASA Giovanni (MERRA-2)/g4.areaAvgTimeSeries.M2TMNXSLV_5_12_4_TS.20010101-20251231.180W_90S_180E_90N.csv",
+      "output_parquet": "data/processed/ts.parquet",
+      "output_csv": "data/processed/ts.csv",
+      "total_records": 300,
+      "period_start": "2001-01-01",
+      "period_end": "2025-12-01",
+      "display_unit": "\u00b0C",
+      "baseline_period": "2001-01-01 to 2020-12-31",
+      "processed_at": "2026-11-14T17:56:37.937399+00:00"
+    },
+    {
+      "variable_id": "precipitation",
+      "raw_file": "datasets/Precipitation \u2013 NASA Giovanni (MERRA-2)/g4.areaAvgTimeSeries.M2TMNXFLX_5_12_4_PRECTOTCORR.20010101-20250930.180W_90S_180E_90N.csv",
+      "output_parquet": "data/processed/precipitation.parquet",
+      "output_csv": "data/processed/precipitation.csv",
+      "total_records": 297,
+      "period_start": "2001-01-01",
+      "period_end": "2025-09-01",
+      "display_unit": "mm/month",
+      "baseline_period": "2001-01-01 to 2020-12-31",
+      "processed_at": "2026-11-14T17:56:37.963731+00:00"
+    },
+    {
+      "variable_id": "evapotranspiration",
+      "raw_file": "datasets/Total Evapotranspiration (Evap_tavg) \u2014 NASA Giovanni (GLDAS-2.1)/g4.areaAvgTimeSeries.GLDAS_NOAH10_M_2_1_Evap_tavg.20010101-20251231.180W_60S_180E_90N.csv",
+      "output_parquet": "data/processed/evapotranspiration.parquet",
+      "output_csv": "data/processed/evapotranspiration.csv",
+      "total_records": 300,
+      "period_start": "2001-01-01",
+      "period_end": "2025-12-01",
+      "display_unit": "mm/month",
+      "baseline_period": "2001-01-01 to 2020-12-31",
+      "processed_at": "2026-11-14T17:56:37.988493+00:00"
+    },
+    {
+      "variable_id": "soil_moisture_0_10cm",
+      "raw_file": "datasets/Soil Moisture \u2013 NASA Giovanni (GLDAS)/0-10cm/g4.areaAvgTimeSeries.GLDAS_NOAH10_M_2_1_SoilMoi0_10cm_inst.20010101-20250930.180W_60S_180E_90N.csv",
+      "output_parquet": "data/processed/soil_moisture_0_10cm.parquet",
+      "output_csv": "data/processed/soil_moisture_0_10cm.csv",
+      "total_records": 297,
+      "period_start": "2001-01-01",
+      "period_end": "2025-09-01",
+      "display_unit": "kg/m\u00b2",
+      "baseline_period": "2001-01-01 to 2020-12-31",
+      "processed_at": "2026-11-14T17:56:38.020168+00:00"
+    },
+    {
+      "variable_id": "soil_moisture_10_40cm",
+      "raw_file": "datasets/Soil Moisture \u2013 NASA Giovanni (GLDAS)/10-40cm/g4.areaAvgTimeSeries.GLDAS_NOAH10_M_2_1_SoilMoi10_40cm_inst.20010101-20250930.180W_60S_180E_90N.csv",
+      "output_parquet": "data/processed/soil_moisture_10_40cm.parquet",
+      "output_csv": "data/processed/soil_moisture_10_40cm.csv",
+      "total_records": 297,
+      "period_start": "2001-01-01",
+      "period_end": "2025-09-01",
+      "display_unit": "kg/m\u00b2",
+      "baseline_period": "2001-01-01 to 2020-12-31",
+      "processed_at": "2026-11-14T17:56:38.045257+00:00"
+    }
+  ]
+}
