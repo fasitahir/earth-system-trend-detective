@@ -1,0 +1,176 @@
+[
+  {
+    "variable_id": "t2m",
+    "variable_title": "2-Meter Air Temperature",
+    "unit": "\u00b0C",
+    "rate_unit": "\u00b0C/decade",
+    "n_observations": 300,
+    "period": "2001-01-01 to 2025-12-01",
+    "seasonal_mk": {
+      "direction": "decreasing",
+      "sen_slope_per_decade": -0.1593,
+      "p_value": 0.049772,
+      "is_significant": true
+    },
+    "deseasonalized_mk": {
+      "method_applied": "modified_mann_kendall_yue_pilon",
+      "direction": "no_detected_trend",
+      "sen_slope_per_decade": -0.1576,
+      "ci_lower_decade": -0.3302,
+      "ci_upper_decade": 0.0079,
+      "p_value": 0.057176,
+      "is_significant": false
+    },
+    "ols_linear": {
+      "direction": "no_detected_trend",
+      "slope_per_decade": -0.1429,
+      "p_value": 0.116011,
+      "is_significant": false
+    }
+  },
+  {
+    "variable_id": "ts",
+    "variable_title": "Surface Skin Temperature",
+    "unit": "\u00b0C",
+    "rate_unit": "\u00b0C/decade",
+    "n_observations": 300,
+    "period": "2001-01-01 to 2025-12-01",
+    "seasonal_mk": {
+      "direction": "decreasing",
+      "sen_slope_per_decade": -0.2862,
+      "p_value": 0.01103,
+      "is_significant": true
+    },
+    "deseasonalized_mk": {
+      "method_applied": "modified_mann_kendall_yue_pilon",
+      "direction": "decreasing",
+      "sen_slope_per_decade": -0.2546,
+      "ci_lower_decade": -0.4462,
+      "ci_upper_decade": -0.0657,
+      "p_value": 0.003706,
+      "is_significant": true
+    },
+    "ols_linear": {
+      "direction": "decreasing",
+      "slope_per_decade": -0.2649,
+      "p_value": 0.007335,
+      "is_significant": true
+    }
+  },
+  {
+    "variable_id": "precipitation",
+    "variable_title": "Total Precipitation",
+    "unit": "mm/month",
+    "rate_unit": "mm/month/decade",
+    "n_observations": 297,
+    "period": "2001-01-01 to 2025-09-01",
+    "seasonal_mk": {
+      "direction": "increasing",
+      "sen_slope_per_decade": 6.1557,
+      "p_value": 0.0,
+      "is_significant": true
+    },
+    "deseasonalized_mk": {
+      "method_applied": "modified_mann_kendall_yue_pilon",
+      "direction": "increasing",
+      "sen_slope_per_decade": 7.2895,
+      "ci_lower_decade": 5.2464,
+      "ci_upper_decade": 9.4949,
+      "p_value": 0.0,
+      "is_significant": true
+    },
+    "ols_linear": {
+      "direction": "increasing",
+      "slope_per_decade": 13.2282,
+      "p_value": 0.0,
+      "is_significant": true
+    }
+  },
+  {
+    "variable_id": "evapotranspiration",
+    "variable_title": "Total Evapotranspiration",
+    "unit": "mm/month",
+    "rate_unit": "mm/month/decade",
+    "n_observations": 300,
+    "period": "2001-01-01 to 2025-12-01",
+    "seasonal_mk": {
+      "direction": "increasing",
+      "sen_slope_per_decade": 2.9071,
+      "p_value": 0.0,
+      "is_significant": true
+    },
+    "deseasonalized_mk": {
+      "method_applied": "modified_mann_kendall_yue_pilon",
+      "direction": "increasing",
+      "sen_slope_per_decade": 3.3163,
+      "ci_lower_decade": 2.154,
+      "ci_upper_decade": 4.4787,
+      "p_value": 0.0,
+      "is_significant": true
+    },
+    "ols_linear": {
+      "direction": "increasing",
+      "slope_per_decade": 3.7963,
+      "p_value": 0.0,
+      "is_significant": true
+    }
+  },
+  {
+    "variable_id": "soil_moisture_0_10cm",
+    "variable_title": "Topsoil Moisture (0-10 cm)",
+    "unit": "kg/m\u00b2",
+    "rate_unit": "kg/m\u00b2/decade",
+    "n_observations": 297,
+    "period": "2001-01-01 to 2025-09-01",
+    "seasonal_mk": {
+      "direction": "increasing",
+      "sen_slope_per_decade": 1.0529,
+      "p_value": 1e-06,
+      "is_significant": true
+    },
+    "deseasonalized_mk": {
+      "method_applied": "modified_mann_kendall_yue_pilon",
+      "direction": "increasing",
+      "sen_slope_per_decade": 1.0634,
+      "ci_lower_decade": 0.6572,
+      "ci_upper_decade": 1.4536,
+      "p_value": 0.0,
+      "is_significant": true
+    },
+    "ols_linear": {
+      "direction": "increasing",
+      "slope_per_decade": 1.0053,
+      "p_value": 1e-06,
+      "is_significant": true
+    }
+  },
+  {
+    "variable_id": "soil_moisture_10_40cm",
+    "variable_title": "Rootzone Moisture (10-40 cm)",
+    "unit": "kg/m\u00b2",
+    "rate_unit": "kg/m\u00b2/decade",
+    "n_observations": 297,
+    "period": "2001-01-01 to 2025-09-01",
+    "seasonal_mk": {
+      "direction": "increasing",
+      "sen_slope_per_decade": 1.8528,
+      "p_value": 0.0,
+      "is_significant": true
+    },
+    "deseasonalized_mk": {
+      "method_applied": "modified_mann_kendall_yue_pilon",
+      "direction": "increasing",
+      "sen_slope_per_decade": 1.9711,
+      "ci_lower_decade": 1.3012,
+      "ci_upper_decade": 2.64,
+      "p_value": 0.0,
+      "is_significant": true
+    },
+    "ols_linear": {
+      "direction": "increasing",
+      "slope_per_decade": 2.1222,
+      "p_value": 0.0,
+      "is_significant": true
+    }
+  }
+]

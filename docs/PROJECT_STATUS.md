@@ -15,6 +15,7 @@ The project operates under a stage-gated autonomous engineering protocol:
 - **Stage 1 (Dataset Discovery & Audit):** `COMPLETE`
 - **Stage 2 (Data Ingestion & Preprocessing):** `COMPLETE`
 - **Stage 3 (Exploratory Data Analysis):** `COMPLETE`
+- **Stage 4 (Statistical Trend Detection):** `COMPLETE`
 
 ---
 
@@ -26,9 +27,9 @@ The project operates under a stage-gated autonomous engineering protocol:
 | **Stage 1** | Dataset Discovery & Audit | **COMPLETE** | Data Engineer | Yes |
 | **Stage 2** | Data Ingestion & Preprocessing | **COMPLETE** | Data Engineer | Yes |
 | **Stage 3** | Exploratory Data Analysis | **COMPLETE** | Data Scientist | Yes |
-| **Stage 4** | Statistical Trend Detection | **NOT STARTED** | Statistical Analyst | Pending |
+| **Stage 4** | Statistical Trend Detection | **COMPLETE** | Statistical Analyst | Yes |
 | **Stage 5** | Forecasting & Machine Learning | **NOT STARTED** | ML Engineer | Pending |
-| **Stage 6** | Backend API Services | **IN PROGRESS** | Backend Engineer | Partial (Stage 2 endpoints live) |
+| **Stage 6** | Backend API Services | **IN PROGRESS** | Backend Engineer | Partial (Stages 2 & 4 endpoints live) |
 | **Stage 7** | Frontend Dashboard | **NOT STARTED** | Frontend Engineer | Pending |
 | **Stage 8** | Geographic Intelligence | **NOT STARTED** | Data Engineer / GIS | Pending |
 | **Stage 9** | End-to-End Integration | **NOT STARTED** | Architect / Integrator | Pending |
@@ -53,49 +54,60 @@ The project operates under a stage-gated autonomous engineering protocol:
 
 ### Stage 3 — Exploratory Data Analysis (EDA)
 - **Status:** `COMPLETE`
-- **Owner / Agent Role:** Data Scientist
-- **Prerequisites:** Stage 2 canonical datasets in `data/processed/`.
+- **Acceptance Criteria:** All passed.
+
+### Stage 4 — Statistical Trend Detection
+- **Status:** `COMPLETE`
+- **Owner / Agent Role:** Statistical Analyst
+- **Prerequisites:** Stages 1–3 complete.
 - **Implementation Summary:**
-  - Built comprehensive EDA analytical module (`backend/analytics/eda/analyzer.py`).
-  - Computed parametric and non-parametric descriptive statistics (mean, median, IQR, skewness, kurtosis) across all 6 variables.
-  - Decomposed 12-month annual climatological rhythms and identified seasonal phase relationships (June thermal peak vs July–August monsoon peak).
-  - Computed Pearson and Spearman cross-variable correlation matrices on both observed values and deseasonalized anomalies.
-  - Uncovered key physical couplings:
-    - Dominant water-limited regime: Evapotranspiration anomaly correlates with topsoil moisture at $r = +0.896$.
-    - Negative evaporative/cloud albedo cooling: Precipitation anomaly correlates with air temperature at $r = -0.443$ and surface skin temperature at $r = -0.517$.
-    - Soil hydraulic continuity: Topsoil and rootzone moisture correlate at $r = +0.868$.
-  - Detected and verified historic environmental extreme events against documented literature:
-    - July–August 2022 catastrophic floods ($+11.59\sigma$ and $+6.40\sigma$ rainfall, all-time record soil moisture and evapotranspiration).
-    - August 2010 Indus super-floods ($+2.10\sigma$ rootzone storage).
-    - 2001–2002 severe prolonged agricultural drought (all-time moisture minimums).
-    - March–April 2022 unprecedented pre-monsoon heatwave ($+2.36\sigma$ thermal anomaly).
-  - Generated visual diagnostic figure assets in `docs/figures/`:
-    - `historical_timeseries_all.png`
-    - `seasonal_climatology_all.png`
-    - `anomaly_timeseries_all.png`
-    - `correlation_heatmaps.png`
-  - Authored comprehensive report: `docs/eda-findings.md`.
-  - Added automated test suite: `backend/tests/test_eda.py`.
+  - Built comprehensive statistical package in `backend/analytics/trend_detection/methods.py`:
+    - Parametric OLS regression with $R^2$, standard error, and $t$-test.
+    - Non-parametric Mann-Kendall test ($S$ statistic, tie-adjusted variance, $Z$ normal approximation).
+    - Sen's median robust slope estimator with exact rank-based non-parametric confidence intervals.
+    - Yue-Pilon Trend-Free Pre-Whitening (TFPW) Modified Mann-Kendall for autocorrelated series.
+    - Seasonal Mann-Kendall (Hirsch et al. 1982) pooling across 12 calendar seasons.
+    - Serial autocorrelation diagnostics (lag-1 to lag-12 ACF).
+  - Built high-level analysis service: `backend/analytics/trend_detection/engine.py`.
+  - Exposed analytical endpoint: `POST /api/v1/analysis/trend` returning standard `TrendResponse`.
+  - Created reproducible suite runner: `scripts/run_trends.py`.
+  - Generated output tables and diagnostic plots:
+    - `data/metadata/trend_analysis_results.json`
+    - `docs/figures/trend_fitted_plots.png`
+  - Authored comprehensive mathematical documentation: `docs/statistical-methodology.md`.
+  - Added automated test suite: `backend/tests/test_trends.py`.
+- **Key Scientific Findings (Pakistan 2001–2025):**
+  - **Precipitation:** Statistically significant increasing trend ($+7.29\text{ mm/mo/decade}$ Sen's slope, $p < 0.0001$).
+  - **Evapotranspiration:** Statistically significant increasing trend ($+3.32\text{ mm/mo/decade}$ Sen's slope, $p < 0.0001$).
+  - **Topsoil & Rootzone Moisture:** Both layers show statistically significant wetting ($+1.06\text{ kg/m²}$ and $+1.97\text{ kg/m²}$ per decade, $p < 0.0001$).
+  - **Surface Skin Temperature (`ts`):** Statistically significant cooling trend ($-0.255^\circ\text{C}$ per decade, $p = 0.0037$), directly reflecting enhanced evaporative cooling from expanded rainfall and soil moisture.
+  - **2m Air Temperature (`t2m`):** Slight negative Sen's slope ($-0.158^\circ\text{C/decade}$), but not statistically significant at $\alpha = 0.05$ ($p = 0.0572$).
 - **Tests Run & Results:**
-  - `python scripts/run_eda.py`: 100% successful execution and figure rendering.
-  - `python -m pytest`: 20 passed in 11.02s (100% pass rate).
+  - Synthetic series tests: 100% correct classification of increasing, decreasing, and stationary noise series.
+  - Cross-validation: Native Mann-Kendall matches third-party `pymannkendall` reference package.
+  - Pytest suite: 26 passed in 6.42s (100% pass rate).
 - **Acceptance Criteria Verification:**
-  - [x] Each selected variable has a documented distribution and seasonal profile.
-  - [x] Seasonal and missing-data behavior is rigorously characterized.
-  - [x] Extreme values and historical anomalies have been forensically verified.
-  - [x] Methodological requirements for trend detection and forecasting are explicit.
-  - [x] Zero causal claims are inferred from correlation alone.
-- **Gate Passed:** Yes. System understanding and statistical requirements are established.
-- **Next Stage:** Stage 4 — Statistical Trend Detection.
+  - [x] Known synthetic series produce expected classifications.
+  - [x] Results are reproducible and unit-aware (unit/year and unit/decade).
+  - [x] Statistical assumptions and limitations are explicitly reported with every response.
+  - [x] API distinguishes trend magnitude, significance, and confidence intervals.
+- **Gate Passed:** Yes. Historical trend statistics are validated and reproducible.
+- **Next Stage:** Stage 5 — Forecasting and Machine Learning.
 
 ---
 
 ## 4. Current Work and Next Actions
 
-1. Proceed to **Stage 4**: Implement Statistical Trend Detection:
-   - Parametric Ordinary Least Squares (OLS) linear rate of change.
-   - Non-parametric Mann-Kendall test for monotonic trends.
-   - Robust Sen's slope estimator with unit-aware slopes (°C/decade, mm/decade, etc.).
-   - Autocorrelation diagnostics and pre-whitened / modified Mann-Kendall tests.
-   - Seasonal Mann-Kendall test on monthly series.
-   - Generate `docs/statistical-methodology.md` and test against synthetic benchmark series.
+1. Proceed to **Stage 5**: Forecasting and Machine Learning:
+   - Define chronological holdout split (e.g. 2001–2022 train, 2023–2025 test) strictly avoiding temporal data leakage.
+   - Implement baseline benchmarks:
+     - 12-month Seasonal Naive
+     - Lag-1 Persistence
+     - Linear Drift
+   - Implement machine learning forecasting models:
+     - Lagged Ridge Regression with seasonal Fourier features and cross-variable covariates (e.g. soil moisture predictor for evapotranspiration).
+     - Random Forest / Gradient Boosting regressor.
+   - Evaluate out-of-sample metrics (MAE, RMSE, $R^2$) across 12-month and 24-month horizons.
+   - Compute empirical prediction intervals.
+   - Connect `POST /api/v1/forecast` endpoint.
+   - Author `docs/forecasting-methodology.md`.
