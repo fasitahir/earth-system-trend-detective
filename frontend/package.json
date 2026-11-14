@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "node test-health-check.js"
+    "test": "node test-health-check.js && node test-e2e-workflow.js",
+    "test:e2e": "node test-e2e-workflow.js"
   },
   "dependencies": {
     "clsx": "^2.1.1",

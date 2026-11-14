@@ -141,3 +141,27 @@ async def test_openapi_docs_available():
         assert "/api/v1/regions" in paths
         assert "/api/v1/variables" in paths
         assert "/api/v1/forecast" in paths
+        assert "/api/v1/spatial/summary" in paths
+
+
+@pytest.mark.asyncio
+async def test_spatial_summary_endpoint():
+    """Verify /api/v1/spatial/summary returns valid bounding box, zones, and FDR-corrected trends."""
+    transport = ASGITransport(app=app)
+    async with AsyncClient(transport=transport, base_url="http://test") as client:
+        response = await client.get("/api/v1/spatial/summary")
+        assert response.status_code == 200
+        data = response.json()
+
+        assert data["region_id"] == "pakistan"
+        assert data["bounding_box"]["lat_min"] < data["bounding_box"]["lat_max"]
+        assert len(data["zones"]) == 5
+        assert len(data["variable_trends"]) == 6
+        assert "Benjamini-Hochberg" in data["multiple_testing_correction"]
+
+        # Check zone presence
+        zone_ids = [z["id"] for z in data["zones"]]
+        assert "northern_highlands" in zone_ids
+        assert "upper_indus" in zone_ids
+        assert "lower_indus" in zone_ids
+

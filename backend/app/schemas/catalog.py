@@ -95,3 +95,41 @@ class ReportDetailResponse(BaseModel):
     path: str
     description: str
     excerpt: str
+
+
+class EcologicalZone(BaseModel):
+    id: str
+    name: str
+    description: str
+    climate_classification: str
+    lat_center: float
+    lon_center: float
+    approx_elevation_m: str
+    vulnerability_profile: str
+
+
+class SpatialTrendLayer(BaseModel):
+    variable_id: str
+    variable_name: str
+    display_unit: str
+    sen_slope_per_decade: float
+    p_value: float
+    is_significant: bool
+    fdr_adjusted_p_value: float
+    trend_direction: str
+    spatial_scope: str
+
+
+class SpatialSummaryResponse(BaseModel):
+    region_id: str
+    region_name: str
+    projection: str
+    spatial_representation: str
+    bounding_box: BoundingBox
+    polygon_id: str
+    native_grid_resolutions: Dict[str, str]
+    zones: List[EcologicalZone]
+    variable_trends: List[SpatialTrendLayer]
+    multiple_testing_correction: str
+    limitations: List[str]
+

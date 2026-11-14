@@ -11,6 +11,7 @@ from backend.app.api.v1.endpoints import (
     reports,
     timeseries,
     trends,
+    spatial,
 )
 
 api_router = APIRouter()
@@ -22,3 +23,4 @@ api_router.include_router(anomalies.router, prefix="", tags=["Analysis"])
 api_router.include_router(forecast.router, prefix="", tags=["Forecasting"])
 api_router.include_router(models.router, prefix="", tags=["Forecasting"])
 api_router.include_router(reports.router, prefix="", tags=["Reports"])
+api_router.include_router(spatial.router, prefix="", tags=["Geographic Intelligence"])

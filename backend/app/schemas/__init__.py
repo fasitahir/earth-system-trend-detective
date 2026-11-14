@@ -14,6 +14,9 @@ from backend.app.schemas.catalog import (
     AnomalyRequest,
     AnomalyResponse,
     ReportListResponse,
+    EcologicalZone,
+    SpatialTrendLayer,
+    SpatialSummaryResponse,
 )
 
 __all__ = [
@@ -40,4 +43,7 @@ __all__ = [
     "AnomalyRequest",
     "AnomalyResponse",
     "ReportListResponse",
+    "EcologicalZone",
+    "SpatialTrendLayer",
+    "SpatialSummaryResponse",
 ]
