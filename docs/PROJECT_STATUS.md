@@ -16,6 +16,7 @@ The project operates under a stage-gated autonomous engineering protocol:
 - **Stage 2 (Data Ingestion & Preprocessing):** `COMPLETE`
 - **Stage 3 (Exploratory Data Analysis):** `COMPLETE`
 - **Stage 4 (Statistical Trend Detection):** `COMPLETE`
+- **Stage 5 (Forecasting & Machine Learning):** `COMPLETE`
 
 ---
 
@@ -28,8 +29,8 @@ The project operates under a stage-gated autonomous engineering protocol:
 | **Stage 2** | Data Ingestion & Preprocessing | **COMPLETE** | Data Engineer | Yes |
 | **Stage 3** | Exploratory Data Analysis | **COMPLETE** | Data Scientist | Yes |
 | **Stage 4** | Statistical Trend Detection | **COMPLETE** | Statistical Analyst | Yes |
-| **Stage 5** | Forecasting & Machine Learning | **NOT STARTED** | ML Engineer | Pending |
-| **Stage 6** | Backend API Services | **IN PROGRESS** | Backend Engineer | Partial (Stages 2 & 4 endpoints live) |
+| **Stage 5** | Forecasting & Machine Learning | **COMPLETE** | ML Engineer | Yes |
+| **Stage 6** | Backend API Services | **IN PROGRESS** | Backend Engineer | Partial (Core Endpoints Live) |
 | **Stage 7** | Frontend Dashboard | **NOT STARTED** | Frontend Engineer | Pending |
 | **Stage 8** | Geographic Intelligence | **NOT STARTED** | Data Engineer / GIS | Pending |
 | **Stage 9** | End-to-End Integration | **NOT STARTED** | Architect / Integrator | Pending |
@@ -58,56 +59,59 @@ The project operates under a stage-gated autonomous engineering protocol:
 
 ### Stage 4 — Statistical Trend Detection
 - **Status:** `COMPLETE`
-- **Owner / Agent Role:** Statistical Analyst
-- **Prerequisites:** Stages 1–3 complete.
+- **Acceptance Criteria:** All passed.
+
+### Stage 5 — Forecasting & Machine Learning
+- **Status:** `COMPLETE`
+- **Owner / Agent Role:** ML Engineer
+- **Prerequisites:** Stages 1–4 complete.
 - **Implementation Summary:**
-  - Built comprehensive statistical package in `backend/analytics/trend_detection/methods.py`:
-    - Parametric OLS regression with $R^2$, standard error, and $t$-test.
-    - Non-parametric Mann-Kendall test ($S$ statistic, tie-adjusted variance, $Z$ normal approximation).
-    - Sen's median robust slope estimator with exact rank-based non-parametric confidence intervals.
-    - Yue-Pilon Trend-Free Pre-Whitening (TFPW) Modified Mann-Kendall for autocorrelated series.
-    - Seasonal Mann-Kendall (Hirsch et al. 1982) pooling across 12 calendar seasons.
-    - Serial autocorrelation diagnostics (lag-1 to lag-12 ACF).
-  - Built high-level analysis service: `backend/analytics/trend_detection/engine.py`.
-  - Exposed analytical endpoint: `POST /api/v1/analysis/trend` returning standard `TrendResponse`.
-  - Created reproducible suite runner: `scripts/run_trends.py`.
-  - Generated output tables and diagnostic plots:
-    - `data/metadata/trend_analysis_results.json`
-    - `docs/figures/trend_fitted_plots.png`
-  - Authored comprehensive mathematical documentation: `docs/statistical-methodology.md`.
-  - Added automated test suite: `backend/tests/test_trends.py`.
-- **Key Scientific Findings (Pakistan 2001–2025):**
-  - **Precipitation:** Statistically significant increasing trend ($+7.29\text{ mm/mo/decade}$ Sen's slope, $p < 0.0001$).
-  - **Evapotranspiration:** Statistically significant increasing trend ($+3.32\text{ mm/mo/decade}$ Sen's slope, $p < 0.0001$).
-  - **Topsoil & Rootzone Moisture:** Both layers show statistically significant wetting ($+1.06\text{ kg/m²}$ and $+1.97\text{ kg/m²}$ per decade, $p < 0.0001$).
-  - **Surface Skin Temperature (`ts`):** Statistically significant cooling trend ($-0.255^\circ\text{C}$ per decade, $p = 0.0037$), directly reflecting enhanced evaporative cooling from expanded rainfall and soil moisture.
-  - **2m Air Temperature (`t2m`):** Slight negative Sen's slope ($-0.158^\circ\text{C/decade}$), but not statistically significant at $\alpha = 0.05$ ($p = 0.0572$).
+  - Designed strict chronological holdout evaluation protocol (2001–2022 train, 2023–2025 holdout test, 0 temporal data leakage).
+  - Built leakage-free feature extractor (`backend/ml/features/pipeline.py`):
+    - Lags 1, 2, 3, 12, 24
+    - Rolling 3-month and 12-month mean & standard deviation (shifted by 1)
+    - Harmonic Fourier seasonal terms ($\sin, \cos$ at annual and semi-annual frequencies)
+    - Linear time trend
+  - Built comprehensive model ladder (`backend/ml/training/models.py`):
+    - Baseline 1: Lag-1 Persistence
+    - Baseline 2: 12-Month Seasonal Naive
+    - Baseline 3: Linear Drift Baseline
+    - Candidate 1: Regularized Lagged Ridge Regressor (L2 + Feature Scaling)
+    - Candidate 2: Random Forest Time-Series Regressor
+  - Implemented chronological holdout validator (`backend/ml/evaluation/validator.py`) reporting MAE, RMSE, $R^2$, and Skill Score vs Seasonal Naive.
+  - Implemented forward projection inference service (`backend/ml/inference/service.py`) generating point predictions and calibrated $95\%$ prediction intervals ($\sigma_h = \text{RMSE} \cdot \sqrt{1 + h/12}$).
+  - Exposed REST endpoint: `POST /api/v1/forecast` matching `ForecastResponse` schema.
+  - Created execution script (`scripts/train_forecast_models.py`) saving:
+    - `data/metadata/model_evaluation_metrics.json`
+    - `docs/figures/forecast_holdout_comparison.png`
+    - `docs/figures/forecast_forward_24m.png`
+  - Authored comprehensive documentation: `docs/forecasting-methodology.md`.
+  - Added automated test suite: `backend/tests/test_forecast.py`.
+- **Key Empirical Results (Holdout 2023–2025):**
+  - **2m Air Temp (`t2m`):** Ridge MAE $1.32^\circ\text{C}$, RMSE $1.57^\circ\text{C}$, $R^2 = 0.95$ (**+29.04% skill score gain** over Seasonal Naive).
+  - **Surface Skin Temp (`ts`):** Ridge MAE $1.41^\circ\text{C}$, RMSE $1.64^\circ\text{C}$, $R^2 = 0.96$ (**+36.24% skill score gain**).
+  - **Total Precipitation:** Ridge MAE $23.90\text{ mm/mo}$, RMSE $32.65\text{ mm/mo}$, $R^2 = 0.28$ (**+54.45% skill score gain** over Seasonal Naive's $71.67\text{ mm/mo}$ error).
+  - **Total Evapotranspiration:** Random Forest MAE $5.55\text{ mm/mo}$, RMSE $7.31\text{ mm/mo}$, $R^2 = 0.84$ (**+43.02% skill score gain**).
+  - **Topsoil Moisture (0–10cm):** Ridge MAE $1.83\text{ kg/m²}$, RMSE $2.18\text{ kg/m²}$, $R^2 = 0.40$ (**+44.10% skill score gain**).
+  - **Rootzone Moisture (10–40cm):** Ridge MAE $2.21\text{ kg/m²}$, RMSE $2.89\text{ kg/m²}$, $R^2 = 0.63$ (**+54.31% skill score gain**).
 - **Tests Run & Results:**
-  - Synthetic series tests: 100% correct classification of increasing, decreasing, and stationary noise series.
-  - Cross-validation: Native Mann-Kendall matches third-party `pymannkendall` reference package.
-  - Pytest suite: 26 passed in 6.42s (100% pass rate).
+  - Pytest suite: 31 passed in 8.04s (100% pass rate).
 - **Acceptance Criteria Verification:**
-  - [x] Known synthetic series produce expected classifications.
-  - [x] Results are reproducible and unit-aware (unit/year and unit/decade).
-  - [x] Statistical assumptions and limitations are explicitly reported with every response.
-  - [x] API distinguishes trend magnitude, significance, and confidence intervals.
-- **Gate Passed:** Yes. Historical trend statistics are validated and reproducible.
-- **Next Stage:** Stage 5 — Forecasting and Machine Learning.
+  - [x] Zero temporal data leakage (all features and scalers constructed strictly on historical fold).
+  - [x] Evaluated against credible naive benchmarks (Persistence, Seasonal Naive, Drift).
+  - [x] Out-of-sample metrics reported honestly (MAE, RMSE, $R^2$).
+  - [x] Predictions are deterministic and reproducible.
+  - [x] Uncertainty intervals and model caveats are communicated.
+  - [x] Live API endpoint `POST /api/v1/forecast` is operational.
+- **Gate Passed:** Yes. Forecasting models and inference services are validated.
+- **Next Stage:** Stage 6 — Backend API Completion & Optimization.
 
 ---
 
 ## 4. Current Work and Next Actions
 
-1. Proceed to **Stage 5**: Forecasting and Machine Learning:
-   - Define chronological holdout split (e.g. 2001–2022 train, 2023–2025 test) strictly avoiding temporal data leakage.
-   - Implement baseline benchmarks:
-     - 12-month Seasonal Naive
-     - Lag-1 Persistence
-     - Linear Drift
-   - Implement machine learning forecasting models:
-     - Lagged Ridge Regression with seasonal Fourier features and cross-variable covariates (e.g. soil moisture predictor for evapotranspiration).
-     - Random Forest / Gradient Boosting regressor.
-   - Evaluate out-of-sample metrics (MAE, RMSE, $R^2$) across 12-month and 24-month horizons.
-   - Compute empirical prediction intervals.
-   - Connect `POST /api/v1/forecast` endpoint.
-   - Author `docs/forecasting-methodology.md`.
+1. Proceed to **Stage 6**: Backend API Completion & Optimization:
+   - Finalize any auxiliary analytical endpoints (e.g. `GET /api/v1/regions`, `GET /api/v1/models`, `GET /api/v1/models/{model_id}/metrics`).
+   - Add response caching and request downsampling utilities where needed.
+   - Verify complete OpenAPI schema documentation at `/api/v1/docs`.
+   - Ensure backend API is fully integrated before connecting into the Stage 7 frontend dashboard.
