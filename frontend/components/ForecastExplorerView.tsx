@@ -264,14 +264,10 @@ export function ForecastExplorerView({
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
           <div className="flex items-center gap-2">
             <label htmlFor="forecast-target-year" className="text-xs text-slate-400">
-              Look ahead to:
+              Forecast year:
             </label>
-            <input
+            <select
               id="forecast-target-year"
-              type="number"
-              min={minimumTargetYear}
-              max={maximumTargetYear}
-              step="1"
               value={effectiveTargetYear}
               onChange={(e) => {
                 const requestedYear = Number(e.target.value);
@@ -279,22 +275,17 @@ export function ForecastExplorerView({
                   setTargetYear(requestedYear);
                 }
               }}
-              className="w-20 bg-slate-800 border border-slate-700 rounded-lg px-2.5 py-1 text-xs text-slate-200"
-            />
-            <input
-              aria-label="Choose forecast target year from calendar"
-              type="date"
-              min={`${minimumTargetYear}-01-01`}
-              max={`${maximumTargetYear}-12-31`}
-              value={`${effectiveTargetYear}-01-01`}
-              onChange={(e) => {
-                const selectedYear = Number(e.target.value.slice(0, 4));
-                if (Number.isFinite(selectedYear)) {
-                  setTargetYear(selectedYear);
-                }
-              }}
-              className="rounded-lg border border-slate-700 bg-slate-800 px-2 py-1 text-xs text-slate-200"
-            />
+              className="rounded-lg border border-slate-700 bg-slate-800 px-3 py-1 text-xs text-slate-200"
+            >
+              {Array.from(
+                { length: maximumTargetYear - minimumTargetYear + 1 },
+                (_, index) => minimumTargetYear + index,
+              ).map((year) => (
+                <option key={year} value={year}>
+                  {year}
+                </option>
+              ))}
+            </select>
             <span className="text-[11px] text-slate-500">({horizonMonths} months)</span>
           </div>
           <div className="flex min-w-52 flex-1 items-center gap-3">
