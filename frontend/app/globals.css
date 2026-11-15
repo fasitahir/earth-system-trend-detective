@@ -145,9 +145,58 @@ input:focus-visible {
 .ring-emerald-500\/50 { --tw-ring-color: var(--color-focus) !important; }
 
 .earth-header {
-  background-color: var(--color-paper) !important;
+  background-color: color-mix(in oklch, var(--color-paper) 92%, var(--color-ocean)) !important;
   color: var(--color-ink) !important;
   border-color: var(--color-rule) !important;
+}
+
+.earth-brand-mark {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border: 1px solid var(--color-accent);
+  border-radius: 50%;
+  background: var(--color-ocean);
+  color: var(--color-accent-ink);
+}
+
+.earth-brand-ring {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  place-items: center;
+  border: 1px solid var(--color-sun);
+  border-radius: 50%;
+}
+
+.earth-brand-tag {
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-pill);
+  background: var(--color-paper-2);
+  color: var(--color-accent);
+  padding: 4px 8px;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.earth-header-action {
+  display: inline-flex;
+  min-height: 40px;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--color-accent);
+  border-radius: var(--radius-pill);
+  color: var(--color-accent);
+  padding: 0 16px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  transition: background-color 180ms ease, color 180ms ease;
+}
+
+.earth-header-action:hover {
+  background: var(--color-accent);
+  color: var(--color-accent-ink);
 }
 
 .earth-header nav {
@@ -294,6 +343,31 @@ input:disabled {
   min-height: 440px;
   place-items: center;
   isolation: isolate;
+}
+
+.earth-view {
+  position: relative;
+}
+
+.earth-view > section,
+.earth-view > div > div,
+.earth-view > div > section {
+  border-color: var(--color-rule) !important;
+}
+
+.earth-view .bg-slate-900\/80,
+.earth-view .bg-slate-900\/60,
+.earth-view .bg-slate-900\/50 {
+  background-color: color-mix(in oklch, var(--color-paper-2) 84%, var(--color-ocean)) !important;
+}
+
+.earth-view .bg-slate-950\/40,
+.earth-view .bg-slate-950\/60 {
+  background-color: color-mix(in oklch, var(--color-paper-3) 84%, var(--color-sand-haze)) !important;
+}
+
+.earth-view h2 {
+  max-width: 20ch;
 }
 
 .earth-orb {

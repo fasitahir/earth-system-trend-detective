@@ -239,7 +239,7 @@ export function ForecastExplorerView({
     : "Calculating projected change";
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto pb-12">
+    <div className="earth-view space-y-6 max-w-7xl mx-auto pb-12">
       {/* Configuration Controls Bar */}
       <div className="bg-slate-900/80 border border-slate-800 rounded-xl p-4 sm:p-5 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
         {/* Variable Selection */}

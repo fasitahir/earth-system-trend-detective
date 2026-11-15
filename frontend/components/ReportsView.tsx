@@ -170,7 +170,7 @@ export function ReportsView({ variables }: ReportsViewProps) {
   };
 
   return (
-    <div className="space-y-8 max-w-7xl mx-auto pb-12">
+    <div className="earth-view space-y-8 max-w-7xl mx-auto pb-12">
       {/* Top Header */}
       <section className="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 sm:p-8 space-y-4">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-semibold">

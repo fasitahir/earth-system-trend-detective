@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Compass, Server, FileText, TrendingUp, BarChart3, Globe2 } from "lucide-react";
+import { Compass, Server, FileText, TrendingUp, BarChart3, Globe2, ArrowUpRight } from "lucide-react";
 import { HealthStatus } from "@/lib/api";
 
 export type ActiveTab = "overview" | "trends" | "forecast" | "geographic" | "reports";
@@ -32,12 +32,12 @@ export function Navbar({
   ];
 
   return (
-    <header className="earth-header sticky top-0 z-50 border-b px-4 sm:px-6 py-3.5 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+    <header className="earth-header sticky top-0 z-50 border-b px-4 sm:px-8 py-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
       {/* Brand & Mission Tag */}
       <div className="flex items-center gap-3">
-        <div className="w-10 h-10 rounded-xl bg-emerald-700 p-0.5 shadow-lg shadow-emerald-950/50">
-          <div className="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center text-emerald-400">
-            <Compass className="w-5 h-5 animate-spin-slow" />
+        <div className="earth-brand-mark">
+          <div className="earth-brand-ring">
+            <Compass className="w-5 h-5" />
           </div>
         </div>
 
@@ -46,9 +46,7 @@ export function Navbar({
             <h1 className="text-lg font-bold tracking-tight text-white flex items-center gap-1.5">
               EarthScope
             </h1>
-            <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-emerald-950/80 border border-emerald-700/60 text-emerald-300">
-              Pakistan
-            </span>
+            <span className="earth-brand-tag">Pakistan</span>
           </div>
           <p className="text-sm text-slate-400 hidden sm:block">
             A clearer view of climate change
@@ -101,6 +99,12 @@ export function Navbar({
               ? `API Connected (v${health.version})`
               : "API Standby"}
           </span>
+        </button>
+        <button
+          onClick={() => setActiveTab("trends")}
+          className="earth-header-action"
+        >
+          Explore the record <ArrowUpRight className="h-4 w-4" />
         </button>
       </div>
     </header>

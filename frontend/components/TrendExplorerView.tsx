@@ -248,7 +248,7 @@ export function TrendExplorerView({
   };
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto pb-12">
+    <div className="earth-view space-y-6 max-w-7xl mx-auto pb-12">
       {/* Top Filter and Configuration Bar */}
       <div className="bg-slate-900/80 border border-slate-800 rounded-xl p-4 sm:p-5 space-y-4">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">

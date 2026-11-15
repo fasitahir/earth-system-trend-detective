@@ -138,7 +138,7 @@ export function GeographicView({ variables, onSelectVariable }: GeographicViewPr
   };
 
   return (
-    <div className="space-y-8 max-w-7xl mx-auto pb-12">
+    <div className="earth-view space-y-8 max-w-7xl mx-auto pb-12">
       {/* Geospatial Header Banner */}
       <section className="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 sm:p-8 space-y-4">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-semibold">
