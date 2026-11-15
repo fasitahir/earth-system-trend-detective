@@ -27,6 +27,8 @@
   --color-orb-deep: oklch(13% 0.08 230 / 0.42);
   --color-orb-light: oklch(100% 0 0 / 0.16);
   --color-orb-glint: oklch(100% 0 0 / 0.26);
+  --color-sand-haze: oklch(91% 0.035 70);
+  --earth-image: url("https://eoimages.gsfc.nasa.gov/images/imagerecords/57000/57730/globe_west_2048.jpg");
   --color-error: oklch(48% 0.14 28);
   --font-display: "Funnel Display", ui-sans-serif, system-ui, sans-serif;
   --font-body: "Funnel Sans", ui-sans-serif, system-ui, sans-serif;
@@ -41,6 +43,25 @@
 html,
 body {
   overflow-x: clip;
+}
+
+.earth-main {
+  position: relative;
+  isolation: isolate;
+}
+
+.earth-main::before {
+  position: fixed;
+  z-index: -1;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background:
+    radial-gradient(circle at 88% 9%, var(--color-accent-soft), transparent 23%),
+    radial-gradient(circle at 10% 70%, var(--color-sand-haze), transparent 30%);
+  content: "";
+  pointer-events: none;
 }
 
 body {
@@ -297,12 +318,24 @@ input:disabled {
   animation: earth-turn 24s linear infinite;
 }
 
-.earth-orb-glow {
+.earth-orb-image {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background-image: var(--earth-image);
+  background-position: center;
+  background-size: cover;
+  animation: earth-turn 48s linear infinite;
+}
+
+.earth-orb-shade {
   position: absolute;
   inset: 5%;
   border-radius: 50%;
-  background: radial-gradient(circle at 30% 25%, var(--color-orb-glint), transparent 34%);
-  mix-blend-mode: screen;
+  background:
+    radial-gradient(circle at 28% 22%, var(--color-orb-glint), transparent 30%),
+    linear-gradient(110deg, transparent 38%, var(--color-orb-deep) 100%);
+  mix-blend-mode: soft-light;
 }
 
 .earth-orbit {
@@ -434,7 +467,7 @@ input:disabled {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .earth-orb-surface,
+  .earth-orb-image,
   .earth-orbit-one,
   .earth-orbit-two {
     animation: none;

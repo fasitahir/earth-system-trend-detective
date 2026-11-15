@@ -55,12 +55,12 @@ export function OverviewView({ variables, onSelectVariable }: OverviewViewProps)
           <div className="earth-orbit earth-orbit-one" />
           <div className="earth-orbit earth-orbit-two" />
           <div className="earth-orb" aria-hidden="true">
-            <div className="earth-orb-surface" />
-            <div className="earth-orb-glow" />
+            <div className="earth-orb-image" />
+            <div className="earth-orb-shade" />
           </div>
           <div className="earth-visual-caption">
-            <span>One country</span>
-            <span>Six connected signals</span>
+            <span>One planet</span>
+            <span>NASA Blue Marble</span>
           </div>
         </div>
       </section>
