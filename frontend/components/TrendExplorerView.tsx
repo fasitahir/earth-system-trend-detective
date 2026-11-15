@@ -250,8 +250,8 @@ export function TrendExplorerView({
   return (
     <div className="earth-view space-y-6 max-w-7xl mx-auto pb-12">
       {/* Top Filter and Configuration Bar */}
-      <div className="bg-slate-900/80 border border-slate-800 rounded-xl p-4 sm:p-5 space-y-4">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+      <div className="earth-control-bar bg-slate-900/80 border border-slate-800 rounded-xl p-4 sm:p-5 space-y-4">
+        <div className="flex flex-wrap items-center justify-between gap-4">
         {/* Variable Selector */}
         <div className="flex flex-col sm:flex-row sm:items-center gap-3">
           <label className="text-xs font-semibold text-slate-300 flex items-center gap-1.5">
@@ -272,7 +272,7 @@ export function TrendExplorerView({
         </div>
 
         {/* View Controls: Observed vs Anomaly */}
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <span className="text-xs text-slate-400 hidden sm:inline">Series:</span>
           <div className="inline-flex rounded-lg bg-slate-800 p-0.5 border border-slate-700">
             <button
@@ -299,7 +299,7 @@ export function TrendExplorerView({
         </div>
 
         {/* Method & Significance Toggles */}
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3">
           <label className="text-xs text-slate-400 flex items-center gap-1.5">
             <BarChart3 className="w-4 h-4 text-emerald-400" />
             <span>Graph</span>

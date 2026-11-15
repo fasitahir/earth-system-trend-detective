@@ -33,8 +33,24 @@ export function OverviewView({ variables, onSelectVariable }: OverviewViewProps)
   return (
     <div className="earth-overview mx-auto max-w-7xl space-y-16 pb-16">
       <section className="earth-landing-hero">
+        <div className="earth-hero-media" aria-hidden="true">
+          <video
+            className="earth-hero-video"
+            autoPlay
+            muted
+            loop
+            playsInline
+            poster="https://svs.gsfc.nasa.gov/vis/a000000/a005200/a005259/PACE_EarthDay2024.03800_print.jpg"
+          >
+            <source
+              src="https://svs.gsfc.nasa.gov/vis/a000000/a005200/a005259/PACE_EarthDay2024_1080p60.mp4"
+              type="video/mp4"
+            />
+          </video>
+        </div>
+        <div className="earth-hero-overlay" aria-hidden="true" />
         <div className="earth-hero-copy">
-          <p className="earth-kicker">Pakistan · 2001 to 2025</p>
+          <p className="earth-kicker">NASA Earth science visualization for Pakistan from 2001 to 2025</p>
           <h2>Read Pakistan&apos;s climate as a landscape.</h2>
           <p className="earth-hero-lead">
             Temperature, rainfall, water in the soil, and evaporation brought
@@ -47,22 +63,10 @@ export function OverviewView({ variables, onSelectVariable }: OverviewViewProps)
             >
               Explore temperature <ArrowRight className="h-4 w-4" />
             </button>
-            <span className="earth-hero-note">NASA data · Pakistan average</span>
+            <span className="earth-hero-note">NASA data for the Pakistan average</span>
           </div>
         </div>
 
-        <div className="earth-hero-visual" aria-label="A slowly rotating illustration of Earth">
-          <div className="earth-orbit earth-orbit-one" />
-          <div className="earth-orbit earth-orbit-two" />
-          <div className="earth-orb" aria-hidden="true">
-            <div className="earth-orb-image" />
-            <div className="earth-orb-shade" />
-          </div>
-          <div className="earth-visual-caption">
-            <span>One planet</span>
-            <span>NASA Blue Marble</span>
-          </div>
-        </div>
       </section>
 
       <section className="earth-entry-section space-y-7">

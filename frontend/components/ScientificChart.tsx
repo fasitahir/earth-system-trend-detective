@@ -236,18 +236,18 @@ export function ScientificChart({
   }
 
   return (
-    <div className="relative w-full bg-slate-900/80 rounded-xl border border-slate-800/80 p-4 shadow-md">
+    <div className="earth-chart relative w-full bg-slate-900/80 rounded-xl border border-slate-800/80 p-4 shadow-md">
       {title && (
         <div className="flex items-center justify-between mb-3 px-2">
           <div className="flex items-center gap-2">
-            <h4 className="text-sm font-semibold text-slate-100">{title}</h4>
-            <span className="text-xs px-2 py-0.5 rounded bg-slate-800 text-slate-400 font-mono">
+            <h4 className="earth-chart-title text-sm font-semibold text-slate-100">{title}</h4>
+            <span className="earth-chart-unit text-xs px-2 py-0.5 rounded bg-slate-800 text-slate-400 font-mono">
               {unit}
             </span>
           </div>
 
           {/* Interactive Legend */}
-          <div className="flex items-center gap-4 text-xs text-slate-300">
+          <div className="earth-chart-legend flex items-center gap-4 text-xs text-slate-300">
             <div className="flex items-center gap-1.5">
               <span className={`w-3 ${chartType === "bars" ? "h-2 rounded-sm" : "h-0.5 rounded-full"} bg-blue-400`} />
               <span>{chartType === "seasonal" ? "Monthly average" : chartType === "bars" ? "Monthly anomaly" : "Observed"}</span>
@@ -285,12 +285,12 @@ export function ScientificChart({
         >
           <defs>
             <linearGradient id="forecastAreaGradient" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#10b981" stopOpacity="0.25" />
-              <stop offset="100%" stopColor="#10b981" stopOpacity="0.05" />
+              <stop offset="0%" stopColor="var(--color-chart-forecast)" stopOpacity="0.25" />
+              <stop offset="100%" stopColor="var(--color-chart-forecast)" stopOpacity="0.05" />
             </linearGradient>
             <linearGradient id="historyGradient" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#38bdf8" stopOpacity="0.15" />
-              <stop offset="100%" stopColor="#38bdf8" stopOpacity="0.0" />
+              <stop offset="0%" stopColor="var(--color-chart-history)" stopOpacity="0.15" />
+              <stop offset="100%" stopColor="var(--color-chart-history)" stopOpacity="0.0" />
             </linearGradient>
           </defs>
 
@@ -304,7 +304,7 @@ export function ScientificChart({
                   y1={y}
                   x2={width - margin.right}
                   y2={y}
-                  stroke="#334155"
+                  stroke="var(--color-chart-grid)"
                   strokeDasharray="3 3"
                   strokeWidth="0.75"
                 />
@@ -312,7 +312,7 @@ export function ScientificChart({
                   x={margin.left - 10}
                   y={y + 4}
                   textAnchor="end"
-                  className="fill-slate-400 text-[10px] font-mono select-none"
+                  className="earth-chart-axis-label fill-slate-400 text-[10px] font-mono select-none"
                 >
                   {tick.toFixed(tick < 10 && tick > -10 ? 2 : 1)}
                 </text>
@@ -330,14 +330,14 @@ export function ScientificChart({
                   y1={margin.top + innerHeight}
                   x2={x}
                   y2={margin.top + innerHeight + 5}
-                  stroke="#475569"
+                  stroke="var(--color-chart-axis)"
                   strokeWidth="1"
                 />
                 <text
                   x={x}
                   y={margin.top + innerHeight + 18}
                   textAnchor="middle"
-                  className="fill-slate-400 text-[10px] font-mono select-none"
+                  className="earth-chart-axis-label fill-slate-400 text-[10px] font-mono select-none"
                 >
                   {xt.label}
                 </text>
@@ -352,7 +352,7 @@ export function ScientificChart({
               x={-(margin.top + innerHeight / 2)}
               y={18}
               textAnchor="middle"
-              className="fill-slate-400 text-[11px] font-medium tracking-wide select-none"
+              className="earth-chart-axis-title fill-slate-400 text-[11px] font-medium tracking-wide select-none"
             >
               {yLabel} ({unit})
             </text>
@@ -363,7 +363,7 @@ export function ScientificChart({
             <path
               d={intervalPath}
               fill="url(#forecastAreaGradient)"
-              stroke="#10b981"
+              stroke="var(--color-chart-forecast)"
               strokeWidth="0.5"
               strokeOpacity="0.4"
             />
@@ -374,7 +374,7 @@ export function ScientificChart({
             <path
               d={trendPath}
               fill="none"
-              stroke="#fbbf24"
+              stroke="var(--color-chart-trend)"
               strokeWidth="2"
               strokeDasharray="5 3"
               strokeOpacity="0.9"
@@ -386,7 +386,7 @@ export function ScientificChart({
             <path
               d={historicalPath}
               fill="none"
-              stroke={chartType === "seasonal" ? "#0f766e" : "#38bdf8"}
+              stroke={chartType === "seasonal" ? "var(--color-accent-hi)" : "var(--color-chart-history)"}
               strokeWidth={chartType === "seasonal" ? "3" : "2"}
               strokeLinejoin="round"
               strokeLinecap="round"
@@ -400,7 +400,7 @@ export function ScientificChart({
                 y1={baselineY}
                 x2={width - margin.right}
                 y2={baselineY}
-                stroke="#64748b"
+                stroke="var(--color-chart-axis)"
                 strokeWidth="1"
               />
               {data.map((point, index) => {
@@ -414,7 +414,7 @@ export function ScientificChart({
                     y={Math.min(y, baselineY)}
                     width={barWidth}
                     height={Math.max(1, Math.abs(baselineY - y))}
-                    fill={point.value >= 0 ? "#0f766e" : "#b45309"}
+                    fill={point.value >= 0 ? "var(--color-accent-hi)" : "var(--color-warm)"}
                     opacity="0.82"
                     rx="1"
                   />
@@ -428,7 +428,7 @@ export function ScientificChart({
             <path
               d={forecastPath}
               fill="none"
-              stroke="#10b981"
+              stroke="var(--color-chart-forecast)"
               strokeWidth="2.5"
               strokeDasharray="4 2"
               strokeLinejoin="round"
@@ -451,7 +451,7 @@ export function ScientificChart({
               <text
                 x={originX + 4}
                 y={margin.top + 14}
-                className="fill-purple-300 text-[9px] font-semibold"
+                className="earth-chart-origin-label fill-purple-300 text-[9px] font-semibold"
               >
                 Forecast Origin
               </text>
@@ -479,7 +479,7 @@ export function ScientificChart({
                   x={px}
                   y={py - 8}
                   textAnchor="middle"
-                  className="fill-rose-300 text-[10px] font-bold"
+                  className="earth-chart-highlight-label fill-rose-300 text-[10px] font-bold"
                 >
                   {hp.label}
                 </text>

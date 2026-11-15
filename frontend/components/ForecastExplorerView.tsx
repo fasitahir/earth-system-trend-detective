@@ -241,7 +241,7 @@ export function ForecastExplorerView({
   return (
     <div className="earth-view space-y-6 max-w-7xl mx-auto pb-12">
       {/* Configuration Controls Bar */}
-      <div className="bg-slate-900/80 border border-slate-800 rounded-xl p-4 sm:p-5 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+      <div className="earth-control-bar bg-slate-900/80 border border-slate-800 rounded-xl p-4 sm:p-5 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
         {/* Variable Selection */}
         <div className="flex flex-col sm:flex-row sm:items-center gap-3">
           <label className="text-xs font-semibold text-slate-300 flex items-center gap-1.5">

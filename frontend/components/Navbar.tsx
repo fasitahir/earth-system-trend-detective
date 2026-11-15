@@ -36,9 +36,8 @@ export function Navbar({
       {/* Brand & Mission Tag */}
       <div className="flex items-center gap-3">
         <div className="earth-brand-mark">
-          <div className="earth-brand-ring">
-            <Compass className="w-5 h-5" />
-          </div>
+          <span className="earth-brand-image" aria-hidden="true" />
+          <span className="earth-brand-ring" aria-hidden="true" />
         </div>
 
         <div>
