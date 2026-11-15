@@ -130,6 +130,25 @@ Restricted example:
 ["https://your-frontend.vercel.app"]
 ```
 
+### Vercel deployment
+
+The frontend includes [`frontend/vercel.json`](frontend/vercel.json). Create a
+Vercel project from this repository and set the project root directory to:
+
+```text
+frontend
+```
+
+Vercel will use the included Next.js configuration. Add this environment
+variable in the Vercel project settings:
+
+```text
+NEXT_PUBLIC_API_URL=https://your-backend.onrender.com
+```
+
+Use the backend root URL only; do not append `/api/v1`. The frontend adds API
+paths itself. Redeploy after setting or changing this variable.
+
 ---
 
 ## 5. Stage Progress & Next Steps

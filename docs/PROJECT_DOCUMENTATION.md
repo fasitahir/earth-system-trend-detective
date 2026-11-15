@@ -987,6 +987,9 @@ Set the project root to:
 frontend
 ```
 
+The repository includes [`frontend/vercel.json`](../frontend/vercel.json) with
+the Next.js framework, install command, and production build command.
+
 Build command:
 
 ```bash
