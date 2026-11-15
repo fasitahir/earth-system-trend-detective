@@ -18,6 +18,15 @@
   --color-accent-soft: oklch(89% 0.04 185);
   --color-focus: oklch(48% 0.14 190);
   --color-warm: oklch(55% 0.14 58);
+  --color-ocean: oklch(39% 0.1 224);
+  --color-land: oklch(58% 0.12 112);
+  --color-land-deep: oklch(41% 0.1 137);
+  --color-sun: oklch(76% 0.12 72);
+  --color-heat: oklch(59% 0.15 35);
+  --color-orb-shadow: oklch(30% 0.08 220 / 0.45);
+  --color-orb-deep: oklch(13% 0.08 230 / 0.42);
+  --color-orb-light: oklch(100% 0 0 / 0.16);
+  --color-orb-glint: oklch(100% 0 0 / 0.26);
   --color-error: oklch(48% 0.14 28);
   --font-display: "Funnel Display", ui-sans-serif, system-ui, sans-serif;
   --font-body: "Funnel Sans", ui-sans-serif, system-ui, sans-serif;
@@ -40,6 +49,11 @@ body {
   min-height: 100vh;
   font-family: var(--font-body);
   font-synthesis: none;
+}
+
+::selection {
+  background-color: var(--color-accent-soft);
+  color: var(--color-ink);
 }
 
 h1,
@@ -186,4 +200,243 @@ input:disabled {
 * {
   scrollbar-color: var(--color-rule) var(--color-paper-2);
   scrollbar-width: thin;
+}
+
+.earth-overview {
+  position: relative;
+}
+
+.earth-landing-hero {
+  display: grid;
+  min-height: 570px;
+  grid-template-columns: minmax(0, 0.9fr) minmax(360px, 1.1fr);
+  align-items: center;
+  gap: clamp(32px, 7vw, 112px);
+  border-bottom: 1px solid var(--color-rule);
+  padding: clamp(32px, 6vw, 72px) 0 64px;
+}
+
+.earth-hero-copy {
+  position: relative;
+  z-index: 2;
+  max-width: 600px;
+}
+
+.earth-kicker {
+  color: var(--color-accent);
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.earth-hero-copy h2 {
+  max-width: 16ch;
+  margin-top: 20px;
+  font-size: clamp(3rem, 5vw, 5.2rem);
+  line-height: 0.94;
+}
+
+.earth-hero-lead {
+  max-width: 34rem;
+  margin-top: 28px;
+  color: var(--color-muted);
+  font-size: clamp(1.05rem, 1.7vw, 1.35rem);
+  line-height: 1.55;
+}
+
+.earth-primary-action {
+  display: inline-flex;
+  min-height: 48px;
+  align-items: center;
+  gap: 8px;
+  border-radius: var(--radius-pill);
+  background: var(--color-accent);
+  color: var(--color-accent-ink);
+  padding: 0 20px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  transition: transform 180ms ease, background-color 180ms ease;
+}
+
+.earth-primary-action:hover {
+  background: var(--color-accent-hi);
+  transform: translateY(-2px);
+}
+
+.earth-hero-note {
+  color: var(--color-muted);
+  font-size: 0.8rem;
+}
+
+.earth-hero-visual {
+  position: relative;
+  display: grid;
+  min-height: 440px;
+  place-items: center;
+  isolation: isolate;
+}
+
+.earth-orb {
+  position: relative;
+  z-index: 2;
+  width: min(36vw, 390px);
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 50%;
+  background: var(--color-ocean);
+  box-shadow: 0 28px 80px -34px var(--color-orb-shadow), inset -34px -18px 48px var(--color-orb-deep), inset 22px 10px 38px var(--color-orb-light);
+}
+
+.earth-orb-surface {
+  position: absolute;
+  inset: -8%;
+  border-radius: 50%;
+  background:
+    conic-gradient(from 25deg, transparent 0 14%, var(--color-land) 15% 23%, transparent 24% 38%, var(--color-land-deep) 39% 47%, transparent 48% 62%, var(--color-land) 63% 73%, transparent 74% 100%);
+  filter: blur(1px);
+  transform: rotate(0deg) scale(1.08);
+  animation: earth-turn 24s linear infinite;
+}
+
+.earth-orb-glow {
+  position: absolute;
+  inset: 5%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 25%, var(--color-orb-glint), transparent 34%);
+  mix-blend-mode: screen;
+}
+
+.earth-orbit {
+  position: absolute;
+  z-index: 1;
+  width: min(45vw, 500px);
+  aspect-ratio: 1;
+  border: 1px solid var(--color-rule);
+  border-radius: 50%;
+  transform: rotate(-24deg) scaleY(0.35);
+}
+
+.earth-orbit::after {
+  position: absolute;
+  right: 12%;
+  top: 8%;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--color-sun);
+  box-shadow: 0 0 0 5px var(--color-paper);
+  content: "";
+}
+
+.earth-orbit-one {
+  animation: orbit-drift 16s ease-in-out infinite;
+}
+
+.earth-orbit-two {
+  width: min(51vw, 560px);
+  transform: rotate(18deg) scaleY(0.3);
+  opacity: 0.55;
+  animation: orbit-drift 20s ease-in-out infinite reverse;
+}
+
+.earth-visual-caption {
+  position: absolute;
+  bottom: 4%;
+  left: 50%;
+  z-index: 3;
+  display: flex;
+  width: min(100%, 360px);
+  justify-content: space-between;
+  border-top: 1px solid var(--color-rule);
+  padding-top: 12px;
+  color: var(--color-muted);
+  font-size: 0.75rem;
+  transform: translateX(-50%);
+}
+
+.earth-entry-section {
+  padding-top: 4px;
+}
+
+.earth-entry-card {
+  display: flex;
+  min-height: 220px;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-card);
+  background: var(--color-paper-2);
+  padding: 24px;
+  text-align: left;
+  transition: border-color 180ms ease, background-color 180ms ease;
+}
+
+.earth-entry-card:hover {
+  border-color: var(--color-accent);
+  background: var(--color-paper-3);
+}
+
+.earth-entry-action {
+  display: inline-flex;
+  min-height: 40px;
+  align-items: center;
+  gap: 8px;
+  border-radius: var(--radius-pill);
+  color: var(--color-accent);
+  padding: 4px 8px;
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.earth-entry-action:hover {
+  color: var(--color-accent-hi);
+}
+
+.earth-entry-number {
+  color: var(--color-accent);
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+}
+
+@keyframes earth-turn {
+  from { transform: rotate(0deg) scale(1.08); }
+  to { transform: rotate(360deg) scale(1.08); }
+}
+
+@keyframes orbit-drift {
+  0%, 100% { transform: rotate(-24deg) scaleY(0.35); }
+  50% { transform: rotate(-17deg) scaleY(0.35); }
+}
+
+@media (max-width: 800px) {
+  .earth-landing-hero {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding-top: 28px;
+  }
+
+  .earth-hero-copy h2 {
+    max-width: 12ch;
+  }
+
+  .earth-hero-visual {
+    min-height: 340px;
+  }
+
+  .earth-orb {
+    width: min(64vw, 320px);
+  }
+
+  .earth-orbit {
+    width: min(82vw, 400px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .earth-orb-surface,
+  .earth-orbit-one,
+  .earth-orbit-two {
+    animation: none;
+  }
 }

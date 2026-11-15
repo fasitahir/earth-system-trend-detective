@@ -31,70 +31,66 @@ export function OverviewView({ variables, onSelectVariable }: OverviewViewProps)
   const varsToDisplay = variables.length > 0 ? variables : FALLBACK_VARIABLES;
 
   return (
-    <div className="mx-auto max-w-7xl space-y-16 pb-16">
-      <section className="grid items-end gap-10 border-b border-slate-800 pb-12 pt-8 lg:grid-cols-[1.05fr_0.95fr]">
-        <div className="space-y-6">
-          <p className="text-sm font-medium text-emerald-400">Pakistan, 2001 to 2025</p>
-          <h2 className="max-w-3xl text-5xl leading-[0.98] sm:text-6xl">
-            See how Pakistan&apos;s climate is changing.
-          </h2>
-          <p className="max-w-xl text-lg leading-8 text-slate-300">
-            Explore temperature, rainfall, soil moisture, and evaporation in one calm,
-            readable place. Start with a question, then follow the evidence.
+    <div className="earth-overview mx-auto max-w-7xl space-y-16 pb-16">
+      <section className="earth-landing-hero">
+        <div className="earth-hero-copy">
+          <p className="earth-kicker">Pakistan · 2001 to 2025</p>
+          <h2>Read Pakistan&apos;s climate as a landscape.</h2>
+          <p className="earth-hero-lead">
+            Temperature, rainfall, water in the soil, and evaporation brought
+            together so the changes are easier to see.
           </p>
-          <button
-            onClick={() => onSelectVariable("t2m", "trends")}
-            className="inline-flex min-h-11 items-center gap-2 rounded-full bg-emerald-950/80 px-5 text-sm font-medium text-emerald-300 shadow-sm transition-colors hover:bg-emerald-900/80"
-          >
-            Start with temperature <ArrowRight className="h-4 w-4" />
-          </button>
+          <div className="flex flex-wrap items-center gap-3">
+            <button
+              onClick={() => onSelectVariable("t2m", "trends")}
+              className="earth-primary-action"
+            >
+              Explore temperature <ArrowRight className="h-4 w-4" />
+            </button>
+            <span className="earth-hero-note">NASA data · Pakistan average</span>
+          </div>
         </div>
 
-        <div className="rounded-[22px] bg-slate-900/80 p-6 shadow-xl">
-          <p className="text-sm text-slate-400">The short version</p>
-          <p className="mt-4 max-w-md text-3xl leading-tight text-white">
-            The clearest signal is in the air and on the ground.
-          </p>
-          <div className="mt-8 grid grid-cols-2 gap-6 border-t border-slate-800 pt-5">
-            <div>
-              <p className="text-2xl font-bold text-emerald-400">24 years</p>
-              <p className="mt-1 text-sm text-slate-400">of monthly records</p>
-            </div>
-            <div>
-              <p className="text-2xl font-bold text-emerald-400">6 signals</p>
-              <p className="mt-1 text-sm text-slate-400">to compare side by side</p>
-            </div>
+        <div className="earth-hero-visual" aria-label="A slowly rotating illustration of Earth">
+          <div className="earth-orbit earth-orbit-one" />
+          <div className="earth-orbit earth-orbit-two" />
+          <div className="earth-orb" aria-hidden="true">
+            <div className="earth-orb-surface" />
+            <div className="earth-orb-glow" />
+          </div>
+          <div className="earth-visual-caption">
+            <span>One country</span>
+            <span>Six connected signals</span>
           </div>
         </div>
       </section>
 
-      <section className="space-y-7">
+      <section className="earth-entry-section space-y-7">
         <div className="max-w-2xl">
-          <p className="text-sm font-medium text-emerald-400">Three ways in</p>
-          <h3 className="mt-8 text-4xl">What would you like to know?</h3>
+          <h3 className="text-4xl">Three ways into the record</h3>
         </div>
-        <div className="grid gap-px overflow-hidden rounded-[22px] border border-slate-800 bg-slate-800">
+        <div className="grid gap-3 md:grid-cols-3">
           {[
-            ["What changed?", "Follow the long-term pattern and see unusual months.", "trends", "t2m"],
-            ["What comes next?", "Ask the model for a forward view through a year you choose.", "forecast", "t2m"],
-            ["Where is it different?", "Compare Pakistan’s broad environmental zones.", "geographic", "precipitation"],
-          ].map(([title, description, tab, variable]) => (
-            <button
+            ["What changed?", "Follow the long-term pattern and see unusual months.", "trends", "t2m", "01"],
+            ["What comes next?", "Ask the model for a forward view through a year you choose.", "forecast", "t2m", "02"],
+            ["Where is it different?", "Compare Pakistan’s broad environmental zones.", "geographic", "precipitation", "03"],
+          ].map(([title, description, tab, variable, number]) => (
+            <article
               key={title}
-              onClick={() => onSelectVariable(variable, tab as ActiveTab)}
-              className="group flex h-12 w-full items-center gap-5 bg-slate-950 px-4 py-2 text-left transition-colors hover:bg-slate-900"
+              className="earth-entry-card group"
             >
-              <span className="w-8 shrink-0 text-sm text-emerald-400">
-                0{title === "What changed?" ? "1" : title === "What comes next?" ? "2" : "3"}
+              <span className="earth-entry-number">{number}</span>
+              <span className="min-w-0 flex-1">
+                <span className="block text-xl text-white">{title}</span>
+                <span className="mt-2 block text-sm leading-6 text-slate-400">{description}</span>
               </span>
-              <span className="min-w-0 flex-1 sm:flex sm:items-center sm:justify-between sm:gap-8">
-                <span className="text-lg text-white">{title}</span>
-                <span className="mt-1 block max-w-xl text-sm leading-6 text-slate-400 sm:mt-0">
-                  {description}
-                </span>
-              </span>
-              <ArrowRight className="h-4 w-4 shrink-0 text-emerald-400 transition-transform group-hover:translate-x-1" />
-            </button>
+              <button
+                onClick={() => onSelectVariable(variable, tab as ActiveTab)}
+                className="earth-entry-action"
+              >
+                Explore <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </button>
+            </article>
           ))}
         </div>
       </section>
