@@ -111,6 +111,20 @@ Key configuration keys:
 - `CORS_ORIGINS`: Allowed origins (e.g. `http://localhost:3000`)
 - `NEXT_PUBLIC_API_URL`: Backend URL for frontend client (default `http://localhost:8000`)
 
+### Render deployment
+
+The repository includes [`render.yaml`](render.yaml), which defines the FastAPI
+web service, health check, build command, and start command. To use it, create
+a Render Blueprint from this repository and set `CORS_ORIGINS` to a JSON array
+containing the exact public URL of the deployed frontend, for example:
+
+```text
+["https://your-frontend.vercel.app"]
+```
+
+The Blueprint intentionally leaves `CORS_ORIGINS` as a secret dashboard value
+because the frontend URL is deployment-specific.
+
 ---
 
 ## 5. Stage Progress & Next Steps
