@@ -115,15 +115,20 @@ Key configuration keys:
 
 The repository includes [`render.yaml`](render.yaml), which defines the FastAPI
 web service, health check, build command, and start command. To use it, create
-a Render Blueprint from this repository and set `CORS_ORIGINS` to a JSON array
-containing the exact public URL of the deployed frontend, for example:
+a Render Blueprint from this repository. The included Blueprint allows all
+origins for simple hackathon deployment. For a stricter production setup,
+replace `CORS_ORIGINS` with a JSON array containing the exact public URL of
+the deployed frontend, for example:
+
+```text
+["*"]
+```
+
+Restricted example:
 
 ```text
 ["https://your-frontend.vercel.app"]
 ```
-
-The Blueprint intentionally leaves `CORS_ORIGINS` as a secret dashboard value
-because the frontend URL is deployment-specific.
 
 ---
 
