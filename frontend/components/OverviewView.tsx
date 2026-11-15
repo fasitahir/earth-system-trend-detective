@@ -2,18 +2,13 @@
 
 import React from "react";
 import {
-  Sparkles,
-  TrendingUp,
-  Thermometer,
+  ArrowRight,
   CloudRain,
-  Waves,
+  Database,
   Droplets,
   Layers,
-  ArrowRight,
-  ShieldCheck,
-  CheckCircle2,
-  Database,
-  ExternalLink,
+  Thermometer,
+  Waves,
 } from "lucide-react";
 import { VariableMeta, FALLBACK_VARIABLES, FALLBACK_TRENDS } from "@/lib/api";
 import { ActiveTab } from "./Navbar";
@@ -23,237 +18,139 @@ interface OverviewViewProps {
   onSelectVariable: (varId: string, targetTab: ActiveTab) => void;
 }
 
+const iconByVariable: Record<string, React.ReactNode> = {
+  t2m: <Thermometer className="h-5 w-5" />,
+  ts: <Thermometer className="h-5 w-5" />,
+  precipitation: <CloudRain className="h-5 w-5" />,
+  evapotranspiration: <Waves className="h-5 w-5" />,
+  soil_moisture_0_10cm: <Droplets className="h-5 w-5" />,
+  soil_moisture_10_40cm: <Layers className="h-5 w-5" />,
+};
+
 export function OverviewView({ variables, onSelectVariable }: OverviewViewProps) {
   const varsToDisplay = variables.length > 0 ? variables : FALLBACK_VARIABLES;
 
-  const getVariableIcon = (id: string) => {
-    switch (id) {
-      case "t2m":
-        return <Thermometer className="w-5 h-5 text-rose-400" />;
-      case "ts":
-        return <Thermometer className="w-5 h-5 text-amber-400" />;
-      case "precipitation":
-        return <CloudRain className="w-5 h-5 text-cyan-400" />;
-      case "evapotranspiration":
-        return <Waves className="w-5 h-5 text-blue-400" />;
-      case "soil_moisture_0_10cm":
-        return <Droplets className="w-5 h-5 text-emerald-400" />;
-      case "soil_moisture_10_40cm":
-        return <Layers className="w-5 h-5 text-teal-400" />;
-      default:
-        return <Database className="w-5 h-5 text-slate-400" />;
-    }
-  };
-
   return (
-    <div className="space-y-8 max-w-7xl mx-auto pb-12">
-      {/* Hero Banner */}
-      <section className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-900 via-slate-900/90 to-slate-950 border border-slate-800 p-6 sm:p-8 shadow-2xl">
-        <div className="absolute top-0 right-0 -mt-12 -mr-12 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-1/3 -mb-12 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
-
-        <div className="relative z-10 max-w-3xl space-y-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-semibold">
-            <ShieldCheck className="w-3.5 h-3.5" />
-            NASA Space Apps Challenge 2026 — Verified Giovanni Data Engine
-          </div>
-
-          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white leading-tight">
-            Scientific Earth System Trend Intelligence
+    <div className="mx-auto max-w-7xl space-y-16 pb-16">
+      <section className="grid items-end gap-10 border-b border-slate-800 pb-12 pt-8 lg:grid-cols-[1.05fr_0.95fr]">
+        <div className="space-y-6">
+          <p className="text-sm font-medium text-emerald-400">Pakistan, 2001 to 2025</p>
+          <h2 className="max-w-3xl text-5xl leading-[0.98] sm:text-6xl">
+            See how Pakistan&apos;s climate is changing.
           </h2>
-
-          <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
-            EarthScope delivers defensible historical trend quantification, seasonal climatology isolation, and honest out-of-sample machine learning forecasts across interconnected atmospheric and hydrological observation records.
+          <p className="max-w-xl text-lg leading-8 text-slate-300">
+            Explore temperature, rainfall, soil moisture, and evaporation in one calm,
+            readable place. Start with a question, then follow the evidence.
           </p>
+          <button
+            onClick={() => onSelectVariable("t2m", "trends")}
+            className="inline-flex min-h-11 items-center gap-2 rounded-full bg-emerald-950/80 px-5 text-sm font-medium text-emerald-300 shadow-sm transition-colors hover:bg-emerald-900/80"
+          >
+            Start with temperature <ArrowRight className="h-4 w-4" />
+          </button>
+        </div>
 
-          <div className="pt-2 flex flex-wrap gap-4 text-xs text-slate-400">
-            <div className="flex items-center gap-1.5 bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-700/60">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-              <span>Area-Averaged Monthly Records (2001–2025)</span>
+        <div className="rounded-[22px] bg-slate-900/80 p-6 shadow-xl">
+          <p className="text-sm text-slate-400">The short version</p>
+          <p className="mt-4 max-w-md text-3xl leading-tight text-white">
+            The clearest signal is in the air and on the ground.
+          </p>
+          <div className="mt-8 grid grid-cols-2 gap-6 border-t border-slate-800 pt-5">
+            <div>
+              <p className="text-2xl font-bold text-emerald-400">24 years</p>
+              <p className="mt-1 text-sm text-slate-400">of monthly records</p>
             </div>
-            <div className="flex items-center gap-1.5 bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-700/60">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-              <span>Mann-Kendall & Yue-Pilon Prewhitening</span>
-            </div>
-            <div className="flex items-center gap-1.5 bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-700/60">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-              <span>Persisted Regularized ML Forecasts</span>
+            <div>
+              <p className="text-2xl font-bold text-emerald-400">6 signals</p>
+              <p className="mt-1 text-sm text-slate-400">to compare side by side</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Featured Reproducible Findings (Scientific Highlights) */}
-      <section className="space-y-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Sparkles className="w-5 h-5 text-amber-400" />
-            <h3 className="text-base font-bold text-white">Featured Scientific Discoveries</h3>
-          </div>
-          <span className="text-xs text-slate-400">Reproducible findings from MERRA-2 & GLDAS</span>
+      <section className="space-y-7">
+        <div className="max-w-2xl">
+          <p className="text-sm font-medium text-emerald-400">Three ways in</p>
+          <h3 className="mt-8 text-4xl">What would you like to know?</h3>
         </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-          {/* Finding 1 */}
-          <div className="bg-slate-900/80 border border-slate-800 rounded-xl p-5 space-y-3 hover:border-slate-700 transition">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold px-2 py-0.5 rounded bg-amber-950/70 border border-amber-800/60 text-amber-300">
-                Atmosphere & Land
-              </span>
-              <span className="text-xs font-mono text-slate-400">p = 0.0037</span>
-            </div>
-            <h4 className="text-sm font-bold text-white">
-              Significant Land Surface Temperature Cooling Trend
-            </h4>
-            <p className="text-xs text-slate-300 leading-relaxed">
-              Sen&apos;s non-parametric slope reveals a statistically significant skin temperature decrease of{" "}
-              <strong className="text-amber-300">-0.255 °C/decade</strong> across Pakistan (2001–2025), coupled with increased irrigation and agricultural greening.
-            </p>
+        <div className="grid gap-px overflow-hidden rounded-[22px] border border-slate-800 bg-slate-800">
+          {[
+            ["What changed?", "Follow the long-term pattern and see unusual months.", "trends", "t2m"],
+            ["What comes next?", "Ask the model for a forward view through a year you choose.", "forecast", "t2m"],
+            ["Where is it different?", "Compare Pakistan’s broad environmental zones.", "geographic", "precipitation"],
+          ].map(([title, description, tab, variable]) => (
             <button
-              onClick={() => onSelectVariable("ts", "trends")}
-              className="inline-flex items-center gap-1.5 text-xs text-emerald-400 hover:text-emerald-300 font-medium pt-1"
+              key={title}
+              onClick={() => onSelectVariable(variable, tab as ActiveTab)}
+              className="group flex h-12 w-full items-center gap-5 bg-slate-950 px-4 py-2 text-left transition-colors hover:bg-slate-900"
             >
-              Inspect Skin Temp Trend <ArrowRight className="w-3.5 h-3.5" />
-            </button>
-          </div>
-
-          {/* Finding 2 */}
-          <div className="bg-slate-900/80 border border-slate-800 rounded-xl p-5 space-y-3 hover:border-slate-700 transition">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold px-2 py-0.5 rounded bg-cyan-950/70 border border-cyan-800/60 text-cyan-300">
-                Extreme Hydrology
+              <span className="w-8 shrink-0 text-sm text-emerald-400">
+                0{title === "What changed?" ? "1" : title === "What comes next?" ? "2" : "3"}
               </span>
-              <span className="text-xs font-mono text-rose-400 font-semibold">Z = +4.58</span>
-            </div>
-            <h4 className="text-sm font-bold text-white">
-              Record 2022 Monsoon Flooding Anomaly
-            </h4>
-            <p className="text-xs text-slate-300 leading-relaxed">
-              August 2022 recorded <strong className="text-cyan-300">118.8 mm/month</strong> precipitation against a climatological baseline of 43.1 mm (+75.7 mm anomaly), driving historic multi-province flooding and soil saturation.
-            </p>
-            <button
-              onClick={() => onSelectVariable("precipitation", "trends")}
-              className="inline-flex items-center gap-1.5 text-xs text-emerald-400 hover:text-emerald-300 font-medium pt-1"
-            >
-              Analyze 2022 Monsoon Event <ArrowRight className="w-3.5 h-3.5" />
-            </button>
-          </div>
-
-          {/* Finding 3 */}
-          <div className="bg-slate-900/80 border border-slate-800 rounded-xl p-5 space-y-3 hover:border-slate-700 transition">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold px-2 py-0.5 rounded bg-emerald-950/70 border border-emerald-800/60 text-emerald-300">
-                Hydrological Coupling
+              <span className="min-w-0 flex-1 sm:flex sm:items-center sm:justify-between sm:gap-8">
+                <span className="text-lg text-white">{title}</span>
+                <span className="mt-1 block max-w-xl text-sm leading-6 text-slate-400 sm:mt-0">
+                  {description}
+                </span>
               </span>
-              <span className="text-xs font-mono text-slate-400">r = 0.88</span>
-            </div>
-            <h4 className="text-sm font-bold text-white">
-              Coordinated Soil Moisture & Evaporation Growth
-            </h4>
-            <p className="text-xs text-slate-300 leading-relaxed">
-              GLDAS-2.1 root-zone moisture (+1.97 kg/m²/decade, p &lt; 0.001) strongly correlates with evapotranspiration (+3.32 mm/month/decade), indicating intensified terrestrial water recycling.
-            </p>
-            <button
-              onClick={() => onSelectVariable("soil_moisture_10_40cm", "forecast")}
-              className="inline-flex items-center gap-1.5 text-xs text-emerald-400 hover:text-emerald-300 font-medium pt-1"
-            >
-              View Forecast Models <ArrowRight className="w-3.5 h-3.5" />
+              <ArrowRight className="h-4 w-4 shrink-0 text-emerald-400 transition-transform group-hover:translate-x-1" />
             </button>
-          </div>
+          ))}
         </div>
       </section>
 
-      {/* Environmental Variables Catalog */}
-      <section className="space-y-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Layers className="w-5 h-5 text-emerald-400" />
-            <h3 className="text-base font-bold text-white">Supported Earth System Variables</h3>
+      <section className="space-y-7">
+        <div className="flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <p className="text-sm font-medium text-emerald-400">Choose a signal</p>
+            <h3 className="mt-2 text-4xl">The records behind the story</h3>
           </div>
-          <span className="text-xs text-slate-400">{varsToDisplay.length} Available Datasets</span>
+          <p className="text-sm text-slate-400">NASA Giovanni data, averaged across Pakistan</p>
         </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {varsToDisplay.map((v) => {
-            const trend = FALLBACK_TRENDS[v.id];
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {varsToDisplay.map((variable) => {
+            const trend = FALLBACK_TRENDS[variable.id];
+            const direction = trend?.trend_direction === "decreasing" ? "Down over time" : "Up over time";
             return (
-              <div
-                key={v.id}
-                className="bg-slate-900/60 border border-slate-800 rounded-xl p-5 flex flex-col justify-between hover:border-slate-700 transition group"
+              <article
+                key={variable.id}
+                className="flex min-h-56 flex-col justify-between rounded-[22px] border border-slate-800 bg-slate-900/60 p-6 shadow-sm"
               >
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <div className="p-2 rounded-lg bg-slate-800 border border-slate-700/60">
-                        {getVariableIcon(v.id)}
-                      </div>
-                      <div>
-                        <h4 className="text-sm font-bold text-white group-hover:text-emerald-300 transition">
-                          {v.name}
-                        </h4>
-                        <span className="text-[10px] font-mono text-slate-400">{v.id}</span>
-                      </div>
-                    </div>
-                    <span className="text-xs px-2 py-0.5 rounded bg-slate-800 text-slate-300 font-mono">
-                      {v.display_unit}
+                <div>
+                  <div className="flex items-center justify-between gap-4">
+                    <span className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-950/80 text-emerald-400">
+                      {iconByVariable[variable.id] || <Database className="h-5 w-5" />}
                     </span>
+                    <span className="text-sm text-slate-400">{variable.display_unit}</span>
                   </div>
-
-                  <p className="text-xs text-slate-400 line-clamp-2 leading-relaxed">
-                    {v.description}
-                  </p>
-
-                  <div className="pt-2 border-t border-slate-800/80 text-[11px] text-slate-400 space-y-1">
-                    <div className="flex justify-between">
-                      <span>Source Platform:</span>
-                      <span className="text-slate-300 font-medium">{v.mission_source}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Coverage:</span>
-                      <span className="text-slate-300 font-mono">
-                        {v.start_date.slice(0, 4)} – {v.end_date.slice(0, 4)} ({v.total_months} mo)
-                      </span>
-                    </div>
-                    {trend && (
-                      <div className="flex justify-between">
-                        <span>Sen&apos;s Slope:</span>
-                        <span
-                          className={`font-mono font-medium ${
-                            trend.trend_direction === "increasing"
-                              ? "text-emerald-400"
-                              : trend.trend_direction === "decreasing"
-                              ? "text-amber-400"
-                              : "text-slate-400"
-                          }`}
-                        >
-                          {trend.sen_slope_per_year != null
-                            ? `${(trend.sen_slope_per_year * 10).toFixed(3)} ${trend.display_unit}`
-                            : "N/A"}
-                        </span>
-                      </div>
-                    )}
-                  </div>
+                  <h4 className="mt-6 text-2xl text-white">{variable.name}</h4>
+                  <p className="mt-2 line-clamp-2 text-sm leading-6 text-slate-400">{variable.description}</p>
                 </div>
-
-                <div className="pt-4 flex items-center gap-2">
+                <div className="mt-6 flex items-center justify-between border-t border-slate-800 pt-4 text-sm">
+                  <span className="text-slate-300">{direction}</span>
                   <button
-                    onClick={() => onSelectVariable(v.id, "trends")}
-                    className="flex-1 py-1.5 px-3 rounded-lg bg-slate-800 hover:bg-slate-700 text-white text-xs font-medium flex items-center justify-center gap-1.5 transition"
+                    onClick={() => onSelectVariable(variable.id, "trends")}
+                    className="inline-flex min-h-10 items-center gap-1 rounded-full px-3 text-emerald-400 transition-colors hover:bg-emerald-950/80"
                   >
-                    <TrendingUp className="w-3.5 h-3.5 text-amber-400" />
-                    <span>Trends</span>
-                  </button>
-                  <button
-                    onClick={() => onSelectVariable(v.id, "forecast")}
-                    className="flex-1 py-1.5 px-3 rounded-lg bg-emerald-950/60 hover:bg-emerald-900/60 border border-emerald-800/60 text-emerald-300 text-xs font-medium flex items-center justify-center gap-1.5 transition"
-                  >
-                    <span>Forecast</span>
+                    Explore <ArrowRight className="h-4 w-4" />
                   </button>
                 </div>
-              </div>
+              </article>
             );
           })}
         </div>
+      </section>
+
+      <section className="grid gap-8 border-t border-slate-800 pt-12 lg:grid-cols-[0.8fr_1.2fr]">
+        <div>
+          <p className="text-sm font-medium text-emerald-400">A note on the numbers</p>
+          <h3 className="mt-2 text-4xl">Clear first. Detailed when you need it.</h3>
+        </div>
+        <p className="max-w-2xl text-lg leading-8 text-slate-300">
+          EarthScope uses NASA observations and tested statistical methods. You do not
+          need to know the method names to use the result. Each view explains the
+          conclusion first, with the calculation and source available underneath.
+        </p>
       </section>
     </div>
   );

@@ -21,6 +21,7 @@ interface ScientificChartProps {
   forecastOriginTimestamp?: string | null;
   height?: number;
   highlightPoints?: { timestamp: string; label: string; color?: string }[];
+  chartType?: "line" | "bars" | "seasonal";
 }
 
 export function ScientificChart({
@@ -33,6 +34,7 @@ export function ScientificChart({
   forecastOriginTimestamp = null,
   height = 360,
   highlightPoints = [],
+  chartType = "line",
 }: ScientificChartProps) {
   const [hoveredPoint, setHoveredPoint] = useState<DataPoint | null>(null);
   const [mousePos, setMousePos] = useState<{ x: number; y: number } | null>(null);
@@ -167,7 +169,9 @@ export function ScientificChart({
       intervalPath: intArea,
       originX: originXCoord,
     };
-  }, [data, yMin, yMax, showTrend, showInterval, forecastOriginTimestamp]);
+  }, [data, yMin, yMax, showTrend, showInterval, forecastOriginTimestamp, chartType]);
+
+  const baselineY = getY(0);
 
   // Y-axis tick marks
   const yTicks = useMemo(() => {
@@ -232,7 +236,7 @@ export function ScientificChart({
   }
 
   return (
-    <div className="relative w-full bg-slate-900/80 backdrop-blur rounded-xl border border-slate-800/80 p-4 shadow-xl">
+    <div className="relative w-full bg-slate-900/80 rounded-xl border border-slate-800/80 p-4 shadow-md">
       {title && (
         <div className="flex items-center justify-between mb-3 px-2">
           <div className="flex items-center gap-2">
@@ -245,8 +249,8 @@ export function ScientificChart({
           {/* Interactive Legend */}
           <div className="flex items-center gap-4 text-xs text-slate-300">
             <div className="flex items-center gap-1.5">
-              <span className="w-3 h-0.5 bg-blue-400 rounded-full" />
-              <span>Observed</span>
+              <span className={`w-3 ${chartType === "bars" ? "h-2 rounded-sm" : "h-0.5 rounded-full"} bg-blue-400`} />
+              <span>{chartType === "seasonal" ? "Monthly average" : chartType === "bars" ? "Monthly anomaly" : "Observed"}</span>
             </div>
             {showTrend && trendPath && (
               <div className="flex items-center gap-1.5">
@@ -272,6 +276,8 @@ export function ScientificChart({
 
       <div className="w-full overflow-hidden">
         <svg
+          role="img"
+          aria-label={title ? `${title} chart` : `Time series chart showing values in ${unit}`}
           viewBox={`0 0 ${width} ${height}`}
           className="w-full h-auto cursor-crosshair select-none"
           onMouseMove={handleMouseMove}
@@ -376,15 +382,45 @@ export function ScientificChart({
           )}
 
           {/* Observed Historical Series */}
-          {historicalPath && (
+          {historicalPath && (chartType === "line" || chartType === "seasonal") && (
             <path
               d={historicalPath}
               fill="none"
-              stroke="#38bdf8"
-              strokeWidth="2"
+              stroke={chartType === "seasonal" ? "#0f766e" : "#38bdf8"}
+              strokeWidth={chartType === "seasonal" ? "3" : "2"}
               strokeLinejoin="round"
               strokeLinecap="round"
             />
+          )}
+
+          {chartType === "bars" && (
+            <g>
+              <line
+                x1={margin.left}
+                y1={baselineY}
+                x2={width - margin.right}
+                y2={baselineY}
+                stroke="#64748b"
+                strokeWidth="1"
+              />
+              {data.map((point, index) => {
+                const x = getX(index);
+                const y = getY(point.value);
+                const barWidth = Math.max(1.5, Math.min(7, innerWidth / Math.max(data.length, 1) - 1));
+                return (
+                  <rect
+                    key={`bar-${point.timestamp}`}
+                    x={x - barWidth / 2}
+                    y={Math.min(y, baselineY)}
+                    width={barWidth}
+                    height={Math.max(1, Math.abs(baselineY - y))}
+                    fill={point.value >= 0 ? "#0f766e" : "#b45309"}
+                    opacity="0.82"
+                    rx="1"
+                  />
+                );
+              })}
+            </g>
           )}
 
           {/* Out-of-Sample Forecast Line */}
@@ -415,7 +451,7 @@ export function ScientificChart({
               <text
                 x={originX + 4}
                 y={margin.top + 14}
-                className="fill-purple-300 text-[9px] font-semibold tracking-wider uppercase"
+                className="fill-purple-300 text-[9px] font-semibold"
               >
                 Forecast Origin
               </text>
@@ -478,14 +514,14 @@ export function ScientificChart({
 
       {/* Hover Tooltip Box */}
       {hoveredPoint && (
-        <div className="mt-2 flex flex-wrap items-center justify-between gap-3 px-3 py-2 bg-slate-800/90 border border-slate-700/80 rounded-lg text-xs">
+        <div className="earth-tooltip mt-2 flex flex-wrap items-center justify-between gap-3 px-3 py-2 border rounded-lg text-xs">
           <div className="flex items-center gap-2">
-            <span className="font-semibold text-slate-200">{hoveredPoint.timestamp}</span>
+            <span className="font-semibold">{hoveredPoint.timestamp}</span>
             <span
               className={`px-1.5 py-0.5 rounded text-[10px] font-medium ${
                 hoveredPoint.is_prediction
-                  ? "bg-emerald-950 text-emerald-300 border border-emerald-800"
-                  : "bg-blue-950 text-blue-300 border border-blue-800"
+                  ? "earth-tooltip-forecast border"
+                  : "earth-tooltip-observed border"
               }`}
             >
               {hoveredPoint.is_prediction ? "Forecast Projection" : "Observed Record"}

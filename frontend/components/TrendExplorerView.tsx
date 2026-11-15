@@ -12,6 +12,7 @@ import {
   Sliders,
   CheckCircle2,
   XCircle,
+  BarChart3,
 } from "lucide-react";
 import {
   VariableMeta,
@@ -43,8 +44,10 @@ export function TrendExplorerView({
 
   const [seriesMode, setSeriesMode] = useState<"observed" | "anomaly">("observed");
   const [method, setMethod] = useState<string>("mann_kendall");
-  const [alpha, setAlpha] = useState<number>(0.05);
+  const alpha = 0.05;
   const [deseasonalize, setDeseasonalize] = useState<boolean>(true);
+  const [chartType, setChartType] = useState<"line" | "bars" | "seasonal">("line");
+  const [selectedMonths, setSelectedMonths] = useState<number[]>([]);
 
   // Time Series and Analysis Data
   const [timeSeries, setTimeSeries] = useState<TimeSeriesResponse | null>(null);
@@ -186,7 +189,11 @@ export function TrendExplorerView({
     const n = timeSeries.data.length;
     const midIdx = n / 2;
 
-    return timeSeries.data.map((pt, i) => {
+    const filteredData = isAnomaly && selectedMonths.length > 0
+      ? timeSeries.data.filter((pt) => selectedMonths.includes(Number(pt.timestamp.slice(5, 7))))
+      : timeSeries.data;
+
+    const mapped = filteredData.map((pt, i) => {
       const val = isAnomaly
         ? pt.anomaly != null
           ? pt.anomaly
@@ -205,17 +212,51 @@ export function TrendExplorerView({
         is_prediction: false,
       };
     });
-  }, [timeSeries, seriesMode, trendResult]);
+
+    if (chartType !== "seasonal") return mapped;
+
+    const monthly = Array.from({ length: 12 }, (_, monthIndex) => {
+      const points = mapped.filter((point) => Number(point.timestamp.slice(5, 7)) === monthIndex + 1);
+      const average = points.length
+        ? points.reduce((sum, point) => sum + point.value, 0) / points.length
+        : 0;
+      return {
+        timestamp: `2001-${String(monthIndex + 1).padStart(2, "0")}-01`,
+        value: average,
+        trend_value: null,
+        is_prediction: false,
+      };
+    });
+    return monthly;
+  }, [timeSeries, seriesMode, trendResult, selectedMonths, chartType]);
+
+  const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  const chartDescription = chartType === "bars"
+    ? "Monthly anomaly bars"
+    : chartType === "seasonal"
+    ? "Average by calendar month"
+    : seriesMode === "anomaly"
+    ? "Deseasonalized anomaly"
+    : "Monthly history";
+  const monthDescription = selectedMonths.length > 0
+    ? ` · ${selectedMonths.map((month) => monthNames[month - 1]).join(", ")} only`
+    : "";
+  const toggleMonth = (month: number) => {
+    setSelectedMonths((current) =>
+      current.includes(month) ? current.filter((value) => value !== month) : [...current, month].sort((a, b) => a - b)
+    );
+  };
 
   return (
     <div className="space-y-6 max-w-7xl mx-auto pb-12">
       {/* Top Filter and Configuration Bar */}
-      <div className="bg-slate-900/80 border border-slate-800 rounded-xl p-4 sm:p-5 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+      <div className="bg-slate-900/80 border border-slate-800 rounded-xl p-4 sm:p-5 space-y-4">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         {/* Variable Selector */}
         <div className="flex flex-col sm:flex-row sm:items-center gap-3">
           <label className="text-xs font-semibold text-slate-300 flex items-center gap-1.5">
             <Layers className="w-4 h-4 text-emerald-400" />
-            <span>Target Variable:</span>
+            <span>Show:</span>
           </label>
           <select
             value={currentVar.id}
@@ -259,25 +300,64 @@ export function TrendExplorerView({
 
         {/* Method & Significance Toggles */}
         <div className="flex items-center gap-3">
+          <label className="text-xs text-slate-400 flex items-center gap-1.5">
+            <BarChart3 className="w-4 h-4 text-emerald-400" />
+            <span>Graph</span>
+          </label>
+          <select
+            value={chartType}
+            onChange={(e) => setChartType(e.target.value as "line" | "bars" | "seasonal")}
+            className="bg-slate-800 border border-slate-700 rounded-lg px-2.5 py-1 text-xs text-slate-200"
+          >
+            <option value="line">Trend line</option>
+            <option value="bars">Anomaly bars</option>
+            <option value="seasonal">Seasonal profile</option>
+          </select>
           <select
             value={method}
             onChange={(e) => setMethod(e.target.value)}
             className="bg-slate-800 border border-slate-700 rounded-lg px-2.5 py-1 text-xs text-slate-200"
           >
-            <option value="mann_kendall">Mann-Kendall (Sen Slope)</option>
-            <option value="linear_regression">OLS Linear Regression</option>
+            <option value="mann_kendall">Reliable long-term pattern</option>
+            <option value="linear_regression">Straight-line pattern</option>
           </select>
 
-          <select
-            value={alpha}
-            onChange={(e) => setAlpha(parseFloat(e.target.value))}
-            className="bg-slate-800 border border-slate-700 rounded-lg px-2 py-1 text-xs text-slate-200"
-          >
-            <option value="0.05">α = 0.05 (95%)</option>
-            <option value="0.01">α = 0.01 (99%)</option>
-            <option value="0.10">α = 0.10 (90%)</option>
-          </select>
         </div>
+        </div>
+
+        {seriesMode === "anomaly" && (
+          <div className="flex flex-wrap items-center gap-2 border-t border-slate-800 pt-3">
+            <span className="text-xs text-slate-400">Months:</span>
+            {monthNames.map((name, index) => {
+              const month = index + 1;
+              const selected = selectedMonths.includes(month);
+              return (
+                <button
+                  key={name}
+                  type="button"
+                  onClick={() => toggleMonth(month)}
+                  aria-pressed={selected}
+                  className={`min-h-8 rounded-md border px-2.5 text-xs transition-colors ${
+                    selected
+                      ? "border-emerald-700 bg-emerald-950/80 text-emerald-300"
+                      : "border-slate-700 bg-slate-800 text-slate-400 hover:bg-slate-700"
+                  }`}
+                >
+                  {name}
+                </button>
+              );
+            })}
+            {selectedMonths.length > 0 && (
+              <button
+                type="button"
+                onClick={() => setSelectedMonths([])}
+                className="min-h-8 px-2 text-xs text-slate-400 underline underline-offset-2 hover:text-slate-200"
+              >
+                All months
+              </button>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Main Interactive Chart */}
@@ -285,12 +365,13 @@ export function TrendExplorerView({
         <ScientificChart
           data={chartData}
           title={`${currentVar.name} — ${
-            seriesMode === "observed" ? "Monthly Observed History" : "Monthly Climatological Anomaly"
-          }`}
+            chartDescription
+          }${monthDescription}`}
           unit={seriesMode === "observed" ? currentVar.display_unit : `Δ ${currentVar.display_unit}`}
           yLabel={seriesMode === "observed" ? currentVar.name : "Anomaly"}
-          showTrend={true}
+          showTrend={chartType !== "bars"}
           showInterval={false}
+          chartType={chartType}
           highlightPoints={
             currentVar.id === "precipitation"
               ? [{ timestamp: "2022-08-01", label: "2022 Mega-Flood (+75.7 mm)" }]
@@ -305,8 +386,8 @@ export function TrendExplorerView({
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         {/* Trend Direction & Rate */}
         <div className="bg-slate-900/80 border border-slate-800 rounded-xl p-4 space-y-2">
-          <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
-            Sen&apos;s Trend Rate
+          <span className="text-sm font-medium text-slate-400">
+            Long-term direction
           </span>
           <div className="flex items-baseline gap-2">
             <span
@@ -339,18 +420,18 @@ export function TrendExplorerView({
               }`}
             >
               {trendResult?.trend_direction === "increasing"
-                ? "Monotonic Upward"
+                ? "Generally rising"
                 : trendResult?.trend_direction === "decreasing"
-                ? "Monotonic Downward"
-                : "No Significant Trend"}
+                ? "Generally falling"
+                : "No clear change"}
             </span>
           </div>
         </div>
 
         {/* Statistical Significance */}
         <div className="bg-slate-900/80 border border-slate-800 rounded-xl p-4 space-y-2">
-          <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
-            Significance (p-value)
+          <span className="text-sm font-medium text-slate-400">
+            Confidence in this pattern
           </span>
           <div className="flex items-baseline gap-2">
             <span className="text-2xl font-extrabold text-white font-mono">
@@ -364,11 +445,11 @@ export function TrendExplorerView({
           <div className="flex items-center gap-1.5 pt-1 text-xs">
             {trendResult?.is_statistically_significant ? (
               <span className="text-emerald-400 flex items-center gap-1">
-                <CheckCircle2 className="w-3.5 h-3.5" /> Significant (α = {alpha})
+                <CheckCircle2 className="w-3.5 h-3.5" /> Strong enough to stand out
               </span>
             ) : (
               <span className="text-slate-400 flex items-center gap-1">
-                <XCircle className="w-3.5 h-3.5" /> Not Significant (p &gt; {alpha})
+                <XCircle className="w-3.5 h-3.5" /> Could be normal variation
               </span>
             )}
           </div>
@@ -376,8 +457,8 @@ export function TrendExplorerView({
 
         {/* 95% Confidence Interval */}
         <div className="bg-slate-900/80 border border-slate-800 rounded-xl p-4 space-y-2">
-          <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
-            95% Slope Confidence Bound
+          <span className="text-sm font-medium text-slate-400">
+            Likely range for the change
           </span>
           <div className="flex items-baseline gap-1">
             <span className="text-base font-bold text-white font-mono">
@@ -399,13 +480,13 @@ export function TrendExplorerView({
 
         {/* Sample Provenance */}
         <div className="bg-slate-900/80 border border-slate-800 rounded-xl p-4 space-y-2">
-          <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+          <span className="text-sm font-medium text-slate-400">
             Record Scope & Provenance
           </span>
           <div className="text-xs text-slate-300 space-y-1">
             <div className="flex justify-between">
               <span className="text-slate-400">Observations:</span>
-              <span className="font-mono text-white">{trendResult?.n_observations || 300} mo</span>
+              <span className="text-white">{trendResult?.n_observations || 300} mo</span>
             </div>
             <div className="flex justify-between">
               <span className="text-slate-400">Prewhitening:</span>
@@ -421,7 +502,7 @@ export function TrendExplorerView({
 
       {/* Assumptions & Physical Caveats Accordion */}
       <div className="bg-slate-900/50 border border-slate-800/80 rounded-xl p-5 space-y-3">
-        <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-300 flex items-center gap-2">
+        <h4 className="text-sm font-medium text-slate-300 flex items-center gap-2">
           <Info className="w-4 h-4 text-blue-400" />
           <span>Scientific Assumptions & Known Limitations</span>
         </h4>
@@ -429,9 +510,9 @@ export function TrendExplorerView({
           <div className="bg-slate-950/40 p-3 rounded-lg border border-slate-800/60 space-y-1.5">
             <span className="font-semibold text-emerald-400">Methodological Rigor:</span>
             <ul className="list-disc list-inside space-y-1 text-slate-400">
-              <li>Serial autocorrelation lag-1 removed to eliminate false significance.</li>
+              <li>Repeated month-to-month patterns are accounted for before the result is shown.</li>
               <li>Sen&apos;s slope is robust against severe outliers like the 2022 monsoon spike.</li>
-              <li>Monthly climatology computed over 2001–2025 baseline.</li>
+              <li>Monthly climatology computed over the 2001 to 2025 baseline.</li>
             </ul>
           </div>
           <div className="bg-slate-950/40 p-3 rounded-lg border border-slate-800/60 space-y-1.5">

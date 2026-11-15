@@ -165,25 +165,25 @@ export function GeographicView({ variables, onSelectVariable }: GeographicViewPr
         {/* Bounding Coordinates Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
           <div className="bg-slate-950/60 p-3 rounded-xl border border-slate-800/80">
-            <span className="text-[10px] uppercase font-semibold text-slate-400">North Latitude</span>
+            <span className="text-sm font-medium text-slate-400">North latitude</span>
             <p className="text-sm font-bold text-white font-mono mt-0.5">37.69° N</p>
             <span className="text-[10px] text-slate-400">Karakoram / Gilgit-Baltistan</span>
           </div>
 
           <div className="bg-slate-950/60 p-3 rounded-xl border border-slate-800/80">
-            <span className="text-[10px] uppercase font-semibold text-slate-400">South Latitude</span>
+            <span className="text-sm font-medium text-slate-400">South latitude</span>
             <p className="text-sm font-bold text-white font-mono mt-0.5">23.31° N</p>
             <span className="text-[10px] text-slate-400">Arabian Sea / Sindh Coast</span>
           </div>
 
           <div className="bg-slate-950/60 p-3 rounded-xl border border-slate-800/80">
-            <span className="text-[10px] uppercase font-semibold text-slate-400">West Longitude</span>
+            <span className="text-sm font-medium text-slate-400">West longitude</span>
             <p className="text-sm font-bold text-white font-mono mt-0.5">60.39° E</p>
             <span className="text-[10px] text-slate-400">Balochistan Border</span>
           </div>
 
           <div className="bg-slate-950/60 p-3 rounded-xl border border-slate-800/80">
-            <span className="text-[10px] uppercase font-semibold text-slate-400">East Longitude</span>
+            <span className="text-sm font-medium text-slate-400">East longitude</span>
             <p className="text-sm font-bold text-white font-mono mt-0.5">77.73° E</p>
             <span className="text-[10px] text-slate-400">Indus Basin / Punjab</span>
           </div>
@@ -225,6 +225,8 @@ export function GeographicView({ variables, onSelectVariable }: GeographicViewPr
           {/* SVG Map Canvas */}
           <div className="relative bg-slate-950/80 rounded-xl border border-slate-800/80 p-2 overflow-hidden flex items-center justify-center">
             <svg
+              role="img"
+              aria-label="Map of Pakistan showing environmental zones and selected climate layer"
               viewBox={`0 0 ${mapWidth} ${mapHeight}`}
               className="w-full h-auto select-none max-h-[460px]"
             >
@@ -247,7 +249,7 @@ export function GeographicView({ variables, onSelectVariable }: GeographicViewPr
                 return (
                   <g key={`lat-${lat}`}>
                     <line x1="30" y1={y} x2={mapWidth - 30} y2={y} stroke="#334155" strokeDasharray="3 3" strokeWidth="0.5" />
-                    <text x="25" y={y + 3} textAnchor="end" className="fill-slate-500 text-[9px] font-mono">
+                    <text x="25" y={y + 3} textAnchor="end" className="fill-slate-500 text-[9px]">
                       {lat}°N
                     </text>
                   </g>
@@ -260,7 +262,7 @@ export function GeographicView({ variables, onSelectVariable }: GeographicViewPr
                 return (
                   <g key={`lon-${lon}`}>
                     <line x1={x} y1="20" x2={x} y2={mapHeight - 20} stroke="#334155" strokeDasharray="3 3" strokeWidth="0.5" />
-                    <text x={x} y={mapHeight - 8} textAnchor="middle" className="fill-slate-500 text-[9px] font-mono">
+                    <text x={x} y={mapHeight - 8} textAnchor="middle" className="fill-slate-500 text-[9px]">
                       {lon}°E
                     </text>
                   </g>
@@ -281,7 +283,7 @@ export function GeographicView({ variables, onSelectVariable }: GeographicViewPr
               <text
                 x={lonToSvgX(65.0)}
                 y={latToSvgY(23.8)}
-                className="fill-sky-500/50 text-[11px] font-semibold tracking-widest uppercase"
+                className="fill-sky-500/50 text-[11px] font-semibold"
               >
                 Arabian Sea
               </text>
@@ -290,7 +292,7 @@ export function GeographicView({ variables, onSelectVariable }: GeographicViewPr
               <text
                 x={lonToSvgX(74.5)}
                 y={latToSvgY(36.8)}
-                className="fill-cyan-400/60 text-[10px] font-semibold tracking-wider uppercase"
+                className="fill-cyan-400/60 text-[10px] font-semibold"
               >
                 Karakoram Cryosphere
               </text>
@@ -348,7 +350,7 @@ export function GeographicView({ variables, onSelectVariable }: GeographicViewPr
 
           {/* Active Layer Trend Badge */}
           {activeTrend && (
-            <div className="flex flex-wrap items-center justify-between gap-3 p-3 bg-slate-950/70 border border-slate-800 rounded-xl text-xs">
+            <div className="earth-geo-contrast flex flex-wrap items-center justify-between gap-3 p-3 border rounded-xl text-xs">
               <div className="flex items-center gap-2">
                 <span className="text-slate-400">National Rate:</span>
                 <span
@@ -408,7 +410,7 @@ export function GeographicView({ variables, onSelectVariable }: GeographicViewPr
             <div className="bg-slate-950/60 p-3.5 rounded-xl border border-slate-800/80 space-y-2 text-xs">
               <div className="flex justify-between">
                 <span className="text-slate-400">Centroid Coordinates:</span>
-                <span className="text-slate-200 font-mono">
+                <span className="text-slate-200">
                   {selectedZone.lat_center}°N, {selectedZone.lon_center}°E
                 </span>
               </div>
@@ -433,7 +435,7 @@ export function GeographicView({ variables, onSelectVariable }: GeographicViewPr
 
           {/* Quick Zone Switcher Buttons */}
           <div className="pt-2 border-t border-slate-800 space-y-2">
-            <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">
+            <span className="text-sm font-medium text-slate-400">
               Switch Ecological Zone:
             </span>
             <div className="flex flex-wrap gap-1.5">
@@ -467,7 +469,7 @@ export function GeographicView({ variables, onSelectVariable }: GeographicViewPr
 
         <div className="overflow-x-auto rounded-lg border border-slate-800 bg-slate-950/60 mt-2">
           <table className="w-full text-left text-xs">
-            <thead className="bg-slate-800/80 text-slate-300 uppercase font-semibold border-b border-slate-700/80">
+            <thead className="bg-slate-800/80 text-slate-300 font-semibold border-b border-slate-700/80">
               <tr>
                 <th className="py-2.5 px-3">Variable</th>
                 <th className="py-2.5 px-3">Sen Slope / Decade</th>
@@ -501,7 +503,7 @@ export function GeographicView({ variables, onSelectVariable }: GeographicViewPr
                         <CheckCircle2 className="w-3.5 h-3.5" /> Significant
                       </span>
                     ) : (
-                      <span className="text-slate-400 font-mono">Not Significant</span>
+                      <span className="text-slate-400">Not significant</span>
                     )}
                   </td>
                 </tr>
@@ -513,7 +515,7 @@ export function GeographicView({ variables, onSelectVariable }: GeographicViewPr
 
       {/* Spatial Granularity & Native Resolution Disclosure */}
       <section className="bg-slate-900/50 border border-slate-800/80 rounded-xl p-5 space-y-3">
-        <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-300 flex items-center gap-2">
+        <h4 className="text-sm font-medium text-slate-300 flex items-center gap-2">
           <Info className="w-4 h-4 text-blue-400" />
           <span>Observational Resolution & Spatial Boundaries Disclosure</span>
         </h4>

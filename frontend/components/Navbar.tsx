@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Compass, Activity, Server, FileText, TrendingUp, BarChart3, Globe2 } from "lucide-react";
+import { Compass, Server, FileText, TrendingUp, BarChart3, Globe2 } from "lucide-react";
 import { HealthStatus } from "@/lib/api";
 
 export type ActiveTab = "overview" | "trends" | "forecast" | "geographic" | "reports";
@@ -24,18 +24,18 @@ export function Navbar({
   const isHealthy = health?.status === "healthy";
 
   const navItems: { id: ActiveTab; label: string; icon: React.ReactNode }[] = [
-    { id: "overview", label: "Overview", icon: <Compass className="w-4 h-4" /> },
-    { id: "trends", label: "Trend Explorer", icon: <TrendingUp className="w-4 h-4" /> },
-    { id: "forecast", label: "Forecast Explorer", icon: <BarChart3 className="w-4 h-4" /> },
-    { id: "geographic", label: "Geographic Context", icon: <Globe2 className="w-4 h-4" /> },
-    { id: "reports", label: "Reports & Data", icon: <FileText className="w-4 h-4" /> },
+    { id: "overview", label: "Home", icon: <Compass className="w-4 h-4" /> },
+    { id: "trends", label: "What changed", icon: <TrendingUp className="w-4 h-4" /> },
+    { id: "forecast", label: "What comes next", icon: <BarChart3 className="w-4 h-4" /> },
+    { id: "geographic", label: "Where", icon: <Globe2 className="w-4 h-4" /> },
+    { id: "reports", label: "Sources", icon: <FileText className="w-4 h-4" /> },
   ];
 
   return (
-    <header className="sticky top-0 z-50 border-b border-slate-800 bg-slate-950/80 backdrop-blur-md px-4 sm:px-6 py-3.5 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+    <header className="earth-header sticky top-0 z-50 border-b px-4 sm:px-6 py-3.5 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
       {/* Brand & Mission Tag */}
       <div className="flex items-center gap-3">
-        <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-cyan-500 p-0.5 shadow-lg shadow-emerald-950/50">
+        <div className="w-10 h-10 rounded-xl bg-emerald-700 p-0.5 shadow-lg shadow-emerald-950/50">
           <div className="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center text-emerald-400">
             <Compass className="w-5 h-5 animate-spin-slow" />
           </div>
@@ -46,12 +46,12 @@ export function Navbar({
             <h1 className="text-lg font-bold tracking-tight text-white flex items-center gap-1.5">
               EarthScope
             </h1>
-            <span className="text-[10px] uppercase tracking-wider font-semibold px-2 py-0.5 rounded-full bg-emerald-950/80 border border-emerald-700/60 text-emerald-300">
-              Stage 7 Live
+            <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-emerald-950/80 border border-emerald-700/60 text-emerald-300">
+              Pakistan
             </span>
           </div>
-          <p className="text-xs text-slate-400 hidden sm:block">
-            NASA Space Apps Challenge 2026: Be an Earth System Trend Detective!
+          <p className="text-sm text-slate-400 hidden sm:block">
+            A clearer view of climate change
           </p>
         </div>
       </div>
@@ -64,10 +64,10 @@ export function Navbar({
             <button
               key={item.id}
               onClick={() => setActiveTab(item.id)}
-              className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium transition-all whitespace-nowrap ${
+              className={`flex items-center gap-2 min-h-10 px-3 rounded-lg text-sm font-medium transition-colors whitespace-nowrap ${
                 isActive
-                  ? "bg-slate-800 text-white shadow-sm border border-slate-700 text-emerald-400"
-                  : "text-slate-400 hover:text-slate-200 hover:bg-slate-900/60"
+                ? "earth-nav-active shadow-sm border"
+                : "earth-nav-idle"
               }`}
             >
               <span className={isActive ? "text-emerald-400" : "text-slate-400"}>
@@ -84,7 +84,7 @@ export function Navbar({
         <button
           onClick={onRefreshHealth}
           title="Click to check backend health status"
-          className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900 border border-slate-800 hover:border-slate-700 transition text-xs text-slate-300"
+          className="earth-status flex items-center gap-2 px-3 py-1.5 rounded-full border transition text-xs"
         >
           <span
             className={`w-2 h-2 rounded-full ${

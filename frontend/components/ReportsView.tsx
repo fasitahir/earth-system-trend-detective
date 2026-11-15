@@ -211,7 +211,7 @@ export function ReportsView({ variables }: ReportsViewProps) {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Reports Navigation Sidebar */}
         <div className="space-y-3">
-          <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+          <h3 className="text-sm font-medium text-slate-400">
             Available Documents
           </h3>
           <div className="space-y-2">
@@ -238,7 +238,7 @@ export function ReportsView({ variables }: ReportsViewProps) {
                   <p className="text-xs text-slate-400 line-clamp-2 leading-relaxed">
                     {r.description}
                   </p>
-                  <span className="text-[10px] font-mono text-slate-400 pt-1">
+                  <span className="text-xs text-slate-400 pt-1">
                     Path: {r.path}
                   </span>
                 </button>
@@ -274,7 +274,7 @@ export function ReportsView({ variables }: ReportsViewProps) {
 
       {/* Official Data Provenance & Citations Banner */}
       <section className="bg-slate-900/50 border border-slate-800/80 rounded-xl p-5 space-y-3">
-        <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-300 flex items-center gap-2">
+        <h4 className="text-sm font-medium text-slate-300 flex items-center gap-2">
           <ExternalLink className="w-4 h-4 text-emerald-400" />
           <span>NASA Mission Attribution & Reproducibility</span>
         </h4>

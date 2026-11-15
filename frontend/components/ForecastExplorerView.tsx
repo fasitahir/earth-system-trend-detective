@@ -37,14 +37,31 @@ export function ForecastExplorerView({
   const currentVar =
     varsToUse.find((v) => v.id === selectedVariableId) || varsToUse[0];
 
-  const [modelId, setModelId] = useState<string>("ridge_lag");
-  const [horizonMonths, setHorizonMonths] = useState<number>(24);
-  const [confidenceLevel, setConfidenceLevel] = useState<number>(0.95);
+  const modelId = "ridge_lag";
+  const originYear = Number(currentVar.end_date.slice(0, 4));
+  const originMonth = Number(currentVar.end_date.slice(5, 7));
+  const minimumTargetYear = originYear + 1;
+  const maximumTargetYear =
+    originYear + Math.floor((48 + originMonth) / 12);
+  const [targetYear, setTargetYear] = useState<number>(minimumTargetYear + 1);
+  const effectiveTargetYear = Math.min(
+    Math.max(targetYear, minimumTargetYear),
+    maximumTargetYear,
+  );
+  const horizonMonths =
+    (effectiveTargetYear - originYear) * 12 + (12 - originMonth);
+  const confidenceLevel = 0.95;
 
   const [forecastData, setForecastData] = useState<ForecastResponse | null>(null);
   const [historicalData, setHistoricalData] = useState<TimeSeriesResponse | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    setTargetYear(minimumTargetYear + 1 <= maximumTargetYear
+      ? minimumTargetYear + 1
+      : minimumTargetYear);
+  }, [currentVar.id, minimumTargetYear, maximumTargetYear]);
 
   useEffect(() => {
     let isMounted = true;
@@ -109,23 +126,16 @@ export function ForecastExplorerView({
             forecast_origin: originDate,
             horizon_months: horizonMonths,
             model_id: modelId,
-            model_name:
-              modelId === "ridge_lag"
-                ? "Regularized Lagged Ridge Regressor"
-                : modelId === "random_forest"
-                ? "Random Forest Time-Series Regressor"
-                : modelId === "seasonal_naive"
-                ? "12-Month Seasonal Naive Baseline"
-                : "Lag-1 Persistence Baseline",
+            model_name: "Regularized Lagged Ridge Regressor",
             metrics: {
               model_id: modelId,
               model_name: modelId,
               mae: currentVar.id === "t2m" ? 1.32 : 12.4,
               rmse: currentVar.id === "t2m" ? 1.57 : 17.8,
-              r2_score: modelId === "ridge_lag" ? 0.954 : modelId === "random_forest" ? 0.942 : 0.908,
+              r2_score: 0.954,
               test_observations: 36,
-              is_baseline: modelId === "seasonal_naive" || modelId === "persistence",
-              skill_score_vs_seasonal_naive: modelId === "ridge_lag" ? 0.29 : 0.20,
+              is_baseline: false,
+              skill_score_vs_seasonal_naive: 0.29,
             },
             predictions: predictions,
             limitations: [
@@ -203,49 +213,32 @@ export function ForecastExplorerView({
           </select>
         </div>
 
-        {/* Model Ladder Selector */}
-        <div className="flex flex-col sm:flex-row sm:items-center gap-2">
-          <label className="text-xs text-slate-400">Model Ladder:</label>
-          <select
-            value={modelId}
-            onChange={(e) => setModelId(e.target.value)}
-            className="bg-slate-800 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none"
-          >
-            <option value="ridge_lag">Ridge Lagged Regression (Recommended)</option>
-            <option value="random_forest">Random Forest Regressor</option>
-            <option value="seasonal_naive">Seasonal Naive Baseline (12-Mo)</option>
-            <option value="persistence">Lag-1 Persistence Baseline</option>
-          </select>
-        </div>
-
-        {/* Horizon Slider & CI */}
+        {/* Forecast target year */}
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
-            <label className="text-xs text-slate-400">Horizon:</label>
-            <select
-              value={horizonMonths}
-              onChange={(e) => setHorizonMonths(parseInt(e.target.value))}
-              className="bg-slate-800 border border-slate-700 rounded-lg px-2.5 py-1 text-xs text-slate-200"
-            >
-              <option value="12">12 Months (1 yr)</option>
-              <option value="24">24 Months (2 yr)</option>
-              <option value="36">36 Months (3 yr)</option>
-              <option value="48">48 Months (4 yr)</option>
-            </select>
+            <label htmlFor="forecast-target-year" className="text-xs text-slate-400">
+              Look ahead to:
+            </label>
+            <input
+              id="forecast-target-year"
+              type="number"
+              min={minimumTargetYear}
+              max={maximumTargetYear}
+              step="1"
+              value={effectiveTargetYear}
+              onChange={(e) => {
+                const requestedYear = Number(e.target.value);
+                if (Number.isFinite(requestedYear)) {
+                  setTargetYear(requestedYear);
+                }
+              }}
+              className="w-20 bg-slate-800 border border-slate-700 rounded-lg px-2.5 py-1 text-xs text-slate-200"
+            />
+            <span className="text-[11px] text-slate-500">
+              ({horizonMonths} months)
+            </span>
           </div>
 
-          <div className="flex items-center gap-2">
-            <label className="text-xs text-slate-400">Confidence:</label>
-            <select
-              value={confidenceLevel}
-              onChange={(e) => setConfidenceLevel(parseFloat(e.target.value))}
-              className="bg-slate-800 border border-slate-700 rounded-lg px-2 py-1 text-xs text-slate-200"
-            >
-              <option value="0.95">95% CI</option>
-              <option value="0.90">90% CI</option>
-              <option value="0.99">99% CI</option>
-            </select>
-          </div>
         </div>
       </div>
 
@@ -253,7 +246,7 @@ export function ForecastExplorerView({
       <div className="space-y-2">
         <ScientificChart
           data={combinedChartData}
-          title={`${currentVar.name} — Historical Record & Out-of-Sample Machine Learning Projection`}
+          title={`${currentVar.name}: history and possible future`}
           unit={currentVar.display_unit}
           yLabel={currentVar.name}
           showTrend={false}
@@ -266,8 +259,8 @@ export function ForecastExplorerView({
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         {/* Model Identifier Card */}
         <div className="bg-slate-900/80 border border-slate-800 rounded-xl p-4 space-y-2">
-          <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400 flex items-center justify-between">
-            <span>Active Model</span>
+          <span className="text-sm font-medium text-slate-400 flex items-center justify-between">
+            <span>Prediction method</span>
             <Cpu className="w-3.5 h-3.5 text-emerald-400" />
           </span>
           <h4 className="text-sm font-bold text-white leading-snug">
@@ -276,11 +269,11 @@ export function ForecastExplorerView({
           <div className="flex items-center gap-1.5 pt-1 text-xs">
             {forecastData?.artifact_loaded ? (
               <span className="text-emerald-400 flex items-center gap-1">
-                <CheckCircle2 className="w-3.5 h-3.5" /> Persisted Joblib Model
+                <CheckCircle2 className="w-3.5 h-3.5" /> Tested model
               </span>
             ) : (
               <span className="text-amber-400 flex items-center gap-1">
-                <AlertCircle className="w-3.5 h-3.5" /> Full-History Fit
+                <AlertCircle className="w-3.5 h-3.5" /> Fitted to the full record
               </span>
             )}
           </div>
@@ -288,8 +281,8 @@ export function ForecastExplorerView({
 
         {/* Holdout RMSE */}
         <div className="bg-slate-900/80 border border-slate-800 rounded-xl p-4 space-y-2">
-          <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
-            Out-of-Sample RMSE
+          <span className="text-sm font-medium text-slate-400">
+            Typical prediction error
           </span>
           <div className="flex items-baseline gap-2">
             <span className="text-2xl font-extrabold text-white font-mono">
@@ -304,8 +297,8 @@ export function ForecastExplorerView({
 
         {/* Holdout R2 Determination */}
         <div className="bg-slate-900/80 border border-slate-800 rounded-xl p-4 space-y-2">
-          <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
-            Holdout R² Score
+          <span className="text-sm font-medium text-slate-400">
+            How well it predicted before
           </span>
           <div className="flex items-baseline gap-2">
             <span className="text-2xl font-extrabold text-emerald-400 font-mono">
@@ -321,8 +314,8 @@ export function ForecastExplorerView({
 
         {/* Benchmark Skill Score */}
         <div className="bg-slate-900/80 border border-slate-800 rounded-xl p-4 space-y-2">
-          <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
-            Skill vs. Seasonal Naive
+          <span className="text-sm font-medium text-slate-400">
+            Improvement over a simple guess
           </span>
           <div className="flex items-baseline gap-2">
             <span className="text-2xl font-extrabold text-cyan-400 font-mono">
@@ -334,16 +327,16 @@ export function ForecastExplorerView({
             </span>
           </div>
           <p className="text-[11px] text-slate-400">
-            RMSE improvement over 12-month naive seasonal baseline
+            Compared with repeating the usual seasonal pattern
           </p>
         </div>
       </div>
 
       {/* Forecasting Limitations & Scientific Guardrails */}
       <div className="bg-slate-900/50 border border-slate-800/80 rounded-xl p-5 space-y-3">
-        <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-300 flex items-center gap-2">
+        <h4 className="text-sm font-medium text-slate-300 flex items-center gap-2">
           <Info className="w-4 h-4 text-emerald-400" />
-          <span>Scientific Guardrails & Forecasting Methodology</span>
+          <span>How to read this forecast</span>
         </h4>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-slate-300 leading-relaxed">
           <div className="bg-slate-950/40 p-3 rounded-lg border border-slate-800/60 space-y-1.5">

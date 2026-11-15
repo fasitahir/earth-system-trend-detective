@@ -1,14 +1,189 @@
+/* Hallmark · theme: Refract (dealt 1/3) · genre: modern-minimal · posture: cream paper with deep teal ink · material: real inline charts and map · built: EarthScope app · redesign: full · data: real */
+/* Hallmark · pre-emit critique: P5 H5 E5 S4 R5 V4 · weakest: S; the Pakistan climate record remains the signature rather than a generic dashboard */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 241, 245, 249;
-  --background-rgb: 2, 6, 23;
+  --color-paper: oklch(97.6% 0.018 88);
+  --color-paper-2: oklch(94.8% 0.022 88);
+  --color-paper-3: oklch(91.4% 0.028 88);
+  --color-ink: oklch(20% 0.04 240);
+  --color-ink-2: oklch(32% 0.04 238);
+  --color-muted: oklch(43% 0.035 238);
+  --color-rule: oklch(82% 0.025 225);
+  --color-accent: oklch(43% 0.12 190);
+  --color-accent-hi: oklch(34% 0.12 190);
+  --color-accent-ink: oklch(98% 0.012 88);
+  --color-accent-soft: oklch(89% 0.04 185);
+  --color-focus: oklch(48% 0.14 190);
+  --color-warm: oklch(55% 0.14 58);
+  --color-error: oklch(48% 0.14 28);
+  --font-display: "Funnel Display", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Funnel Sans", ui-sans-serif, system-ui, sans-serif;
+  --radius-card: 22px;
+  --radius-inner: 12px;
+  --radius-pill: 999px;
+  --shadow-card: 18px 28px 48px -26px oklch(38% 0.05 220 / 0.16), 2px 3px 6px -2px oklch(30% 0.04 230 / 0.08);
+  --foreground-rgb: 23, 42, 63;
+  --background-rgb: 248, 249, 246;
+}
+
+html,
+body {
+  overflow-x: clip;
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background-color: rgb(var(--background-rgb));
+  color: var(--color-ink);
+  background-color: var(--color-paper);
   min-height: 100vh;
+  font-family: var(--font-body);
+  font-synthesis: none;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.032em;
+  line-height: 1.05;
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+button,
+select,
+input {
+  font: inherit;
+}
+
+button:focus-visible,
+select:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Existing utility names are retained for wiring, while their visual system is remapped to the light theme. */
+.bg-slate-950 { background-color: var(--color-paper) !important; }
+.bg-slate-900 { background-color: var(--color-paper-2) !important; }
+.bg-slate-800 { background-color: var(--color-paper-3) !important; }
+.bg-slate-700 { background-color: var(--color-rule) !important; }
+.bg-slate-900\/80, .bg-slate-900\/70, .bg-slate-900\/60, .bg-slate-900\/50 { background-color: var(--color-paper-2) !important; }
+.bg-slate-800\/90, .bg-slate-800\/80, .bg-slate-800\/60 { background-color: var(--color-paper-3) !important; }
+.bg-slate-950\/70, .bg-slate-950\/60, .bg-slate-950\/40 { background-color: var(--color-paper-3) !important; }
+.border-slate-900, .border-slate-800, .border-slate-700, .border-slate-800\/80, .border-slate-700\/60 { border-color: var(--color-rule) !important; }
+.text-slate-100, .text-slate-200, .text-slate-300 { color: var(--color-ink) !important; }
+.text-slate-400, .text-slate-500 { color: var(--color-muted) !important; }
+.text-white { color: var(--color-ink) !important; }
+.text-emerald-300, .text-emerald-400, .text-cyan-300, .text-cyan-400, .text-teal-400 { color: var(--color-accent) !important; }
+.text-amber-300, .text-amber-400, .text-amber-300\/80, .text-amber-400\/80 { color: var(--color-warm) !important; }
+.bg-emerald-950\/80, .bg-emerald-950\/60, .bg-cyan-950\/70, .bg-amber-950\/70 { background-color: var(--color-accent-soft) !important; }
+.bg-emerald-700, .bg-emerald-600 { background-color: var(--color-accent) !important; }
+.border-emerald-700\/60, .border-emerald-800\/60, .border-cyan-800\/60, .border-amber-800\/60 { border-color: var(--color-rule) !important; }
+.hover\:bg-slate-900:hover, .hover\:bg-slate-700:hover { background-color: var(--color-paper-3) !important; }
+.hover\:text-slate-200:hover, .hover\:text-emerald-300:hover { color: var(--color-accent-hi) !important; }
+.bg-gradient-to-br, .bg-gradient-to-tr { background-image: none !important; }
+.backdrop-blur-md, .backdrop-blur { backdrop-filter: none !important; }
+.shadow-2xl, .shadow-xl, .shadow-lg, .shadow-md, .shadow-sm { box-shadow: var(--shadow-card) !important; }
+.font-mono { font-family: var(--font-body) !important; font-variant-numeric: tabular-nums; }
+.uppercase { text-transform: none !important; }
+.tracking-wider, .tracking-tight { letter-spacing: normal !important; }
+.transition-all { transition-property: color, background-color, border-color, opacity, transform !important; }
+.ring-emerald-500\/50 { --tw-ring-color: var(--color-focus) !important; }
+
+.earth-header {
+  background-color: var(--color-paper) !important;
+  color: var(--color-ink) !important;
+  border-color: var(--color-rule) !important;
+}
+
+.earth-header nav {
+  border-color: var(--color-rule) !important;
+}
+
+.earth-nav-active {
+  background-color: var(--color-paper-3) !important;
+  border-color: var(--color-rule) !important;
+  color: var(--color-ink) !important;
+}
+
+.earth-nav-idle {
+  color: var(--color-muted) !important;
+}
+
+.earth-nav-idle:hover {
+  background-color: var(--color-paper-2) !important;
+  color: var(--color-ink) !important;
+}
+
+.earth-header .earth-status {
+  background-color: var(--color-paper-2) !important;
+  border-color: var(--color-rule) !important;
+  color: var(--color-ink-2) !important;
+}
+
+.earth-geo-contrast {
+  background-color: var(--color-paper-2) !important;
+  border-color: var(--color-rule) !important;
+  color: var(--color-ink) !important;
+}
+
+.earth-geo-contrast .text-slate-400,
+.earth-geo-contrast .text-slate-500,
+.earth-geo-contrast .text-slate-300 {
+  color: var(--color-muted) !important;
+}
+
+.earth-tooltip {
+  background-color: var(--color-paper-3) !important;
+  border-color: var(--color-rule) !important;
+  color: var(--color-ink) !important;
+}
+
+.earth-tooltip-forecast {
+  background-color: var(--color-accent) !important;
+  border-color: var(--color-accent) !important;
+  color: var(--color-accent-ink) !important;
+}
+
+.earth-tooltip-observed {
+  background-color: var(--color-paper-2) !important;
+  border-color: var(--color-rule) !important;
+  color: var(--color-ink-2) !important;
+}
+
+button:active,
+select:active,
+input:active {
+  transform: translateY(1px);
+}
+
+button:disabled,
+select:disabled,
+input:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+* {
+  scrollbar-color: var(--color-rule) var(--color-paper-2);
+  scrollbar-width: thin;
 }
