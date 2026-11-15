@@ -3,6 +3,9 @@
 **NASA Space Apps Challenge 2026:** "Be an Earth System Trend Detective!"  
 **Stage:** Stage 6 Complete (Backend API + persisted forecast artifacts)
 
+> **Full project documentation:** [docs/PROJECT_DOCUMENTATION.md](docs/PROJECT_DOCUMENTATION.md)
+> This guide explains the problem, NASA data sources, preprocessing, pattern discovery, statistical methods, ML training and evaluation, API/frontend architecture, deployment, limitations, and reproducibility.
+
 ---
 
 ## 1. Mission Overview
@@ -36,6 +39,7 @@ Earth-System-Trend-Detective/
 │   ├── lib/api.ts                      # Client for backend API
 │   └── package.json
 ├── docs/                                # Living engineering & scientific docs
+│   ├── PROJECT_DOCUMENTATION.md         # Complete project and implementation guide
 │   ├── PROJECT_STATUS.md
 │   ├── architecture.md
 │   ├── requirements-and-acceptance.md
