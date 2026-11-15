@@ -41,11 +41,12 @@ export function ForecastExplorerView({
     varsToUse.find((v) => v.id === selectedVariableId) || varsToUse[0];
 
   const modelId = "ridge_lag";
+  const maximumForecastMonths = 180;
   const originYear = Number(currentVar.end_date.slice(0, 4));
   const originMonth = Number(currentVar.end_date.slice(5, 7));
   const minimumTargetYear = originYear + 1;
   const maximumTargetYear =
-    originYear + Math.floor((48 + originMonth) / 12);
+    originYear + Math.floor((maximumForecastMonths + originMonth - 1) / 12);
   const [targetYear, setTargetYear] = useState<number>(minimumTargetYear + 1);
   const effectiveTargetYear = Math.min(
     Math.max(targetYear, minimumTargetYear),
@@ -260,7 +261,7 @@ export function ForecastExplorerView({
         </div>
 
         {/* Forecast target year */}
-        <div className="flex items-center gap-4">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
           <div className="flex items-center gap-2">
             <label htmlFor="forecast-target-year" className="text-xs text-slate-400">
               Look ahead to:
@@ -280,11 +281,37 @@ export function ForecastExplorerView({
               }}
               className="w-20 bg-slate-800 border border-slate-700 rounded-lg px-2.5 py-1 text-xs text-slate-200"
             />
-            <span className="text-[11px] text-slate-500">
-              ({horizonMonths} months)
+            <input
+              aria-label="Choose forecast target year from calendar"
+              type="date"
+              min={`${minimumTargetYear}-01-01`}
+              max={`${maximumTargetYear}-12-31`}
+              value={`${effectiveTargetYear}-01-01`}
+              onChange={(e) => {
+                const selectedYear = Number(e.target.value.slice(0, 4));
+                if (Number.isFinite(selectedYear)) {
+                  setTargetYear(selectedYear);
+                }
+              }}
+              className="rounded-lg border border-slate-700 bg-slate-800 px-2 py-1 text-xs text-slate-200"
+            />
+            <span className="text-[11px] text-slate-500">({horizonMonths} months)</span>
+          </div>
+          <div className="flex min-w-52 flex-1 items-center gap-3">
+            <input
+              aria-label="Scroll to choose forecast target year"
+              type="range"
+              min={minimumTargetYear}
+              max={maximumTargetYear}
+              step="1"
+              value={effectiveTargetYear}
+              onChange={(e) => setTargetYear(Number(e.target.value))}
+              className="w-full accent-emerald-500"
+            />
+            <span className="text-xs font-semibold text-slate-300">
+              {effectiveTargetYear}
             </span>
           </div>
-
         </div>
       </div>
 
@@ -306,7 +333,8 @@ export function ForecastExplorerView({
                 What this forecast suggests
               </p>
               <p className="mt-1 text-xs leading-relaxed text-emerald-900/70">
-                Compared with the latest available record for {currentVar.name}.
+                Compared with the latest available record for {currentVar.name}. Longer-range
+                projections carry more uncertainty.
               </p>
             </div>
           </div>

@@ -329,7 +329,7 @@ The standard evaluation design is:
 | Unseen holdout | 2023-01 through 2025-09 or 2025-12 |
 | Evaluation style | Strict chronological split |
 | Production fit | Full available history after evaluation |
-| API horizon | 1 to 60 months, subject to schema validation |
+| API horizon | 1 to 180 months, subject to schema validation |
 
 The frontend converts a user-selected target year into the number of months needed from the latest observation. The backend then generates future monthly timestamps.
 

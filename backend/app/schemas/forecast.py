@@ -26,7 +26,7 @@ class ModelEvaluationMetrics(BaseModel):
 class ForecastRequest(BaseModel):
     """Forecast generation request."""
     variable_id: str = Field(..., description="Target variable identifier")
-    horizon_months: int = Field(12, ge=1, le=60, description="Forecast horizon in months")
+    horizon_months: int = Field(12, ge=1, le=180, description="Forecast horizon in months (up to 15 years)")
     model_id: str = Field("ridge_lag", description="Model: persistence | seasonal_naive | linear_drift | ridge_lag | random_forest")
     confidence_level: float = Field(0.95, ge=0.5, le=0.99, description="Prediction interval confidence level")
 
