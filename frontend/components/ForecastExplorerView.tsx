@@ -14,6 +14,7 @@ import {
   TrendingDown,
   TrendingUp,
   Minus,
+  LoaderCircle,
 } from "lucide-react";
 import {
   VariableMeta,
@@ -307,7 +308,11 @@ export function ForecastExplorerView({
       </div>
 
       {/* Plain-language end-point summary */}
-      <div className="rounded-xl border border-emerald-500/30 bg-emerald-50/70 px-5 py-4 shadow-sm">
+      <div
+        className={`relative rounded-xl border border-emerald-500/30 bg-emerald-50/70 px-5 py-4 shadow-sm transition-opacity ${
+          loading ? "opacity-60" : "opacity-100"
+        }`}
+      >
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-start gap-3">
             <div className="mt-0.5 rounded-lg bg-emerald-100 p-2 text-emerald-700">
@@ -350,10 +355,22 @@ export function ForecastExplorerView({
             )}
           </div>
         </div>
+        {loading && (
+          <div
+            className="absolute inset-0 flex items-center justify-center rounded-xl bg-emerald-50/75"
+            role="status"
+            aria-live="polite"
+          >
+            <span className="flex items-center gap-2 rounded-full bg-white/90 px-3 py-1.5 text-xs font-semibold text-emerald-900 shadow-sm">
+              <LoaderCircle className="h-4 w-4 animate-spin" aria-hidden="true" />
+              Updating forecast…
+            </span>
+          </div>
+        )}
       </div>
 
       {/* Main Interactive Forecast Chart */}
-      <div className="space-y-2">
+      <div className="relative space-y-2">
         <ScientificChart
           data={combinedChartData}
           title={`${currentVar.name}: history and possible future`}
@@ -363,6 +380,18 @@ export function ForecastExplorerView({
           showInterval={true}
           forecastOriginTimestamp={forecastData?.forecast_origin}
         />
+        {loading && (
+          <div
+            className="absolute inset-0 flex items-center justify-center rounded-xl bg-[var(--color-paper)]/65 backdrop-blur-[1px]"
+            role="status"
+            aria-live="polite"
+          >
+            <span className="flex items-center gap-2 rounded-full border border-emerald-200 bg-[var(--color-paper-3)] px-4 py-2 text-sm font-semibold text-emerald-900 shadow-sm">
+              <LoaderCircle className="h-4 w-4 animate-spin" aria-hidden="true" />
+              Loading {effectiveTargetYear} projection…
+            </span>
+          </div>
+        )}
       </div>
 
       {/* Model Validation & Performance Metrics Grid */}
