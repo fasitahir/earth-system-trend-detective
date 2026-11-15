@@ -11,6 +11,9 @@ import {
   Layers,
   Sparkles,
   Info,
+  TrendingDown,
+  TrendingUp,
+  Minus,
 } from "lucide-react";
 import {
   VariableMeta,
@@ -190,6 +193,49 @@ export function ForecastExplorerView({
     return points;
   }, [historicalData, forecastData]);
 
+  const projectionSummary = React.useMemo(() => {
+    const latestObserved = historicalData?.data?.at(-1);
+    const finalPrediction = forecastData?.predictions?.at(-1);
+    const baseline = latestObserved
+      ? latestObserved.display_value ?? latestObserved.value
+      : null;
+
+    if (
+      baseline == null ||
+      finalPrediction == null ||
+      !Number.isFinite(baseline) ||
+      !Number.isFinite(finalPrediction.predicted_value)
+    ) {
+      return null;
+    }
+
+    const absoluteChange = finalPrediction.predicted_value - baseline;
+    const percentageChange =
+      Math.abs(baseline) > 0.0001
+        ? (absoluteChange / Math.abs(baseline)) * 100
+        : null;
+    const direction =
+      Math.abs(absoluteChange) < Math.max(Math.abs(baseline) * 0.01, 0.01)
+        ? "stable"
+        : absoluteChange > 0
+          ? "increase"
+          : "decrease";
+
+    return {
+      baseline,
+      absoluteChange,
+      percentageChange,
+      direction,
+      targetYear: finalPrediction.timestamp.slice(0, 4),
+    };
+  }, [forecastData, historicalData]);
+
+  const summaryCopy = projectionSummary
+    ? projectionSummary.direction === "stable"
+      ? "Projected to remain broadly stable"
+      : `Projected ${projectionSummary.direction === "increase" ? "increase" : "decrease"}`
+    : "Calculating projected change";
+
   return (
     <div className="space-y-6 max-w-7xl mx-auto pb-12">
       {/* Configuration Controls Bar */}
@@ -239,6 +285,51 @@ export function ForecastExplorerView({
             </span>
           </div>
 
+        </div>
+      </div>
+
+      {/* Plain-language end-point summary */}
+      <div className="rounded-xl border border-emerald-500/30 bg-emerald-50/70 px-5 py-4 shadow-sm">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-start gap-3">
+            <div className="mt-0.5 rounded-lg bg-emerald-100 p-2 text-emerald-700">
+              {projectionSummary?.direction === "increase" ? (
+                <TrendingUp className="h-5 w-5" aria-hidden="true" />
+              ) : projectionSummary?.direction === "decrease" ? (
+                <TrendingDown className="h-5 w-5" aria-hidden="true" />
+              ) : (
+                <Minus className="h-5 w-5" aria-hidden="true" />
+              )}
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-emerald-950">
+                What this forecast suggests
+              </p>
+              <p className="mt-1 text-xs leading-relaxed text-emerald-900/70">
+                Compared with the latest available record for {currentVar.name}.
+              </p>
+            </div>
+          </div>
+          <div className="sm:text-right">
+            <p className="text-xl font-bold tracking-tight text-emerald-950">
+              {projectionSummary?.percentageChange != null
+                ? `${Math.abs(projectionSummary.percentageChange).toFixed(1)}% ${
+                    projectionSummary.direction === "increase"
+                      ? "higher"
+                      : projectionSummary.direction === "decrease"
+                        ? "lower"
+                        : "different"
+                  } by ${projectionSummary.targetYear}`
+                : summaryCopy}
+            </p>
+            {projectionSummary && (
+              <p className="mt-1 text-xs text-emerald-900/70">
+                {projectionSummary.absoluteChange >= 0 ? "+" : ""}
+                {projectionSummary.absoluteChange.toFixed(2)}{" "}
+                {currentVar.display_unit} at the end of the selected period
+              </p>
+            )}
+          </div>
         </div>
       </div>
 
